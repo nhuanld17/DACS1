@@ -22,7 +22,15 @@ public class ManagerController implements ActionListener{
 		case "THÊM":
 			managerGUI.addEmployee();
 			break;
-
+		case "XÓA":
+			managerGUI.deleteEmployee();
+			break;
+		case "SỬA":
+			managerGUI.setForm();
+			break;
+		case "CẬP NHẬT":
+			managerGUI.updateEmployee();
+			break;
 		default:
 			break;
 		}

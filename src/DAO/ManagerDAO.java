@@ -29,18 +29,8 @@ public class ManagerDAO {
 		return new ArrayList<Employee>();
 	}
 	
-	public void addEmployeeWithOutAccount(Employee employee) {
-		try {
-			int sexInt = employee.isSex() ? 1 : 0;
-			String query = "INSERT INTO employee(name,birthdate,email,sex,position)"
-					+ " VALUES('"+employee.getName()+"','"+employee.getBirthDate()+"','"+employee.getEmail()+"','"+sexInt+"','"+employee.getPosition()+"')";
-			new DBConn().updateDB(query);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 	
-	public void addEmployeeWithAccount(Employee employee) {
+	public void addEmployee(Employee employee) {
 		try {
 			int sexInt = employee.isSex() ? 1 : 0;
 			String query = "INSERT INTO employee(name,birthdate,email,sex,position,username,password)"
@@ -65,5 +55,23 @@ public class ManagerDAO {
 			e.printStackTrace();
 		}
 		return new ArrayList<>();
+	}
+
+	public void deleteEmployee(int id) {
+		try {
+			new DBConn().updateDB("DELETE FROM employee WHERE id = '"+id+"'");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateEmployee(Employee newEmployee) {
+		try {
+			int sexInt = newEmployee.isSex() ? 1 : 0;
+			new DBConn().updateDB("UPDATE employee SET name = '"+newEmployee.getName()+"', birthdate = '"+newEmployee.getBirthDate()+"', email = '"+newEmployee.getEmail()+"', sex = '"+sexInt+"', position = '"+newEmployee.getPosition()+"', username = '"+newEmployee.getUserName()+"', password = '"+newEmployee.getPassword()+"' WHERE id = '"+newEmployee.getId()+"';");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 }
