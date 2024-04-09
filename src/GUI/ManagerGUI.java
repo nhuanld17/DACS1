@@ -100,6 +100,7 @@ public class ManagerGUI extends JFrame {
 		panel.setLayout(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setForeground(SystemColor.desktop);
 		tabbedPane.setBounds(152, -24, 813, 505);
 		contentPane.add(tabbedPane);
 		
@@ -238,9 +239,9 @@ public class ManagerGUI extends JFrame {
 		table_Employee.setBackground(new Color(244,245,249));
 		
 		table_Employee.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		table_Employee.setBounds(2, 27, 789, 87);
+		table_Employee.setBounds(10, 238, 793, 228);
 		updateEmployeeTable();
-		Tab1.add(table_Employee);
+//		Tab1.add(table_Employee);
 		
 		JScrollPane scrollPane = new JScrollPane(table_Employee);
 		scrollPane.setBorder(new LineBorder(new Color(0,0,0),2));
@@ -278,6 +279,12 @@ public class ManagerGUI extends JFrame {
 		btn_CapNhat.setForeground(SystemColor.desktop);
 		btn_CapNhat.setBounds(703, 154, 100, 30);
 		Tab1.add(btn_CapNhat);
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setForeground(SystemColor.desktop);
+		separator_1.setBackground(SystemColor.desktop);
+		separator_1.setBounds(10, 61, 793, 2);
+		Tab1.add(separator_1);
 		
 		JPanel Tab2 = new JPanel();
 		tabbedPane.addTab("Tab2", null, Tab2, null);
@@ -324,15 +331,22 @@ public class ManagerGUI extends JFrame {
 		btnTab4.setForeground(new Color(244, 245, 249));
 		btnTab4.setBackground(new Color(17, 24, 39));
 		btnTab4.setBounds(0, 274, 153, 42);
-//		btnTab4.addActionListener(new ActionListener() {
-//			
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				// TODO Auto-generated method stub
-//				tabbedPane.setSelectedIndex(3);
-//			}
-//		});
 		panel.add(btnTab4);
+		
+		JButton btnNewButton = new JButton("");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int response = JOptionPane.showConfirmDialog(null, "Bạn có chắn chắn thoát ??");
+				if (response == JOptionPane.OK_OPTION) {
+					setVisible(false);
+					new LoginGUI().setVisible(true);
+				}
+			}
+		});
+		btnNewButton.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-off-40.png")));
+		btnNewButton.setBackground(new Color(17, 24, 39));
+		btnNewButton.setBounds(40, 409, 76, 61);
+		panel.add(btnNewButton);
 		
 		/*----------------- ACTIONLISTENER FOR SIDE BAR BUTTON ---------------*/
 		btnTab1.addActionListener(new ActionListener() {

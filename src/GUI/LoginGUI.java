@@ -15,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import DAO.LoginDao;
+import DTO.Account;
 import DTO.Manager;
 
 import java.awt.SystemColor;
@@ -126,7 +127,7 @@ public class LoginGUI extends JFrame {
 		panel.add(lblNewLabel_5);
 		
 		JButton btnNewButton = new JButton("Manager Login");
-		btnNewButton.setIcon(null);
+		btnNewButton.setBorderPainted(false);
 		btnNewButton.setForeground(SystemColor.text);
 		btnNewButton.setBackground(new Color(132, 42, 203));
 		btnNewButton.setFont(new Font("Segoe UI", Font.BOLD, 18));
@@ -156,6 +157,23 @@ public class LoginGUI extends JFrame {
 		btnNewButton_1.setBackground(new Color(132, 42, 203));
 		btnNewButton_1.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		btnNewButton_1.setBounds(48, 385, 280, 40);
+		btnNewButton_1.setBorderPainted(false);
+		btnNewButton_1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String userName = userNameTextField.getText();
+				String passWord = passWordTextField.getText();
+				
+				Account account = new Account(userName, passWord);
+				
+				if (new LoginDao().isAccountExist(account)) {
+					System.out.println("Dungs");
+				}else {
+					System.out.println("Sai");
+				}
+			}
+		});
 		panel.add(btnNewButton_1);
 		
 		label = new JLabel("New label");
