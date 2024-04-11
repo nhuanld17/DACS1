@@ -47,4 +47,45 @@ public class RoomDAO {
 		return new ArrayList<>();
 	}
 
+	public ArrayList<Room> getListEmptyRoom() {
+		ArrayList<Room> rooms = new ArrayList<>();
+		try {
+			String query = "SELECT roomnumber\r\n"
+					+ "FROM hotel.room \r\n"
+					+ "WHERE roomnumber NOT IN(\r\n"
+					+ "SELECT roomNumber FROM hotel.bill WHERE dateReturn IS NULL\r\n"
+					+ ") ORDER BY roomnumber;";
+			ResultSet resultSet = new DBConn().queryDB(query);
+			while (resultSet.next()) {
+				int roomNumber = resultSet.getInt("roomnumber");
+				rooms.add(new Room(roomNumber));
+			}
+			return rooms;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<>();
+	}
+
+	public ArrayList<Room> getListOrderedRoom() {
+		ArrayList<Room> rooms = new ArrayList<>();
+		try {
+			String query = "SELECT roomnumber\r\n"
+					+ "FROM hotel.room \r\n"
+					+ "WHERE roomnumber IN(\r\n"
+					+ "SELECT roomNumber FROM hotel.bill WHERE dateReturn IS NULL\r\n"
+					+ ") ORDER BY roomnumber;";
+			ResultSet resultSet = new DBConn().queryDB(query);
+			while (resultSet.next()) {
+				int roomNumber = resultSet.getInt("roomnumber");
+				rooms.add(new Room(roomNumber));
+			}
+			return rooms;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return new ArrayList<>();
+	}
+
 }

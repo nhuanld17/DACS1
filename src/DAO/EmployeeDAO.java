@@ -97,4 +97,75 @@ public class EmployeeDAO {
 			e.printStackTrace();
 		}
 	}
+
+	public void updateCustomer(Customer customer) {
+		try {
+			new DBConn().updateDB("UPDATE customer "
+					+ " SET name = '"+customer.getName()+"'"
+					+ ", cccd = '"+customer.getCCCD()+"'"
+					+ ", birthdate = '"+customer.getBirthDate()+"'"
+					+ ", idEmp = '"+customer.getIdEmp()+"'"
+					+ " WHERE id = '"+customer.getId()+"'");
+		} catch (Exception e) {	
+			e.printStackTrace();
+		}
+	}
+
+	public ArrayList<Customer> findCustomerByName(String name) {
+		ArrayList<Customer> customers = new ArrayList<>();
+		try {
+			ResultSet resultSet = new DBConn().queryDB("SELECT * FROM customer WHERE name LIKE '%"+name+"%'");
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String Name = resultSet.getString("name");
+				String cccd = resultSet.getString("cccd");
+				Date birthDate = resultSet.getDate("birthdate");
+				
+				customers.add(new Customer(id, Name, cccd, birthDate));
+			}
+			return customers;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return new ArrayList<>();
+	}
+
+	public ArrayList<Customer> sortByName() {
+		ArrayList<Customer> customers = new ArrayList<>();
+		try {
+			ResultSet resultSet = new DBConn().queryDB("SELECT * FROM customer ORDER BY name");
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String Name = resultSet.getString("name");
+				String cccd = resultSet.getString("cccd");
+				Date birthDate = resultSet.getDate("birthdate");
+				
+				customers.add(new Customer(id, Name, cccd, birthDate));
+			}
+			return customers;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return customers;
+	}
+
+	public ArrayList<Customer> sortByDoB() {
+		ArrayList<Customer> customers = new ArrayList<>();
+		try {
+			ResultSet resultSet = new DBConn().queryDB("SELECT * FROM customer ORDER BY birthdate");
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String Name = resultSet.getString("name");
+				String cccd = resultSet.getString("cccd");
+				Date birthDate = resultSet.getDate("birthdate");
+				
+				customers.add(new Customer(id, Name, cccd, birthDate));
+			}
+			return customers;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<>();
+	}
 }

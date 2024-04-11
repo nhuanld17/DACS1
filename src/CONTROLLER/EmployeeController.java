@@ -24,10 +24,10 @@ public class EmployeeController implements ActionListener{
 			employeeGUI.deleteCustomer();
 			break;
 		case "SỬA":
-			
+			employeeGUI.setForm();
 			break;
 		case "CẬP NHẬT":
-			
+			employeeGUI.updateCustomer();
 			break;
 		default:
 			break;

@@ -14,4 +14,12 @@ public class RoomBUS {
 	public ArrayList<Room> getListRooms() {
 		return new RoomDAO().getListRooms();
 	}
+
+	public ArrayList<Room> getListEmptyRoom() {
+		return new RoomDAO().getListEmptyRoom();
+	}
+
+	public ArrayList<Room> getListOrderedRoom() {
+		return new RoomDAO().getListOrderedRoom();
+	}
 }

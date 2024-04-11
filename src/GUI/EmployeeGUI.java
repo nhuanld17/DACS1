@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.util.ArrayList;
 
+import javax.print.attribute.standard.MediaSize.NA;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -29,9 +31,12 @@ import BUS.BillBUS;
 import BUS.EmployeeBUS;
 import BUS.RoomBUS;
 import CONTROLLER.EmployeeController;
+import DAO.BillDAO;
 import DTO.Bill;
 import DTO.Customer;
+import DTO.Employee;
 import DTO.Room;
+import javax.swing.JRadioButton;
 
 public class EmployeeGUI extends JFrame {
 
@@ -47,6 +52,8 @@ public class EmployeeGUI extends JFrame {
 	public int idEmp;
 	private JTable table_Room;
 	private JTable table_Bill;
+	private JTextField textField_FindByName;
+	private JTextField textField_FindByCCCD;
 
 	/**
 	 * Launch the application.
@@ -99,27 +106,27 @@ public class EmployeeGUI extends JFrame {
 		lblNewLabel.setFont(new Font("Segoe UI", Font.BOLD, 26));
 		lblNewLabel.setForeground(SystemColor.desktop);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(264, 11, 255, 36);
+		lblNewLabel.setBounds(262, 26, 255, 36);
 		tab1.add(lblNewLabel);
 
 		JLabel lblNewLabel_4 = new JLabel("Họ và tên");
 		lblNewLabel_4.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		lblNewLabel_4.setForeground(SystemColor.desktop);
-		lblNewLabel_4.setBounds(10, 97, 73, 20);
+		lblNewLabel_4.setBounds(10, 126, 73, 20);
 		tab1.add(lblNewLabel_4);
 
 		textField_Name = new JTextField();
 		textField_Name.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		textField_Name.setBorder(new LineBorder(new Color(0, 0, 0), 1));
 		textField_Name.setForeground(SystemColor.desktop);
-		textField_Name.setBounds(93, 94, 176, 28);
+		textField_Name.setBounds(93, 123, 176, 28);
 		tab1.add(textField_Name);
 		textField_Name.setColumns(10);
 
 		JLabel lblNewLabel_4_1 = new JLabel("CCCD");
 		lblNewLabel_4_1.setForeground(SystemColor.desktop);
 		lblNewLabel_4_1.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		lblNewLabel_4_1.setBounds(10, 146, 73, 20);
+		lblNewLabel_4_1.setBounds(10, 175, 73, 20);
 		tab1.add(lblNewLabel_4_1);
 
 		textField_CCCD = new JTextField();
@@ -127,13 +134,13 @@ public class EmployeeGUI extends JFrame {
 		textField_CCCD.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		textField_CCCD.setForeground(SystemColor.desktop);
 		textField_CCCD.setColumns(10);
-		textField_CCCD.setBounds(93, 143, 176, 28);
+		textField_CCCD.setBounds(93, 172, 176, 28);
 		tab1.add(textField_CCCD);
 
 		JLabel lblNewLabel_4_2 = new JLabel("Ngày sinh");
 		lblNewLabel_4_2.setForeground(SystemColor.desktop);
 		lblNewLabel_4_2.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		lblNewLabel_4_2.setBounds(292, 96, 83, 25);
+		lblNewLabel_4_2.setBounds(292, 125, 83, 25);
 		tab1.add(lblNewLabel_4_2);
 
 		textField_birthDate = new JTextField();
@@ -141,13 +148,13 @@ public class EmployeeGUI extends JFrame {
 		textField_birthDate.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		textField_birthDate.setForeground(SystemColor.desktop);
 		textField_birthDate.setColumns(10);
-		textField_birthDate.setBounds(375, 94, 176, 28);
+		textField_birthDate.setBounds(375, 123, 176, 28);
 		tab1.add(textField_birthDate);
 
 		JLabel lblNewLabel_4_3 = new JLabel("Số phòng");
 		lblNewLabel_4_3.setForeground(SystemColor.desktop);
 		lblNewLabel_4_3.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		lblNewLabel_4_3.setBounds(292, 143, 83, 26);
+		lblNewLabel_4_3.setBounds(292, 172, 83, 26);
 		tab1.add(lblNewLabel_4_3);
 
 		textField_roomNumber = new JTextField();
@@ -155,7 +162,7 @@ public class EmployeeGUI extends JFrame {
 		textField_roomNumber.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		textField_roomNumber.setForeground(SystemColor.desktop);
 		textField_roomNumber.setColumns(10);
-		textField_roomNumber.setBounds(375, 143, 176, 28);
+		textField_roomNumber.setBounds(375, 172, 176, 28);
 		tab1.add(textField_roomNumber);
 
 		JButton btn_Them = new JButton("THÊM");
@@ -166,18 +173,18 @@ public class EmployeeGUI extends JFrame {
 		btn_Them.setFocusable(false);
 		btn_Them.setBorder(new LineBorder(new Color(0, 0, 0), 1));
 		btn_Them.setBackground(new Color(46, 204, 113));
-		btn_Them.setBounds(568, 93, 100, 30);
+		btn_Them.setBounds(568, 122, 100, 30);
 		tab1.add(btn_Them);
 
 		JButton btn_Xoa = new JButton("XÓA");
 		btn_Xoa.addActionListener(actionListener);
-		btn_Xoa.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-add-24.png")));
+		btn_Xoa.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-delete-24.png")));
 		btn_Xoa.setForeground(SystemColor.desktop);
 		btn_Xoa.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btn_Xoa.setFocusable(false);
 		btn_Xoa.setBorder(new LineBorder(new Color(0, 0, 0), 1));
 		btn_Xoa.setBackground(new Color(231, 76, 60));
-		btn_Xoa.setBounds(687, 93, 100, 30);
+		btn_Xoa.setBounds(687, 122, 100, 30);
 		tab1.add(btn_Xoa);
 
 		JButton btn_Sua = new JButton("SỬA");
@@ -188,7 +195,7 @@ public class EmployeeGUI extends JFrame {
 		btn_Sua.setFocusable(false);
 		btn_Sua.setBorder(new LineBorder(new Color(0, 0, 0), 1));
 		btn_Sua.setBackground(new Color(255, 165, 0));
-		btn_Sua.setBounds(568, 142, 100, 30);
+		btn_Sua.setBounds(568, 171, 100, 30);
 		tab1.add(btn_Sua);
 
 		JButton btn_CapNhat = new JButton("CẬP NHẬT");
@@ -198,12 +205,13 @@ public class EmployeeGUI extends JFrame {
 		btn_CapNhat.setFocusable(false);
 		btn_CapNhat.setBorder(new LineBorder(new Color(0, 0, 0), 1));
 		btn_CapNhat.setBackground(new Color(255, 165, 0));
-		btn_CapNhat.setBounds(687, 142, 100, 30);
+		btn_CapNhat.setBounds(687, 171, 100, 30);
 		tab1.add(btn_CapNhat);
 
 		JSeparator separator = new JSeparator();
+		separator.setBackground(SystemColor.desktop);
 		separator.setForeground(SystemColor.desktop);
-		separator.setBounds(10, 191, 777, 2);
+		separator.setBounds(10, 220, 777, 2);
 		tab1.add(separator);
 
 		table_Customer = new JTable();
@@ -225,14 +233,113 @@ public class EmployeeGUI extends JFrame {
 
 		JScrollPane scrollPane_Customer = new JScrollPane(table_Customer);
 		scrollPane_Customer.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		scrollPane_Customer.setBounds(10, 235, 777, 231);
+		scrollPane_Customer.setBounds(10, 264, 777, 202);
 		tab1.add(scrollPane_Customer);
 
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setForeground(SystemColor.desktop);
 		separator_1.setBackground(SystemColor.desktop);
-		separator_1.setBounds(10, 76, 777, 2);
+		separator_1.setBounds(10, 105, 777, 2);
 		tab1.add(separator_1);
+		
+		textField_FindByName = new JTextField();
+		textField_FindByName.setForeground(SystemColor.desktop);
+		textField_FindByName.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		textField_FindByName.setColumns(10);
+		textField_FindByName.setBorder(new LineBorder(new Color(0, 0, 0), 1));
+		textField_FindByName.setBounds(93, 230, 176, 28);
+		tab1.add(textField_FindByName);
+		
+		JLabel lblNewLabel_4_4 = new JLabel("Họ và tên");
+		lblNewLabel_4_4.setForeground(SystemColor.desktop);
+		lblNewLabel_4_4.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		lblNewLabel_4_4.setBounds(10, 233, 73, 20);
+		tab1.add(lblNewLabel_4_4);
+		
+		JButton btn_FindName = new JButton("");
+		btn_FindName.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (textField_FindByName.getText().isBlank()) {
+					JOptionPane.showMessageDialog(null, "Nhập tên để tìm kiếm");
+					return;
+				}
+				clearCustomerTable();
+
+				String name = textField_FindByName.getText();
+				ArrayList<Customer> customers = new EmployeeBUS().findCustomerByName(name);
+				DefaultTableModel model = (DefaultTableModel) table_Customer.getModel();
+				for (Customer customer : customers) {
+					model.addRow(customer.toObjects());
+				}
+			}
+		});
+		btn_FindName.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-find-30.png")));
+		btn_FindName.setForeground(SystemColor.desktop);
+		btn_FindName.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btn_FindName.setFocusable(false);
+//		btn_FindName.setBorder(new LineBorder(new Color(0, 0, 0), 1));
+		btn_FindName.setBorderPainted(false);
+		btn_FindName.setBackground(new Color(244, 245, 249));
+		btn_FindName.setBounds(270, 229, 37, 30);
+		tab1.add(btn_FindName);
+		
+		JButton btn_Refresh = new JButton("");
+		btn_Refresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearCustomerTable();
+				updateCustomerTable();
+			}
+		});
+		btn_Refresh.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-refresh-30.png")));
+		btn_Refresh.setForeground(SystemColor.desktop);
+		btn_Refresh.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btn_Refresh.setFocusable(false);
+		btn_Refresh.setBorderPainted(false);
+		btn_Refresh.setBackground(new Color(244, 245, 249));
+		btn_Refresh.setBounds(305, 228, 44, 30);
+		tab1.add(btn_Refresh);
+		
+		JRadioButton rdbtn_SortByName = new JRadioButton("Sắp xếp theo tên");
+		rdbtn_SortByName.setFocusable(false);
+		rdbtn_SortByName.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearCustomerTable();
+				DefaultTableModel model = (DefaultTableModel) table_Customer.getModel();
+				ArrayList<Customer> customers = new EmployeeBUS().sortByName();
+				
+				for (Customer customer : customers) {
+					model.addRow(customer.toObjects());
+				}
+			}
+		});
+		rdbtn_SortByName.setBackground(new Color(244, 245, 249));
+		rdbtn_SortByName.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		rdbtn_SortByName.setForeground(SystemColor.desktop);
+		rdbtn_SortByName.setBounds(410, 229, 176, 28);
+		tab1.add(rdbtn_SortByName);
+		
+		JRadioButton rdbtn_SortByDoB = new JRadioButton("Sắp xếp theo năm sinh");
+		rdbtn_SortByDoB.setFocusable(false);
+		rdbtn_SortByDoB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearCustomerTable();
+				DefaultTableModel model = (DefaultTableModel)table_Customer.getModel();
+				
+				ArrayList<Customer> customers = new EmployeeBUS().sortByDoB();
+				for (Customer customer : customers) {
+					model.addRow(customer.toObjects());
+				}
+			}
+		});
+		rdbtn_SortByDoB.setForeground(SystemColor.desktop);
+		rdbtn_SortByDoB.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		rdbtn_SortByDoB.setBackground(new Color(244, 245, 249));
+		rdbtn_SortByDoB.setBounds(588, 229, 199, 28);
+		tab1.add(rdbtn_SortByDoB);
+		
+		ButtonGroup buttonGroup = new ButtonGroup();
+		buttonGroup.add(rdbtn_SortByDoB);
+		buttonGroup.add(rdbtn_SortByName);
 
 		JPanel tab2 = new JPanel();
 		tab2.setForeground(SystemColor.desktop);
@@ -270,6 +377,64 @@ public class EmployeeGUI extends JFrame {
 		lblDanhSchPhng.setFont(new Font("Segoe UI", Font.BOLD, 26));
 		lblDanhSchPhng.setBounds(244, 11, 288, 66);
 		tab2.add(lblDanhSchPhng);
+		
+		JRadioButton rdbtn_isEmptyRoom = new JRadioButton("Danh sách phòng trống");
+		rdbtn_isEmptyRoom.setFocusable(false);
+		rdbtn_isEmptyRoom.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		rdbtn_isEmptyRoom.setBackground(new Color(244, 245, 249));
+		rdbtn_isEmptyRoom.setForeground(SystemColor.desktop);
+		rdbtn_isEmptyRoom.setBounds(538, 94, 253, 23);
+		rdbtn_isEmptyRoom.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearRoomTable();
+				DefaultTableModel model = (DefaultTableModel) table_Room.getModel();
+				ArrayList<Room> rooms = new RoomBUS().getListEmptyRoom();
+				
+				for (Room room : rooms) {
+					model.addRow(room.toObjects());
+				}
+			}
+		});
+		tab2.add(rdbtn_isEmptyRoom);
+		
+		JRadioButton rdbtn_isOrderRoom = new JRadioButton("Danh sách phòng đã được đặt");
+		rdbtn_isOrderRoom.setFocusable(false);
+		rdbtn_isOrderRoom.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		rdbtn_isOrderRoom.setBackground(new Color(244, 245, 249));
+		rdbtn_isOrderRoom.setForeground(SystemColor.desktop);
+		rdbtn_isOrderRoom.setBounds(538, 120, 253, 43);
+		rdbtn_isOrderRoom.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearRoomTable();
+				DefaultTableModel model = (DefaultTableModel) table_Room.getModel();
+				ArrayList<Room> rooms = new RoomBUS().getListOrderedRoom();
+				
+				for (Room room : rooms) {
+					model.addRow(room.toObjects());
+				}
+			}
+		});
+		tab2.add(rdbtn_isOrderRoom);
+		
+		ButtonGroup buttonGroup2 = new ButtonGroup();
+		buttonGroup2.add(rdbtn_isOrderRoom);
+		buttonGroup2.add(rdbtn_isEmptyRoom);
+		
+		JButton btnReloadRoomTable = new JButton("");
+		
+		btnReloadRoomTable.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				updateRoomTable();
+				buttonGroup2.clearSelection();
+			}
+		});
+		btnReloadRoomTable.setFocusable(false);
+		btnReloadRoomTable.setBorderPainted(false);
+		btnReloadRoomTable.setForeground(new Color(244, 245, 249));
+		btnReloadRoomTable.setBackground(new Color(244, 245, 249));
+		btnReloadRoomTable.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-refresh-30.png")));
+		btnReloadRoomTable.setBounds(535, 158, 35, 37);
+		tab2.add(btnReloadRoomTable);
 
 		JPanel tab3 = new JPanel();
 		tab3.setForeground(SystemColor.desktop);
@@ -311,6 +476,57 @@ public class EmployeeGUI extends JFrame {
 		scrollPane_Bill.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		scrollPane_Bill.setBounds(10, 134, 777, 209);
 		tab3.add(scrollPane_Bill);
+		
+		textField_FindByCCCD = new JTextField();
+		textField_FindByCCCD.setForeground(SystemColor.desktop);
+		textField_FindByCCCD.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		textField_FindByCCCD.setColumns(10);
+		textField_FindByCCCD.setBorder(new LineBorder(new Color(0, 0, 0), 1));
+		textField_FindByCCCD.setBounds(11, 95, 176, 28);
+		tab3.add(textField_FindByCCCD);
+		
+		JLabel lblNewLabel_5 = new JLabel("Nhập CCCD");
+		lblNewLabel_5.setForeground(SystemColor.desktop);
+		lblNewLabel_5.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		lblNewLabel_5.setBounds(10, 67, 89, 22);
+		tab3.add(lblNewLabel_5);
+		
+		JButton btn_FindCCCD = new JButton("");
+		btn_FindCCCD.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-find-30.png")));
+		btn_FindCCCD.setForeground(SystemColor.desktop);
+		btn_FindCCCD.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btn_FindCCCD.setFocusable(false);
+		btn_FindCCCD.setBorderPainted(false);
+		btn_FindCCCD.setBackground(new Color(244, 245, 249));
+		btn_FindCCCD.setBounds(197, 93, 37, 30);
+		btn_FindCCCD.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearBillTable();
+				String CCCD = textField_FindByCCCD.getText();
+				ArrayList<Bill> bills = new BillBUS().findBillByCCCD(CCCD);
+				DefaultTableModel model = (DefaultTableModel) table_Bill.getModel();
+				
+				for (Bill bill : bills) {
+					model.addRow(bill.toObject());
+				}
+			}
+		});
+		tab3.add(btn_FindCCCD);
+		
+		JButton btn_RefreshBillTable = new JButton("");
+		btn_RefreshBillTable.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				updateBillTable();
+			}
+		});
+		btn_RefreshBillTable.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-refresh-30.png")));
+		btn_RefreshBillTable.setForeground(SystemColor.desktop);
+		btn_RefreshBillTable.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btn_RefreshBillTable.setFocusable(false);
+		btn_RefreshBillTable.setBorderPainted(false);
+		btn_RefreshBillTable.setBackground(new Color(244, 245, 249));
+		btn_RefreshBillTable.setBounds(232, 92, 44, 30);
+		tab3.add(btn_RefreshBillTable);
 
 		JPanel tab4 = new JPanel();
 		tab4.setBackground(new Color(244, 245, 249));
@@ -323,7 +539,7 @@ public class EmployeeGUI extends JFrame {
 
 		JButton btnTab1 = new JButton("Khách hàng");
 		btnTab1.setHorizontalAlignment(SwingConstants.LEFT);
-		btnTab1.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-admin-30.png")));
+		btnTab1.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-online-support-30.png")));
 		btnTab1.setBackground(new Color(55, 65, 81));
 		btnTab1.setForeground(new Color(244, 245, 249));
 		btnTab1.setFont(new Font("Segoe UI", Font.BOLD, 16));
@@ -377,7 +593,7 @@ public class EmployeeGUI extends JFrame {
 		btnNewButton.setFocusable(false);
 		btnNewButton.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-off-40.png")));
 		btnNewButton.setBackground(new Color(17, 24, 39));
-		btnNewButton.setBounds(42, 409, 76, 61);
+		btnNewButton.setBounds(0, 420, 76, 61);
 		panel.add(btnNewButton);
 
 		/* ================= ACTION LISTENER CHO BUTTON TAB =============== */
@@ -464,6 +680,7 @@ public class EmployeeGUI extends JFrame {
 
 		for (Room room : rooms) {
 			model.addRow(room.toObjects());
+			
 		}
 	}
 
@@ -582,7 +799,95 @@ public class EmployeeGUI extends JFrame {
 		
 		int id = Integer.parseInt((String) model.getValueAt(rowIndex, 0));
 		new EmployeeBUS().deleteCustomer(id);
+		updateBillTable();
+		updateCustomerTable();
 	}
-	
+
+	public void setForm() {
+		DefaultTableModel model = (DefaultTableModel) table_Customer.getModel();
+		int rowIndex = table_Customer.getSelectedRow();
+		
+		if (!table_Customer.isRowSelected(rowIndex)) {
+			JOptionPane.showMessageDialog(null, "Vui lòng chọn 1 khách hàng");
+			return;
+		}
+		int id = Integer.valueOf((String) model.getValueAt(rowIndex, 0));
+		String name = (String) model.getValueAt(rowIndex, 1);
+		Date birthDate = (Date) model.getValueAt(rowIndex, 3);
+		String cccd = String.valueOf(model.getValueAt(rowIndex, 2));
+		int roomNumber = new BillBUS().getRoomNumberByID(id);
+		
+		textField_Name.setText(name);
+		textField_CCCD.setText(cccd);
+		textField_birthDate.setText(birthDate+"");
+		textField_roomNumber.setText(roomNumber+"");
+	}
+
+	public void updateCustomer() {
+		DefaultTableModel model = (DefaultTableModel) table_Customer.getModel();
+		int rowIndex = table_Customer.getSelectedRow();
+		
+		if (!table_Customer.isRowSelected(rowIndex)) {
+			JOptionPane.showMessageDialog(null, "Hãy chọn 1 khách hàng để cập nhật");
+			return;
+		}
+		
+		if (textField_Name.getText().isBlank()||textField_CCCD.getText().isBlank()|| textField_birthDate.getText().isBlank()||textField_roomNumber.getText().isBlank()) {
+			JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin");
+			return;
+		}
+		
+		if (!textField_CCCD.getText().matches(regex_cccd)) {
+			JOptionPane.showMessageDialog(null, "Số CCCD không đúng");
+			return;
+		}
+		
+		// Kiểm tra số CCCD
+		String oldCCCD = String.valueOf(model.getValueAt(rowIndex, 2));
+		String newCCCD = textField_CCCD.getText();
+		
+		// Nếu có sự thay đổi CCCD, kiểm tra sự trùng lặp 
+		if (!newCCCD.equals(oldCCCD)) {
+			// Nếu CCCD mới trùng với CCCD đã có trong danh sách, kiểm tra trùng tên
+			if (new EmployeeBUS().isDuplicateCCCD(newCCCD)) {
+				// Nếu trùng số CCCD mà khác tên hoặc ngày sinh thì báo lỗi
+				if (new EmployeeBUS().isDuplicateName(textField_Name.getText(), newCCCD)
+						|| new EmployeeBUS().isDuplicateBirthDate(textField_birthDate.getText(), newCCCD)) {
+					JOptionPane.showMessageDialog(null, "Số CCCD bị trùng");
+					return;
+				}
+			}
+		}
+		
+		if (!textField_birthDate.getText().matches(birthDateRegex)) {
+			JOptionPane.showMessageDialog(null, "Nhập ngày sinh theo định dạng yyyy-MM-dd");
+			return;
+		}
+		
+		int stt = Integer.valueOf((String) model.getValueAt(rowIndex, 0));
+		int oldRoomNumber = new BillBUS().getRoomNumberByID(stt);
+		int newRoomNumber = Integer.valueOf(textField_roomNumber.getText());
+		
+		// Thay đổi phòng, nếu khách đã trả phòng thì thay đổi tùy ý
+		// Nếu khách chưa trả phòng thì kiểm tra phòng mới đã được đặt hay chưa
+		
+		// Nếu khách hàng đó chưa trả phòng mà thay đổi thông tin về phòng
+		//--> kiểm tra
+		if (!new BillBUS().isRoomReturned(stt)) {
+			if (newRoomNumber != oldRoomNumber && new RoomBUS().isOrdered(newRoomNumber)) {
+				JOptionPane.showMessageDialog(null, "Phòng "+newRoomNumber+" đã được đặt");
+				return;
+			}
+		}
+		
+		Date birthDate = Date.valueOf(textField_birthDate.getText());
+		Customer customer = new Customer(stt, textField_Name.getText(), newCCCD, birthDate, idEmp);
+		Bill bill = new Bill(stt, newRoomNumber, newCCCD);
+		new EmployeeBUS().updateCustomer(customer);
+		new BillBUS().updateBill(bill);
+		updateCustomerTable();
+		updateBillTable();
+		setEmptyForm();
+	}
 }
 

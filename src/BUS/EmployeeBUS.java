@@ -29,4 +29,20 @@ public class EmployeeBUS {
 	public void deleteCustomer(int id) {
 		new EmployeeDAO().deleteCustomer(id);
 	}
+
+	public void updateCustomer(Customer customer) {
+		new EmployeeDAO().updateCustomer(customer);
+	}
+
+	public ArrayList<Customer> findCustomerByName(String name) {
+		return new EmployeeDAO().findCustomerByName(name);
+	}
+
+	public ArrayList<Customer> sortByName() {
+		return new EmployeeDAO().sortByName();
+	}
+
+	public ArrayList<Customer> sortByDoB() {
+		return new EmployeeDAO().sortByDoB();
+	}
 }

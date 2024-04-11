@@ -24,6 +24,12 @@ public class Bill {
 		this.cccd = cccd;
 		this.dateOrder = dateOrder;
 	}
+	
+	public Bill(int id, int roomNumber, String cccd) {
+		this.id = id;
+		this.roomNumber = roomNumber;
+		this.cccd = cccd;
+	}
 
 	public int getId() {
 		return id;
