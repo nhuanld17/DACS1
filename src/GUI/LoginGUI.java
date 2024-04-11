@@ -7,6 +7,7 @@ import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -168,9 +169,11 @@ public class LoginGUI extends JFrame {
 				Account account = new Account(userName, passWord);
 				
 				if (new LoginDao().isAccountExist(account)) {
-					System.out.println("Dungs");
+					int id = new LoginDao().getIdByUserName(userName);
+					new EmployeeGUI(id).setVisible(true);
+					setVisible(false);
 				}else {
-					System.out.println("Sai");
+					JOptionPane.showMessageDialog(null, "Đăng nhập thất bại");
 				}
 			}
 		});

@@ -56,4 +56,19 @@ public class LoginDao {
 		}
 		return false;
 	}
+
+	public int getIdByUserName(String userName) {
+		int id = 0;
+		try {
+			ResultSet resultSet = new DBConn().queryDB("SELECT id FROM employee"
+					+ " WHERE username = '"+userName+"'");
+			while (resultSet.next()) {
+				id = resultSet.getInt("id");
+			}
+			return id;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return id;
+	}
 }

@@ -487,6 +487,13 @@ public class ManagerGUI extends JFrame {
 			return;
 		}
 		
+		String nameTest = textFieldName.getText();
+		for (int i = 0; i < nameTest.length(); i++) {
+			if (nameTest.charAt(i) >= '0' && nameTest.charAt(i) <= '9') {
+				JOptionPane.showMessageDialog(null, "Tên không hợp lệ");
+				return;
+			}
+		}
 
 		if (!textField_BirthDate.getText().toString().matches(birthDateRegex)) {
 			JOptionPane.showMessageDialog(null, "Định dạng ngày sinh không đúng, nhập ngày sinh theo định dạng (yyyy-mm-dd)");
