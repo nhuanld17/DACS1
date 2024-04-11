@@ -581,7 +581,7 @@ public class EmployeeGUI extends JFrame {
 		}
 		
 		int id = Integer.parseInt((String) model.getValueAt(rowIndex, 0));
-		
+		new EmployeeBUS().deleteCustomer(id);
 	}
 	
 }

@@ -89,4 +89,12 @@ public class EmployeeDAO {
 			e.printStackTrace();
 		}
 	}
+
+	public void deleteCustomer(int id) {
+		try {
+			new DBConn().updateDB("DELETE FROM customer WHERE id = '"+id+"'");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

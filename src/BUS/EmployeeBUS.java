@@ -25,4 +25,8 @@ public class EmployeeBUS {
 	public void addCustomer(Customer customer) {
 		new EmployeeDAO().addCustomer(customer);
 	}
+
+	public void deleteCustomer(int id) {
+		new EmployeeDAO().deleteCustomer(id);
+	}
 }
