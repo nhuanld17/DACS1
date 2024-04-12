@@ -172,7 +172,7 @@ public class EmployeeGUI extends JFrame {
 		btn_Them.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btn_Them.setFocusable(false);
 		btn_Them.setBorder(new LineBorder(new Color(0, 0, 0), 1));
-		btn_Them.setBackground(new Color(46, 204, 113));
+		btn_Them.setBackground(new Color(52, 152, 219));
 		btn_Them.setBounds(568, 122, 100, 30);
 		tab1.add(btn_Them);
 
@@ -183,7 +183,7 @@ public class EmployeeGUI extends JFrame {
 		btn_Xoa.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btn_Xoa.setFocusable(false);
 		btn_Xoa.setBorder(new LineBorder(new Color(0, 0, 0), 1));
-		btn_Xoa.setBackground(new Color(231, 76, 60));
+		btn_Xoa.setBackground(new Color(70, 181, 98));
 		btn_Xoa.setBounds(687, 122, 100, 30);
 		tab1.add(btn_Xoa);
 
@@ -474,7 +474,7 @@ public class EmployeeGUI extends JFrame {
 
 		JScrollPane scrollPane_Bill = new JScrollPane(table_Bill);
 		scrollPane_Bill.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		scrollPane_Bill.setBounds(10, 134, 777, 209);
+		scrollPane_Bill.setBounds(10, 150, 777, 193);
 		tab3.add(scrollPane_Bill);
 		
 		textField_FindByCCCD = new JTextField();
@@ -482,13 +482,13 @@ public class EmployeeGUI extends JFrame {
 		textField_FindByCCCD.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		textField_FindByCCCD.setColumns(10);
 		textField_FindByCCCD.setBorder(new LineBorder(new Color(0, 0, 0), 1));
-		textField_FindByCCCD.setBounds(11, 95, 176, 28);
+		textField_FindByCCCD.setBounds(11, 111, 176, 28);
 		tab3.add(textField_FindByCCCD);
 		
 		JLabel lblNewLabel_5 = new JLabel("Nhập CCCD");
 		lblNewLabel_5.setForeground(SystemColor.desktop);
 		lblNewLabel_5.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		lblNewLabel_5.setBounds(10, 67, 89, 22);
+		lblNewLabel_5.setBounds(10, 83, 89, 22);
 		tab3.add(lblNewLabel_5);
 		
 		JButton btn_FindCCCD = new JButton("");
@@ -498,7 +498,7 @@ public class EmployeeGUI extends JFrame {
 		btn_FindCCCD.setFocusable(false);
 		btn_FindCCCD.setBorderPainted(false);
 		btn_FindCCCD.setBackground(new Color(244, 245, 249));
-		btn_FindCCCD.setBounds(197, 93, 37, 30);
+		btn_FindCCCD.setBounds(197, 109, 37, 30);
 		btn_FindCCCD.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				clearBillTable();
@@ -525,7 +525,7 @@ public class EmployeeGUI extends JFrame {
 		btn_RefreshBillTable.setFocusable(false);
 		btn_RefreshBillTable.setBorderPainted(false);
 		btn_RefreshBillTable.setBackground(new Color(244, 245, 249));
-		btn_RefreshBillTable.setBounds(232, 92, 44, 30);
+		btn_RefreshBillTable.setBounds(232, 108, 44, 30);
 		tab3.add(btn_RefreshBillTable);
 
 		JPanel tab4 = new JPanel();
@@ -581,6 +581,8 @@ public class EmployeeGUI extends JFrame {
 		panel.add(btnTab4);
 
 		JButton btnNewButton = new JButton("");
+		btnNewButton.setFocusable(false);
+		btnNewButton.setBorderPainted(false);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int respone = JOptionPane.showConfirmDialog(null, "Bạn chắc chắn muốn thoát ???");
@@ -591,9 +593,9 @@ public class EmployeeGUI extends JFrame {
 			}
 		});
 		btnNewButton.setFocusable(false);
-		btnNewButton.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-off-40.png")));
+		btnNewButton.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-log-out-48.png")));
 		btnNewButton.setBackground(new Color(17, 24, 39));
-		btnNewButton.setBounds(0, 420, 76, 61);
+		btnNewButton.setBounds(0, 433, 48, 48);
 		panel.add(btnNewButton);
 
 		/* ================= ACTION LISTENER CHO BUTTON TAB =============== */

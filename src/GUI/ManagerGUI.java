@@ -54,6 +54,7 @@ public class ManagerGUI extends JFrame {
 	private String emailRegex = "^[a-zA-Z0-9._%+-]+@gmail.com$";
 	private String birthDateRegex = "^(?:(?:19|20)\\d\\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]|(?:0[1-9]|1\\d|2[0-8]))|(?:19|20)\\d\\d-(0[1-9]|1[0-2])-(29|30)(?:-0[1-9]|-1[0-9]|-2[0-8])|(?:19|20)(?:0[48]|[2468][048]|[13579][26])-02-29$";
 	private String nameRegex = "^[a-zA-Z ]{1,50}$";
+	private JTextField textField_FindName;
 
 	/**
 	 * Launch the application.
@@ -111,8 +112,8 @@ public class ManagerGUI extends JFrame {
 		Tab1.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Quản Lí Nhân Viên");
-		lblNewLabel.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-admin-30.png")));
-		lblNewLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
+		lblNewLabel.setIcon(null);
+		lblNewLabel.setFont(new Font("Segoe UI", Font.BOLD, 26));
 		lblNewLabel.setForeground(SystemColor.desktop);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(261, 11, 264, 28);
@@ -206,7 +207,7 @@ public class ManagerGUI extends JFrame {
 		btn_Them.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-add-24.png")));
 		btn_Them.setBorder(new LineBorder(new Color(0,0,0),1));
 		btn_Them.setFocusable(false);
-		btn_Them.setBackground(new Color(46, 204, 113));
+		btn_Them.setBackground(new Color(184, 207, 229));
 //		btn_Them.setBorderPainted(false);
 		btn_Them.addActionListener(actionListener);
 		btn_Them.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -251,7 +252,7 @@ public class ManagerGUI extends JFrame {
 		JButton btn_Xoa = new JButton("XÓA");
 		btn_Xoa.setBorder(new LineBorder(new Color(0,0,0),1));
 		btn_Xoa.setFocusable(false);
-		btn_Xoa.setBackground(new Color(231, 76, 60));
+		btn_Xoa.setBackground(new Color(130, 194, 114));
 		btn_Xoa.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-delete-24.png")));
 		btn_Xoa.setForeground(SystemColor.desktop);
 		btn_Xoa.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -286,6 +287,40 @@ public class ManagerGUI extends JFrame {
 		separator_1.setBounds(10, 61, 793, 2);
 		Tab1.add(separator_1);
 		
+		textField_FindName = new JTextField();
+		textField_FindName.setForeground(SystemColor.desktop);
+		textField_FindName.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		textField_FindName.setColumns(10);
+		textField_FindName.setBorder(new LineBorder(new Color(0,0,0),1));
+		textField_FindName.setBounds(90, 204, 176, 28);
+		Tab1.add(textField_FindName);
+		
+		JLabel lblNewLabel_1_4 = new JLabel("Họ và tên");
+		lblNewLabel_1_4.setForeground(SystemColor.desktop);
+		lblNewLabel_1_4.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		lblNewLabel_1_4.setBounds(10, 207, 72, 20);
+		Tab1.add(lblNewLabel_1_4);
+		
+		JButton btnFindName = new JButton("");
+		btnFindName.setFocusable(false);
+		btnFindName.setBorderPainted(false);
+		btnFindName.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnFindName.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-find-30.png")));
+		btnFindName.setBackground(new Color(244, 245, 249));
+		btnFindName.setBounds(268, 199, 40, 39);
+		Tab1.add(btnFindName);
+		
+		JButton btnFindName_1 = new JButton("");
+		btnFindName_1.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-refresh-30.png")));
+		btnFindName_1.setFocusable(false);
+		btnFindName_1.setBorderPainted(false);
+		btnFindName_1.setBackground(new Color(244, 245, 249));
+		btnFindName_1.setBounds(308, 199, 40, 39);
+		Tab1.add(btnFindName_1);
+		
 		JPanel Tab2 = new JPanel();
 		tabbedPane.addTab("Tab2", null, Tab2, null);
 		
@@ -297,45 +332,51 @@ public class ManagerGUI extends JFrame {
 		
 		JButton btnTab1 = new JButton("Nhân Viên");
 		btnTab1.setHorizontalAlignment(SwingConstants.LEFT);
-		btnTab1.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-manager-30.png")));
+		btnTab1.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-worker-30.png")));
 		btnTab1.setFocusable(false);
 		btnTab1.setBorderPainted(false);
 		btnTab1.setForeground(new Color(244, 245, 249));
 		btnTab1.setBackground(new Color(55, 65, 81));
 		btnTab1.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		btnTab1.setBounds(0, 118, 153, 42);
+		btnTab1.setBounds(0, 154, 153, 42);
 		panel.add(btnTab1);
 		
 		JButton btnTab2 = new JButton("Tab2");
+		btnTab2.setHorizontalAlignment(SwingConstants.LEFT);
 		btnTab2.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		btnTab2.setFocusable(false);
 		btnTab2.setBorderPainted(false);
 		btnTab2.setForeground(new Color(244, 245, 249));
 		btnTab2.setBackground(new Color(17, 24, 39));
-		btnTab2.setBounds(0, 168, 153, 42);
+		btnTab2.setBounds(0, 204, 153, 42);
 		panel.add(btnTab2);
 		
 		JButton btnTab3 = new JButton("Tab3");
+		btnTab3.setHorizontalAlignment(SwingConstants.LEFT);
 		btnTab3.setBorderPainted(false);
 		btnTab3.setFocusable(false);
 		btnTab3.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnTab3.setForeground(new Color(244, 245, 249));
 		btnTab3.setBackground(new Color(17, 24, 39));
-		btnTab3.setBounds(0, 221, 153, 42);
+		btnTab3.setBounds(0, 257, 153, 42);
 		panel.add(btnTab3);
 		
 		JButton btnTab4 = new JButton("Tab4");
+		btnTab4.setHorizontalAlignment(SwingConstants.LEFT);
 		btnTab4.setBorderPainted(false);
 		btnTab4.setFocusable(false);
 		btnTab4.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnTab4.setForeground(new Color(244, 245, 249));
 		btnTab4.setBackground(new Color(17, 24, 39));
-		btnTab4.setBounds(0, 274, 153, 42);
+		btnTab4.setBounds(0, 310, 153, 42);
 		panel.add(btnTab4);
 		
 		JButton btnNewButton = new JButton("");
+		btnNewButton.setFocusable(false);
+		btnNewButton.setBorderPainted(false);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				btnNewButton.setBackground(new Color(17,24,39));
 				int response = JOptionPane.showConfirmDialog(null, "Bạn có chắn chắn thoát ??");
 				if (response == JOptionPane.OK_OPTION) {
 					setVisible(false);
@@ -343,10 +384,23 @@ public class ManagerGUI extends JFrame {
 				}
 			}
 		});
-		btnNewButton.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-off-40.png")));
+		btnNewButton.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-log-out-48.png")));
 		btnNewButton.setBackground(new Color(17, 24, 39));
-		btnNewButton.setBounds(40, 409, 76, 61);
+		btnNewButton.setBounds(10, 428, 40, 42);
 		panel.add(btnNewButton);
+		
+		JLabel lblNewLabel_2 = new JLabel("");
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-male-user-90.png")));
+		lblNewLabel_2.setBounds(0, 10, 153, 87);
+		panel.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("Hello Admin :))");
+		lblNewLabel_3.setForeground(new Color(244, 245, 249));
+		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		lblNewLabel_3.setBounds(0, 95, 153, 27);
+		panel.add(lblNewLabel_3);
 		
 		/*----------------- ACTIONLISTENER FOR SIDE BAR BUTTON ---------------*/
 		btnTab1.addActionListener(new ActionListener() {
