@@ -37,4 +37,8 @@ public class ManagerBUS {
 		return new ManagerDAO().getEmpByPosition(position);
 	}
 
+	public String getEmpNameById(int idEmp) {
+		return new ManagerDAO().getEmpById(idEmp);
+	}
+
 }

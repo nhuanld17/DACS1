@@ -149,4 +149,22 @@ public class ManagerDAO {
 		}
 		return new ArrayList<>();
 	}
+
+
+	public String getEmpById(int idEmp) {
+		String name = "";
+		try {
+			String query = "SELECT name FROM employee WHERE id = '"+idEmp+"'";
+			ResultSet resultSet = new DBConn().queryDB(query);
+			
+			while (resultSet.next()) {
+				name = resultSet.getString("name");
+			}
+			return name;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return name;
+	}
 }

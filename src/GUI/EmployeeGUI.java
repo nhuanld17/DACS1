@@ -29,6 +29,7 @@ import javax.swing.table.JTableHeader;
 
 import BUS.BillBUS;
 import BUS.EmployeeBUS;
+import BUS.ManagerBUS;
 import BUS.RoomBUS;
 import CONTROLLER.EmployeeController;
 import DAO.BillDAO;
@@ -54,6 +55,7 @@ public class EmployeeGUI extends JFrame {
 	private JTable table_Bill;
 	private JTextField textField_FindByName;
 	private JTextField textField_FindByCCCD;
+	private String EmployeeName = new ManagerBUS().getEmpNameById(idEmp);
 
 	/**
 	 * Launch the application.
@@ -545,7 +547,7 @@ public class EmployeeGUI extends JFrame {
 		btnTab1.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		btnTab1.setBorderPainted(false);
 		btnTab1.setFocusable(false);
-		btnTab1.setBounds(0, 118, 162, 42);
+		btnTab1.setBounds(0, 165, 162, 42);
 		panel.add(btnTab1);
 
 		JButton btnTab2 = new JButton("DS Phòng");
@@ -556,7 +558,7 @@ public class EmployeeGUI extends JFrame {
 		btnTab2.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		btnTab2.setFocusable(false);
 		btnTab2.setBorderPainted(false);
-		btnTab2.setBounds(0, 162, 162, 42);
+		btnTab2.setBounds(0, 209, 162, 42);
 		panel.add(btnTab2);
 
 		JButton btnTab3 = new JButton("DS Hóa Đơn");
@@ -567,7 +569,7 @@ public class EmployeeGUI extends JFrame {
 		btnTab3.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		btnTab3.setFocusable(false);
 		btnTab3.setBorderPainted(false);
-		btnTab3.setBounds(0, 206, 162, 42);
+		btnTab3.setBounds(0, 253, 162, 42);
 		panel.add(btnTab3);
 
 		JButton btnTab4 = new JButton("Tab4");
@@ -577,7 +579,7 @@ public class EmployeeGUI extends JFrame {
 		btnTab4.setBackground(new Color(17, 24, 39));
 		btnTab4.setFocusable(false);
 		btnTab4.setBorderPainted(false);
-		btnTab4.setBounds(0, 250, 162, 42);
+		btnTab4.setBounds(0, 297, 162, 42);
 		panel.add(btnTab4);
 
 		JButton btnNewButton = new JButton("");
@@ -597,6 +599,12 @@ public class EmployeeGUI extends JFrame {
 		btnNewButton.setBackground(new Color(17, 24, 39));
 		btnNewButton.setBounds(10, 428, 40, 42);
 		panel.add(btnNewButton);
+		
+		JLabel lblNewLabel_6 = new JLabel("");
+		lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_6.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-male-user-90.png")));
+		lblNewLabel_6.setBounds(36, 0, 90, 120);
+		panel.add(lblNewLabel_6);
 
 		/* ================= ACTION LISTENER CHO BUTTON TAB =============== */
 		btnTab1.addActionListener(new ActionListener() {
