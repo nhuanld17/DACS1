@@ -285,7 +285,7 @@ public class ManagerGUI extends JFrame {
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setForeground(SystemColor.desktop);
 		separator_1.setBackground(SystemColor.desktop);
-		separator_1.setBounds(10, 61, 793, 2);
+		separator_1.setBounds(10, 70, 793, 2);
 		Tab1.add(separator_1);
 		
 		textField_FindName = new JTextField();
@@ -447,16 +447,28 @@ public class ManagerGUI extends JFrame {
 		
 		JLabel lblNewLabel_2 = new JLabel("");
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-male-user-90.png")));
-		lblNewLabel_2.setBounds(0, 10, 153, 87);
+		lblNewLabel_2.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-admin-80.png")));
+		lblNewLabel_2.setBounds(0, 0, 153, 87);
 		panel.add(lblNewLabel_2);
 		
-		JLabel lblNewLabel_3 = new JLabel("Hello Admin :))");
+		JLabel lblNewLabel_3 = new JLabel("Hello admin !!!");
 		lblNewLabel_3.setForeground(new Color(244, 245, 249));
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_3.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		lblNewLabel_3.setBounds(0, 95, 153, 27);
+		lblNewLabel_3.setBounds(0, 79, 153, 27);
 		panel.add(lblNewLabel_3);
+		
+		JSeparator separator_2 = new JSeparator();
+		separator_2.setForeground(new Color(244, 245, 249));
+		separator_2.setBackground(new Color(244, 245, 249));
+		separator_2.setBounds(11, 135, 132, 1);
+		panel.add(separator_2);
+		
+		JSeparator separator_2_1 = new JSeparator();
+		separator_2_1.setForeground(new Color(244, 245, 249));
+		separator_2_1.setBackground(new Color(244, 245, 249));
+		separator_2_1.setBounds(10, 415, 133, 1);
+		panel.add(separator_2_1);
 		
 		/*----------------- ACTIONLISTENER FOR SIDE BAR BUTTON ---------------*/
 		btnTab1.addActionListener(new ActionListener() {

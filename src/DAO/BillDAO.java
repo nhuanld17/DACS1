@@ -1,7 +1,9 @@
 package DAO;
 
+
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import DTO.Bill;
@@ -25,8 +27,8 @@ public class BillDAO {
 				int id = resultSet.getInt("id");
 				int roomNumber = resultSet.getInt("roomNumber");
 				String CCCD = resultSet.getString("CCCD");
-				Date dateOrder = resultSet.getDate("dateOrder");
-				Date dateReturn = resultSet.getDate("dateReturn");
+				Timestamp dateOrder = resultSet.getTimestamp("dateOrder");
+				Timestamp dateReturn = resultSet.getTimestamp("dateReturn");
 				double price = resultSet.getDouble("price");
 				
 				bills.add(new Bill(id, roomNumber, CCCD, dateOrder, dateReturn, price));
@@ -92,8 +94,8 @@ public class BillDAO {
 				int id = resultSet.getInt("ID");
 				int roomNumber = resultSet.getInt("roomNumber");
 				String CCCD = resultSet.getString("CCCD");
-				Date dateOrder = resultSet.getDate("dateOrder");
-				Date dateReturn = resultSet.getDate("dateReturn");
+				Timestamp dateOrder = resultSet.getTimestamp("dateOrder");
+				Timestamp dateReturn = resultSet.getTimestamp("dateReturn");
 				double price = resultSet.getDouble("price");
 				
 				Bill bill = new Bill(id, roomNumber, CCCD, dateOrder, dateReturn, price);
@@ -105,6 +107,50 @@ public class BillDAO {
 			e.printStackTrace();
 		}
 		return bills;
+	}
+
+	public boolean isBillAbated(int id) {
+		try {
+			String query = "SELECT dateReturn FROM bill WHERE id = '"+id+"'";
+			ResultSet resultSet = new DBConn().queryDB(query);
+			
+			Date returnDate = null;
+			while (resultSet.next()) {
+				returnDate = resultSet.getDate("dateReturn");
+			}
+			if (returnDate == null) {
+				return false;
+			}
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public ArrayList<Bill> getListNotAbatedBill() {
+		ArrayList<Bill> bills = new ArrayList<>();
+		try {
+			String query = "SELECT * FROM bill WHERE dateReturn IS NULL";
+			ResultSet resultSet = new DBConn().queryDB(query);
+			
+			while (resultSet.next()) {
+				int ID = resultSet.getInt("ID");
+				int roomNumber = resultSet.getInt("roomNumber");
+				String CCCD = resultSet.getString("CCCD");
+				Timestamp dateOrder = resultSet.getTimestamp("dateOrder");
+				Timestamp dateReturn = resultSet.getTimestamp("dateReturn");
+				double price = resultSet.getDouble("price");
+				
+				bills.add(new Bill(ID, roomNumber, CCCD, dateOrder, dateReturn, price));
+			}
+			return bills;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return new ArrayList<>();
 	}
 	
 }

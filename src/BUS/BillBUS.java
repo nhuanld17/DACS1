@@ -31,4 +31,12 @@ public class BillBUS {
 		return new BillDAO().findBillByCCCD(cCCD);
 	}
 
+	public boolean isBillAbated(int id) {
+		return new BillDAO().isBillAbated(id);
+	}
+
+	public ArrayList<Bill> getListNotAbatedBill() {
+		return new BillDAO().getListNotAbatedBill();
+	}
+
 }

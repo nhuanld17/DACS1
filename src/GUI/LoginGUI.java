@@ -3,10 +3,6 @@ package GUI;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,31 +27,6 @@ import DAO.LoginDao;
 import DTO.Account;
 import DTO.Manager;
 
-class GradientButton extends JButton {
-    private Color startColor = new Color(5, 80, 82);
-    private Color endColor = new Color(6, 106, 100);
-
-    public GradientButton(String text) {
-        super(text);
-        setContentAreaFilled(false);
-        setForeground(new Color(244, 245, 249));
-        setFont(new Font("Segoe UI", Font.BOLD, 18));
-        setBorderPainted(false);
-        // Set other properties as needed, for example:
-        // setBounds(48, 335, 280, 40);
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g.create();
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        GradientPaint gp = new GradientPaint(0, 0, startColor, getWidth(), 0, endColor);
-        g2d.setPaint(gp);
-        g2d.fillRect(0, 0, getWidth(), getHeight());
-        super.paintComponent(g2d);
-        g2d.dispose();
-    }
-}
 
 public class LoginGUI extends JFrame {
 
@@ -182,7 +153,7 @@ public class LoginGUI extends JFrame {
 		btnNewButton.setBackground(new Color(17, 24, 39));
 		btnNewButton.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		btnNewButton.setBounds(48, 335, 280, 40);
-		btnNewButton.setBorder(new LineBorder(new Color(17, 24, 39),3));
+		btnNewButton.setBorder(new LineBorder(new Color(17, 24, 39),2));
 		btnNewButton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -222,7 +193,7 @@ public class LoginGUI extends JFrame {
 		btnNewButton_1.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		btnNewButton_1.setBounds(48, 385, 280, 40);
 //		btnNewButton_1.setBorderPainted(false);
-		btnNewButton_1.setBorder(new LineBorder(new Color(17, 24, 39),3));
+		btnNewButton_1.setBorder(new LineBorder(new Color(17, 24, 39),2));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			
 			@Override

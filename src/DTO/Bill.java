@@ -1,16 +1,16 @@
 package DTO;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Bill {
 	private int id;
 	private int roomNumber;
 	private String cccd;
-	private Date dateOrder;
-	private Date dateReturn;
+	private Timestamp dateOrder;
+	private Timestamp dateReturn;
 	private double price;
 
-	public Bill(int id, int roomNumber, String cccd, Date dateOrder, Date dateReturn, double price) {
+	public Bill(int id, int roomNumber, String cccd, Timestamp dateOrder, Timestamp dateReturn, double price) {
 		this.id = id;
 		this.roomNumber = roomNumber;
 		this.cccd = cccd;
@@ -19,7 +19,7 @@ public class Bill {
 		this.price = price;
 	}
 
-	public Bill(int roomNumber, String cccd, Date dateOrder) {
+	public Bill(int roomNumber, String cccd, Timestamp dateOrder) {
 		this.roomNumber = roomNumber;
 		this.cccd = cccd;
 		this.dateOrder = dateOrder;
@@ -55,19 +55,19 @@ public class Bill {
 		this.cccd = cccd;
 	}
 
-	public Date getDateOrder() {
+	public Timestamp getDateOrder() {
 		return dateOrder;
 	}
 
-	public void setDateOrder(Date dateOrder) {
+	public void setDateOrder(Timestamp dateOrder) {
 		this.dateOrder = dateOrder;
 	}
 
-	public Date getDateReturn() {
+	public Timestamp getDateReturn() {
 		return dateReturn;
 	}
 
-	public void setDateReturn(Date dateReturn) {
+	public void setDateReturn(Timestamp dateReturn) {
 		this.dateReturn = dateReturn;
 	}
 

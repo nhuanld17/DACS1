@@ -5,8 +5,17 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.print.attribute.standard.MediaSize.NA;
 import javax.swing.ButtonGroup;
@@ -55,7 +64,7 @@ public class EmployeeGUI extends JFrame {
 	private JTable table_Bill;
 	private JTextField textField_FindByName;
 	private JTextField textField_FindByCCCD;
-	private String EmployeeName = new ManagerBUS().getEmpNameById(idEmp);
+	private String EmployeeName;
 
 	/**
 	 * Launch the application.
@@ -78,6 +87,7 @@ public class EmployeeGUI extends JFrame {
 	 */
 	public EmployeeGUI(int idEmp) {
 		this.idEmp = idEmp;
+		EmployeeName = new ManagerBUS().getEmpNameById(idEmp);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 980, 520);
 		contentPane = new JPanel();
@@ -108,7 +118,7 @@ public class EmployeeGUI extends JFrame {
 		lblNewLabel.setFont(new Font("Segoe UI", Font.BOLD, 26));
 		lblNewLabel.setForeground(SystemColor.desktop);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(262, 26, 255, 36);
+		lblNewLabel.setBounds(260, 38, 255, 36);
 		tab1.add(lblNewLabel);
 
 		JLabel lblNewLabel_4 = new JLabel("Họ và tên");
@@ -285,22 +295,6 @@ public class EmployeeGUI extends JFrame {
 		btn_FindName.setBounds(270, 229, 37, 30);
 		tab1.add(btn_FindName);
 		
-		JButton btn_Refresh = new JButton("");
-		btn_Refresh.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				clearCustomerTable();
-				updateCustomerTable();
-			}
-		});
-		btn_Refresh.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-refresh-30.png")));
-		btn_Refresh.setForeground(SystemColor.desktop);
-		btn_Refresh.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		btn_Refresh.setFocusable(false);
-		btn_Refresh.setBorderPainted(false);
-		btn_Refresh.setBackground(new Color(244, 245, 249));
-		btn_Refresh.setBounds(305, 228, 44, 30);
-		tab1.add(btn_Refresh);
-		
 		JRadioButton rdbtn_SortByName = new JRadioButton("Sắp xếp theo tên");
 		rdbtn_SortByName.setFocusable(false);
 		rdbtn_SortByName.addActionListener(new ActionListener() {
@@ -342,6 +336,46 @@ public class EmployeeGUI extends JFrame {
 		ButtonGroup buttonGroup = new ButtonGroup();
 		buttonGroup.add(rdbtn_SortByDoB);
 		buttonGroup.add(rdbtn_SortByName);
+		
+		JButton btn_Refresh = new JButton("");
+		btn_Refresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearCustomerTable();
+				updateCustomerTable();
+				buttonGroup.clearSelection();
+			}
+		});
+		btn_Refresh.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-refresh-30.png")));
+		btn_Refresh.setForeground(SystemColor.desktop);
+		btn_Refresh.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btn_Refresh.setFocusable(false);
+		btn_Refresh.setBorderPainted(false);
+		btn_Refresh.setBackground(new Color(244, 245, 249));
+		btn_Refresh.setBounds(305, 228, 44, 30);
+		tab1.add(btn_Refresh);
+		
+		
+		
+		// Lấy ngày hiện tại
+		LocalDate today = LocalDate.now();
+		
+		// Lấy ngày trong tuần
+		String dayOfWeek = today.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+		
+		// Định dạng ngày tháng theo yêu cầu
+		String formattedDate = today.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+		
+		// Tách chuỗi để lấy ngày riêng biệt
+		String[] dateParts = formattedDate.split("-");
+		String day = dateParts[0];
+		String month = dateParts[1];
+		String year = dateParts[2];
+		
+		JLabel label_ToDate = new JLabel(dayOfWeek+","+day+"/"+month+"/"+year);
+		label_ToDate.setForeground(SystemColor.desktop);
+		label_ToDate.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		label_ToDate.setBounds(621, 0, 176, 28);
+		tab1.add(label_ToDate);
 
 		JPanel tab2 = new JPanel();
 		tab2.setForeground(SystemColor.desktop);
@@ -515,10 +549,30 @@ public class EmployeeGUI extends JFrame {
 		});
 		tab3.add(btn_FindCCCD);
 		
+		JRadioButton rdbtn_showNotAbatedBill = new JRadioButton("Hóa đơn chưa thanh toán");
+		rdbtn_showNotAbatedBill.setFocusable(false);
+		rdbtn_showNotAbatedBill.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		rdbtn_showNotAbatedBill.setForeground(SystemColor.desktop);
+		rdbtn_showNotAbatedBill.setBounds(566, 111, 221, 23);
+		rdbtn_showNotAbatedBill.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ArrayList<Bill> bills = new BillBUS().getListNotAbatedBill();
+				DefaultTableModel model = (DefaultTableModel) table_Bill.getModel();
+				clearBillTable();
+
+				for (Bill bill : bills) {
+					model.addRow(bill.toObject());
+				}
+			}
+		});
+		tab3.add(rdbtn_showNotAbatedBill);
+		
 		JButton btn_RefreshBillTable = new JButton("");
 		btn_RefreshBillTable.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				updateBillTable();
+				textField_FindByCCCD.setText(null);
+				rdbtn_showNotAbatedBill.setSelected(false);
 			}
 		});
 		btn_RefreshBillTable.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-refresh-30.png")));
@@ -529,6 +583,31 @@ public class EmployeeGUI extends JFrame {
 		btn_RefreshBillTable.setBackground(new Color(244, 245, 249));
 		btn_RefreshBillTable.setBounds(232, 108, 44, 30);
 		tab3.add(btn_RefreshBillTable);
+		
+		JButton btn_Abate = new JButton("THANH TOÁN");
+		btn_Abate.setForeground(new Color(244, 245, 249));
+		btn_Abate.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btn_Abate.setFocusable(false);
+		btn_Abate.setBorder(new LineBorder(new Color(17, 24, 39), 2));
+		btn_Abate.setBackground(new Color(17, 24, 39));
+		btn_Abate.setBounds(275, 109, 114, 30);
+		btn_Abate.addActionListener(actionListener);
+		btn_Abate.addMouseListener(new MouseAdapter() {
+		    public void mouseEntered(MouseEvent e) {
+		        btn_Abate.setBackground(new Color(244, 245, 249)); // Màu khi hover
+		        btn_Abate.setBorder(new LineBorder(new Color(17, 24, 39), 2));
+		        btn_Abate.setForeground(new Color(17, 24, 39));
+		    }
+
+		    public void mouseExited(MouseEvent e) {
+		        btn_Abate.setBackground(new Color(17, 24, 39)); // Màu ban đầu
+		        btn_Abate.setBorder(new LineBorder(new Color(17, 24, 39), 2));
+		        btn_Abate.setForeground(new Color(244, 245, 249));
+		    }
+		});
+		tab3.add(btn_Abate);
+		
+		
 
 		JPanel tab4 = new JPanel();
 		tab4.setBackground(new Color(244, 245, 249));
@@ -602,9 +681,36 @@ public class EmployeeGUI extends JFrame {
 		
 		JLabel lblNewLabel_6 = new JLabel("");
 		lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_6.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-male-user-90.png")));
-		lblNewLabel_6.setBounds(36, 0, 90, 120);
+		lblNewLabel_6.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-user-80.png")));
+		lblNewLabel_6.setBounds(0, 0, 162, 90);
 		panel.add(lblNewLabel_6);
+		
+		
+		JLabel lblHello = new JLabel("Hello");
+		lblHello.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHello.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		lblHello.setForeground(SystemColor.window);
+		lblHello.setBounds(0, 86, 162, 25);
+		panel.add(lblHello);
+		
+		JLabel label_EmployeeName = new JLabel(EmployeeName+":V");
+		label_EmployeeName.setHorizontalAlignment(SwingConstants.CENTER);
+		label_EmployeeName.setForeground(new Color(244, 245, 249));
+		label_EmployeeName.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		label_EmployeeName.setBounds(0, 105, 162, 25);
+		panel.add(label_EmployeeName);
+		
+		JSeparator separator_2 = new JSeparator();
+		separator_2.setForeground(new Color(244, 245, 249));
+		separator_2.setBackground(new Color(244, 245, 249));
+		separator_2.setBounds(10, 145, 142, 1);
+		panel.add(separator_2);
+		
+		JSeparator separator_2_1 = new JSeparator();
+		separator_2_1.setForeground(new Color(244, 245, 249));
+		separator_2_1.setBackground(new Color(244, 245, 249));
+		separator_2_1.setBounds(10, 416, 142, 1);
+		panel.add(separator_2_1);
 
 		/* ================= ACTION LISTENER CHO BUTTON TAB =============== */
 		btnTab1.addActionListener(new ActionListener() {
@@ -767,8 +873,6 @@ public class EmployeeGUI extends JFrame {
 			JOptionPane.showMessageDialog(null, "Số phòng không hợp lệ");
 			return;
 		}
-
-
 		
 		if (new EmployeeBUS().isDuplicateCCCD(cccd)) {
 			// Nếu trùng số CCCD nhưng khác tên hoặc ngày sinh thì báo lỗi
@@ -787,7 +891,8 @@ public class EmployeeGUI extends JFrame {
 
 	private void addCustomerAndBill(String cccd, String name, String birthDateText, int roomNumber) {
 		Date birthDate = Date.valueOf(birthDateText);
-		Date dateOrder = new Date(System.currentTimeMillis());
+//		Date dateOrder = new Date(System.currentTimeMillis();
+		Timestamp dateOrder = new Timestamp(System.currentTimeMillis());
 		
 		Customer customer = new Customer(name, cccd, birthDate, idEmp);
 		Bill bill = new Bill(roomNumber, cccd, dateOrder);
@@ -898,6 +1003,24 @@ public class EmployeeGUI extends JFrame {
 		updateCustomerTable();
 		updateBillTable();
 		setEmptyForm();
+	}
+
+	public void abateBill() {
+		DefaultTableModel model = (DefaultTableModel) table_Bill.getModel();
+		int rowIndex = table_Bill.getSelectedRow();
+		
+		if (!table_Bill.isRowSelected(rowIndex)) {
+			JOptionPane.showMessageDialog(null, "Hãy chọn 1 khách hàng để thanh toán");
+			return;
+		}
+		
+		int id = Integer.valueOf((String)model.getValueAt(rowIndex, 0));
+		boolean isAbated = new BillBUS().isBillAbated(id);
+		
+		if (isAbated) {
+			JOptionPane.showMessageDialog(null, "Hóa đơn này đã được thanh toán, hãy chọn hóa đơn khác");
+			return;
+		}
 	}
 }
 

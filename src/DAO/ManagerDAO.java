@@ -151,7 +151,7 @@ public class ManagerDAO {
 	}
 
 
-	public String getEmpById(int idEmp) {
+	public String getEmpNameById(int idEmp) {
 		String name = "";
 		try {
 			String query = "SELECT name FROM employee WHERE id = '"+idEmp+"'";
@@ -165,6 +165,6 @@ public class ManagerDAO {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		return name;
+		return null;
 	}
 }
