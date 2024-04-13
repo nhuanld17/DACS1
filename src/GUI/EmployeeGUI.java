@@ -595,7 +595,7 @@ public class EmployeeGUI extends JFrame {
 		btnNewButton.setFocusable(false);
 		btnNewButton.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-log-out-48.png")));
 		btnNewButton.setBackground(new Color(17, 24, 39));
-		btnNewButton.setBounds(0, 433, 48, 48);
+		btnNewButton.setBounds(10, 428, 40, 42);
 		panel.add(btnNewButton);
 
 		/* ================= ACTION LISTENER CHO BUTTON TAB =============== */

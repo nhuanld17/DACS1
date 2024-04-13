@@ -71,7 +71,82 @@ public class ManagerDAO {
 			int sexInt = newEmployee.isSex() ? 1 : 0;
 			new DBConn().updateDB("UPDATE employee SET name = '"+newEmployee.getName()+"', birthdate = '"+newEmployee.getBirthDate()+"', email = '"+newEmployee.getEmail()+"', sex = '"+sexInt+"', position = '"+newEmployee.getPosition()+"', username = '"+newEmployee.getUserName()+"', password = '"+newEmployee.getPassword()+"' WHERE id = '"+newEmployee.getId()+"';");
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
+	}
+
+
+	public ArrayList<Employee> getEmpByNameAndPosition(String name, String position) {
+		ArrayList<Employee> employees = new ArrayList<>();
+		try {
+			String query = "SELECT id, name, birthdate, email, sex, position FROM employee "
+					+ " WHERE name LIKE '%"+name+"%' AND position LIKE '%"+position+"%'";
+			ResultSet resultSet = new DBConn().queryDB(query);
+			
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String Name = resultSet.getString("name");
+				Date birthdate = resultSet.getDate("birthdate");
+				String email = resultSet.getString("email");
+				boolean sex = resultSet.getBoolean("sex");
+				String Position = resultSet.getString("position");
+				
+				employees.add(new Employee(id, Name, birthdate, email, sex, Position));
+			}
+			return employees;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<>();
+ 	}
+
+
+	public ArrayList<Employee> getEmpByName(String name) {
+		ArrayList<Employee> employees = new ArrayList<>();
+		try {
+			String query = "SELECT id, name, birthdate, email, sex, position FROM employee "
+					+ " WHERE name LIKE '%"+name+"%'";
+			ResultSet resultSet = new DBConn().queryDB(query);
+			
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String Name = resultSet.getString("name");
+				Date birthdate = resultSet.getDate("birthdate");
+				String email = resultSet.getString("email");
+				boolean sex = resultSet.getBoolean("sex");
+				String Position = resultSet.getString("position");
+				
+				employees.add(new Employee(id, Name, birthdate, email, sex, Position));
+			}
+			return employees;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<>();
+	}
+
+
+	public ArrayList<Employee> getEmpByPosition(String position) {
+		ArrayList<Employee> employees = new ArrayList<>();
+		try {
+			String query = "SELECT id, name, birthdate, email, sex, position FROM employee "
+					+ " WHERE position LIKE '%"+position+"%'";
+			ResultSet resultSet = new DBConn().queryDB(query);
+			
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String Name = resultSet.getString("name");
+				Date birthdate = resultSet.getDate("birthdate");
+				String email = resultSet.getString("email");
+				boolean sex = resultSet.getBoolean("sex");
+				String Position = resultSet.getString("position");
+				
+				employees.add(new Employee(id, Name, birthdate, email, sex, Position));
+			}
+			return employees;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<>();
 	}
 }

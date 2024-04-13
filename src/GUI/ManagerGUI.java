@@ -24,6 +24,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
+import javax.swing.ActionMap;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -170,7 +171,7 @@ public class ManagerGUI extends JFrame {
 		JLabel lblNewLabel_1_1_1 = new JLabel("Vị trí");
 		lblNewLabel_1_1_1.setForeground(SystemColor.desktop);
 		lblNewLabel_1_1_1.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		lblNewLabel_1_1_1.setBounds(10, 137, 79, 17);
+		lblNewLabel_1_1_1.setBounds(10, 137, 47, 17);
 		Tab1.add(lblNewLabel_1_1_1);
 		
 		rdbtn_Nam = new JRadioButton("Nam");
@@ -295,31 +296,86 @@ public class ManagerGUI extends JFrame {
 		textField_FindName.setBounds(90, 204, 176, 28);
 		Tab1.add(textField_FindName);
 		
-		JLabel lblNewLabel_1_4 = new JLabel("Họ và tên");
+		JLabel lblNewLabel_1_4 = new JLabel("Họ và tên:");
 		lblNewLabel_1_4.setForeground(SystemColor.desktop);
 		lblNewLabel_1_4.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		lblNewLabel_1_4.setBounds(10, 207, 72, 20);
 		Tab1.add(lblNewLabel_1_4);
+		
+		JLabel lblNewLabel_1_1_1_1 = new JLabel("Vị trí:");
+		lblNewLabel_1_1_1_1.setForeground(SystemColor.desktop);
+		lblNewLabel_1_1_1_1.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		lblNewLabel_1_1_1_1.setBounds(271, 210, 47, 17);
+		Tab1.add(lblNewLabel_1_1_1_1);
+		
+		JComboBox comboBox_FindByPosition = new JComboBox();
+		comboBox_FindByPosition.setModel(new DefaultComboBoxModel(new String[] {"Tiếp tân", "Bảo vệ", "Lao công"}));
+		comboBox_FindByPosition.setSelectedIndex(-1);
+		comboBox_FindByPosition.setForeground(SystemColor.desktop);
+		comboBox_FindByPosition.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		comboBox_FindByPosition.setBorder(new LineBorder(new Color(0,0,0),1));
+		comboBox_FindByPosition.setBackground(SystemColor.window);
+		comboBox_FindByPosition.setBounds(314, 203, 176, 30);
+		Tab1.add(comboBox_FindByPosition);
+		
+		JButton btnRefresh = new JButton("");
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				updateEmployeeTable();
+				textField_FindName.setText(null);
+				comboBox_FindByPosition.setSelectedIndex(-1);
+			}
+		});
+		btnRefresh.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-refresh-30.png")));
+		btnRefresh.setFocusable(false);
+		btnRefresh.setBorderPainted(false);
+		btnRefresh.setBackground(new Color(244, 245, 249));
+		btnRefresh.setBounds(531, 199, 40, 39);
+		Tab1.add(btnRefresh);
 		
 		JButton btnFindName = new JButton("");
 		btnFindName.setFocusable(false);
 		btnFindName.setBorderPainted(false);
 		btnFindName.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String name = textField_FindName.getText();
+				String position = (String) comboBox_FindByPosition.getSelectedItem();
+				DefaultTableModel model = (DefaultTableModel) table_Employee.getModel();
+				
+				if (name.isBlank() && comboBox_FindByPosition.getSelectedItem() == null){
+					JOptionPane.showMessageDialog(null, "Hãy nhập thông tin để tìm kiếm");
+					return;
+				}
+				
+				if (!name.isBlank() && comboBox_FindByPosition.getSelectedItem() != null) {
+					ArrayList<Employee> employees = new ManagerBUS().getEmpByNameAndPosition(name, position);
+					clearEmployeeTable();
+					for (Employee employee : employees) {
+						model.addRow(employee.toObjects());
+					}
+				}
+				
+				if (!name.isBlank() && comboBox_FindByPosition.getSelectedItem() == null) {
+					ArrayList<Employee> employees = new ManagerBUS().getEmpByName(name);
+					clearEmployeeTable();
+					for (Employee employee : employees) {
+						model.addRow(employee.toObjects());
+					}
+				}
+				
+				if (name.isBlank() && comboBox_FindByPosition.getSelectedItem() != null) {
+					ArrayList<Employee> employees = new ManagerBUS().getEmpByPosition(position);
+					clearEmployeeTable();
+					for (Employee employee : employees) {
+						model.addRow(employee.toObjects());
+					}
+				}
 			}
 		});
 		btnFindName.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-find-30.png")));
 		btnFindName.setBackground(new Color(244, 245, 249));
-		btnFindName.setBounds(268, 199, 40, 39);
+		btnFindName.setBounds(491, 199, 40, 39);
 		Tab1.add(btnFindName);
-		
-		JButton btnFindName_1 = new JButton("");
-		btnFindName_1.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-refresh-30.png")));
-		btnFindName_1.setFocusable(false);
-		btnFindName_1.setBorderPainted(false);
-		btnFindName_1.setBackground(new Color(244, 245, 249));
-		btnFindName_1.setBounds(308, 199, 40, 39);
-		Tab1.add(btnFindName_1);
 		
 		JPanel Tab2 = new JPanel();
 		tabbedPane.addTab("Tab2", null, Tab2, null);
@@ -355,7 +411,7 @@ public class ManagerGUI extends JFrame {
 		btnTab3.setHorizontalAlignment(SwingConstants.LEFT);
 		btnTab3.setBorderPainted(false);
 		btnTab3.setFocusable(false);
-		btnTab3.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnTab3.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		btnTab3.setForeground(new Color(244, 245, 249));
 		btnTab3.setBackground(new Color(17, 24, 39));
 		btnTab3.setBounds(0, 257, 153, 42);
@@ -365,7 +421,7 @@ public class ManagerGUI extends JFrame {
 		btnTab4.setHorizontalAlignment(SwingConstants.LEFT);
 		btnTab4.setBorderPainted(false);
 		btnTab4.setFocusable(false);
-		btnTab4.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnTab4.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		btnTab4.setForeground(new Color(244, 245, 249));
 		btnTab4.setBackground(new Color(17, 24, 39));
 		btnTab4.setBounds(0, 310, 153, 42);

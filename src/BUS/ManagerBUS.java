@@ -25,4 +25,16 @@ public class ManagerBUS {
 		new ManagerDAO().updateEmployee(newEmployee);
 	}
 
+	public ArrayList<Employee> getEmpByNameAndPosition(String name, String position) {
+		return new ManagerDAO().getEmpByNameAndPosition(name, position);
+	}
+
+	public ArrayList<Employee> getEmpByName(String name) {
+		return new ManagerDAO().getEmpByName(name);
+	}
+
+	public ArrayList<Employee> getEmpByPosition(String position) {
+		return new ManagerDAO().getEmpByPosition(position);
+	}
+
 }
