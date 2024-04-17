@@ -8,9 +8,9 @@ public class Bill {
 	private String cccd;
 	private Timestamp dateOrder;
 	private Timestamp dateReturn;
-	private double price;
+	private long price;
 
-	public Bill(int id, int roomNumber, String cccd, Timestamp dateOrder, Timestamp dateReturn, double price) {
+	public Bill(int id, int roomNumber, String cccd, Timestamp dateOrder, Timestamp dateReturn, long price) {
 		this.id = id;
 		this.roomNumber = roomNumber;
 		this.cccd = cccd;
@@ -71,11 +71,11 @@ public class Bill {
 		this.dateReturn = dateReturn;
 	}
 
-	public double getPrice() {
+	public long getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(long price) {
 		this.price = price;
 	}
 	public Object[] toObject() {

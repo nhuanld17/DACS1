@@ -29,7 +29,7 @@ public class BillDAO {
 				String CCCD = resultSet.getString("CCCD");
 				Timestamp dateOrder = resultSet.getTimestamp("dateOrder");
 				Timestamp dateReturn = resultSet.getTimestamp("dateReturn");
-				double price = resultSet.getDouble("price");
+				long price = resultSet.getLong("price");
 				
 				bills.add(new Bill(id, roomNumber, CCCD, dateOrder, dateReturn, price));
 			}
@@ -96,7 +96,7 @@ public class BillDAO {
 				String CCCD = resultSet.getString("CCCD");
 				Timestamp dateOrder = resultSet.getTimestamp("dateOrder");
 				Timestamp dateReturn = resultSet.getTimestamp("dateReturn");
-				double price = resultSet.getDouble("price");
+				long price = resultSet.getLong("price");
 				
 				Bill bill = new Bill(id, roomNumber, CCCD, dateOrder, dateReturn, price);
 				bills.add(bill);
@@ -141,7 +141,7 @@ public class BillDAO {
 				String CCCD = resultSet.getString("CCCD");
 				Timestamp dateOrder = resultSet.getTimestamp("dateOrder");
 				Timestamp dateReturn = resultSet.getTimestamp("dateReturn");
-				double price = resultSet.getDouble("price");
+				long price = resultSet.getLong("price");
 				
 				bills.add(new Bill(ID, roomNumber, CCCD, dateOrder, dateReturn, price));
 			}
@@ -151,6 +151,16 @@ public class BillDAO {
 			e.printStackTrace();
 		}
 		return new ArrayList<>();
+	}
+
+	public void abateBill(int id, long price, Timestamp dateReturn) {
+		try {
+			String query = "UPDATE bill SET dateReturn = '"+dateReturn+"', price='"+price+"' WHERE ID = '"+id+"'";
+			new DBConn().updateDB(query);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
 	}
 	
 }

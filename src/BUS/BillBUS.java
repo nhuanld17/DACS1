@@ -1,5 +1,6 @@
 package BUS;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import DAO.BillDAO;
@@ -37,6 +38,10 @@ public class BillBUS {
 
 	public ArrayList<Bill> getListNotAbatedBill() {
 		return new BillDAO().getListNotAbatedBill();
+	}
+
+	public void abateBill(int id, long price, Timestamp dateReturn) {
+		new BillDAO().abateBill(id, price, dateReturn);
 	}
 
 }

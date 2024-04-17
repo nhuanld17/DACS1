@@ -11,7 +11,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
@@ -550,6 +552,7 @@ public class EmployeeGUI extends JFrame {
 		tab3.add(btn_FindCCCD);
 		
 		JRadioButton rdbtn_showNotAbatedBill = new JRadioButton("Hóa đơn chưa thanh toán");
+		rdbtn_showNotAbatedBill.setBackground(new Color(244, 245, 249));
 		rdbtn_showNotAbatedBill.setFocusable(false);
 		rdbtn_showNotAbatedBill.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		rdbtn_showNotAbatedBill.setForeground(SystemColor.desktop);
@@ -1021,6 +1024,20 @@ public class EmployeeGUI extends JFrame {
 			JOptionPane.showMessageDialog(null, "Hóa đơn này đã được thanh toán, hãy chọn hóa đơn khác");
 			return;
 		}
+		
+		Timestamp dateOrder = (Timestamp) model.getValueAt(rowIndex, 3);
+		Timestamp dateReturn = new Timestamp(System.currentTimeMillis());
+		
+		LocalDateTime start = dateOrder.toLocalDateTime();
+		LocalDateTime end = dateReturn.toLocalDateTime();
+		
+		Duration duration = Duration.between(start, end);
+		
+		double hours = duration.toHours();
+		long price = (long) (hours*100000);
+		
+		new BillBUS().abateBill(id, price, dateReturn);
+		updateBillTable();
 	}
 }
 
