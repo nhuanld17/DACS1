@@ -32,6 +32,9 @@ public class EmployeeController implements ActionListener{
 		case "THANH TOÁN":
 			employeeGUI.abateBill();
 			break;
+		case "PRINT BILL":
+			employeeGUI.showBill();
+			break;
 		default:
 			break;
 		}

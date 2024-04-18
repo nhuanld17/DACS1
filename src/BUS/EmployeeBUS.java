@@ -45,4 +45,8 @@ public class EmployeeBUS {
 	public ArrayList<Customer> sortByDoB() {
 		return new EmployeeDAO().sortByDoB();
 	}
+
+	public String getNameByID(int iD) {
+		return new EmployeeDAO().getNameByID(iD);
+	}
 }

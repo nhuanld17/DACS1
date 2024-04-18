@@ -9,6 +9,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.Duration;
@@ -376,7 +377,7 @@ public class EmployeeGUI extends JFrame {
 		JLabel label_ToDate = new JLabel(dayOfWeek+","+day+"/"+month+"/"+year);
 		label_ToDate.setForeground(SystemColor.desktop);
 		label_ToDate.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		label_ToDate.setBounds(621, 0, 176, 28);
+		label_ToDate.setBounds(588, 0, 209, 28);
 		tab1.add(label_ToDate);
 
 		JPanel tab2 = new JPanel();
@@ -610,7 +611,29 @@ public class EmployeeGUI extends JFrame {
 		});
 		tab3.add(btn_Abate);
 		
-		
+		JButton btn_PrintBill = new JButton("PRINT BILL");
+		btn_PrintBill.setFocusable(false);
+		btn_PrintBill.setBorder(new LineBorder(new Color(17, 24, 39), 2));
+		btn_PrintBill.setIcon(null);
+		btn_PrintBill.setForeground(SystemColor.desktop);
+		btn_PrintBill.addActionListener(actionListener);
+		btn_PrintBill.setBackground(new Color(244, 245, 249));
+		btn_PrintBill.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btn_PrintBill.setBounds(399, 109, 107, 30);
+		btn_PrintBill.addMouseListener(new MouseAdapter() {
+		    public void mouseEntered(MouseEvent e) {
+		    	btn_PrintBill.setBackground(new Color(244, 245, 249)); // Màu khi hover
+		    	btn_PrintBill.setBorder(new LineBorder(new Color(17, 24, 39), 2));
+		    	btn_PrintBill.setForeground(new Color(17, 24, 39));
+		    }
+
+		    public void mouseExited(MouseEvent e) {
+		    	btn_PrintBill.setBackground(new Color(17, 24, 39)); // Màu ban đầu
+		    	btn_PrintBill.setBorder(new LineBorder(new Color(17, 24, 39), 2));
+		    	btn_PrintBill.setForeground(new Color(244, 245, 249));
+		    }
+		});
+		tab3.add(btn_PrintBill);
 
 		JPanel tab4 = new JPanel();
 		tab4.setBackground(new Color(244, 245, 249));
@@ -1030,14 +1053,47 @@ public class EmployeeGUI extends JFrame {
 		
 		LocalDateTime start = dateOrder.toLocalDateTime();
 		LocalDateTime end = dateReturn.toLocalDateTime();
-		
 		Duration duration = Duration.between(start, end);
+		
+		int roomNumber = Integer.valueOf((String) model.getValueAt(rowIndex, 2));
+		String CCCD = String.valueOf(model.getValueAt(rowIndex, 1));
 		
 		double hours = duration.toHours();
 		long price = (long) (hours*100000);
 		
 		new BillBUS().abateBill(id, price, dateReturn);
 		updateBillTable();
+	}
+
+	public void showBill() {
+		DefaultTableModel model = (DefaultTableModel) table_Bill.getModel();
+		int rowIndex = table_Bill.getSelectedRow();
+		
+		if (!table_Bill.isRowSelected(rowIndex)) {
+			JOptionPane.showMessageDialog(null, "Hãy chọn 1 khách hàng để in hóa đơn");
+			return;
+		}
+		
+		int id = Integer.valueOf((String)model.getValueAt(rowIndex, 0));
+		boolean isAbated = new BillBUS().isBillAbated(id);
+		
+		if (!isAbated) {
+			JOptionPane.showMessageDialog(null, "Hóa đơn này chưa được thanh toán, hãy chọn hóa đơn khác");
+			return;
+		}
+		
+		String CCCD = String.valueOf(model.getValueAt(rowIndex, 1));
+		int roomNumber = Integer.valueOf((String) model.getValueAt(rowIndex, 2));
+		Timestamp dateOrder = (Timestamp)model.getValueAt(rowIndex, 3);
+		Timestamp dateReturn = (Timestamp) model.getValueAt(rowIndex, 4);
+		long price = (Long)model.getValueAt(rowIndex, 5);
+		
+		LocalDateTime start = dateOrder.toLocalDateTime();
+		LocalDateTime end = dateReturn.toLocalDateTime();
+		Duration duration = Duration.between(start, end);
+		
+		double hours = duration.toHours();
+		new BillGUI(id, roomNumber, CCCD, dateOrder, dateReturn, price, hours).setVisible(true);;
 	}
 }
 

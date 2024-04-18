@@ -9,7 +9,11 @@ import java.awt.event.ActionListener;
 import java.security.SecureRandom;
 import java.sql.Date;
 import java.text.Normalizer;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Random;
 
 import javax.swing.JButton;
@@ -117,7 +121,7 @@ public class ManagerGUI extends JFrame {
 		lblNewLabel.setFont(new Font("Segoe UI", Font.BOLD, 26));
 		lblNewLabel.setForeground(SystemColor.desktop);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(261, 11, 264, 28);
+		lblNewLabel.setBounds(259, 21, 264, 28);
 		Tab1.add(lblNewLabel);
 		
 		textFieldName = new JTextField();
@@ -376,6 +380,27 @@ public class ManagerGUI extends JFrame {
 		btnFindName.setBackground(new Color(244, 245, 249));
 		btnFindName.setBounds(491, 199, 40, 39);
 		Tab1.add(btnFindName);
+		
+		// Lấy ngày hiện tại
+		LocalDate today = LocalDate.now();
+		
+		// Lấy ngày trong tuần
+		String dayOfWeek = today.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+		
+		// Định dạng ngày tháng theo yêu cầu
+		String formattedDate = today.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+		
+		// Tách chuỗi để lấy ngày riêng biệt
+		String[] dateParts = formattedDate.split("-");
+		String day = dateParts[0];
+		String month = dateParts[1];
+		String year = dateParts[2];
+		
+		JLabel label_ToDate = new JLabel(dayOfWeek+","+day+"/"+month+"/"+year);
+		label_ToDate.setForeground(SystemColor.desktop);
+		label_ToDate.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		label_ToDate.setBounds(594, 0, 209, 28);
+		Tab1.add(label_ToDate);
 		
 		JPanel Tab2 = new JPanel();
 		tabbedPane.addTab("Tab2", null, Tab2, null);

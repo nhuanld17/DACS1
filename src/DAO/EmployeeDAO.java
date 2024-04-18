@@ -168,4 +168,21 @@ public class EmployeeDAO {
 		}
 		return new ArrayList<>();
 	}
+
+	public String getNameByID(int iD) {
+		String name = "";
+		try {
+			String query = "SELECT name FROM customer WHERE id = '"+iD+"'";
+			ResultSet resultSet = new DBConn().queryDB(query);
+			
+			while (resultSet.next()) {
+				name = resultSet.getString("name");
+			}
+			return name;
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}
 }
