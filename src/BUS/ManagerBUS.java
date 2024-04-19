@@ -41,4 +41,8 @@ public class ManagerBUS {
 		return new ManagerDAO().getEmpNameById(idEmp);
 	}
 
+	public boolean isValidEmail(String email) {
+		return new ManagerDAO().isValidEmail(email);
+	}
+
 }

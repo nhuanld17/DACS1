@@ -167,4 +167,28 @@ public class ManagerDAO {
 		}
 		return null;
 	}
+
+
+	public boolean isValidEmail(String email) {
+		ArrayList<String> emails = new ArrayList<>();
+		try {
+			String query = "SELECT email FROM hotel.employee WHERE username IS NOT NULL";
+			ResultSet resultSet = new DBConn().queryDB(query);
+			
+			while (resultSet.next()) {
+				String mail = resultSet.getString("email");
+				emails.add(mail);
+			}
+			
+			for (String string : emails) {
+				if (email.equals(string)) {
+					return true;
+				}
+			}
+			return false;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return false;
+	}
 }

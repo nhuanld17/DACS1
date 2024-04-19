@@ -61,7 +61,7 @@ public class LoginGUI extends JFrame {
 	 */
 	public LoginGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 836, 480);
+		setBounds(100, 100, 836, 503);
 		contentPane = new JPanel();
 		setResizable(false);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -72,7 +72,7 @@ public class LoginGUI extends JFrame {
 		JPanel panel = new JPanel();
 //		panel.setBorder(new LineBorder(new Color(132, 42, 203), 2));
 		panel.setBackground(new Color(244, 245, 249));
-		panel.setBounds(0, 0, 390, 441);
+		panel.setBounds(0, 0, 390, 464);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -93,7 +93,7 @@ public class LoginGUI extends JFrame {
 
 		userNameTextField.setForeground(SystemColor.desktop);
 		userNameTextField.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-		userNameTextField.setBounds(48, 188, 280, 45);
+		userNameTextField.setBounds(48, 168, 280, 45);
 		userNameTextField.setBorder(new LineBorder(new Color(173, 173, 173), 2));
 		userNameTextField.addFocusListener(new FocusListener() {
 			public void focusLost(FocusEvent e) {
@@ -112,7 +112,7 @@ public class LoginGUI extends JFrame {
 		passWordTextField.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 		passWordTextField.setBorder(new LineBorder(new Color(173, 173, 173), 2));
 		passWordTextField.setColumns(10);
-		passWordTextField.setBounds(48, 269, 280, 45);
+		passWordTextField.setBounds(48, 249, 280, 45);
 		passWordTextField.addFocusListener(new FocusListener() {
 			public void focusLost(FocusEvent e) {
 				passWordTextField.setBorder(new LineBorder(new Color(173, 173, 173), 2));
@@ -125,7 +125,7 @@ public class LoginGUI extends JFrame {
 		
 		lblNewLabel_2 = new JLabel("");
 		lblNewLabel_2.setIcon(new ImageIcon(LoginGUI.class.getResource("/image/icons8-global-48.png")));
-		lblNewLabel_2.setBounds(10, 92, 69, 80);
+		lblNewLabel_2.setBounds(10, 72, 69, 80);
 		panel.add(lblNewLabel_2);
 		
 		lblNewLabel_3 = new JLabel("");
@@ -137,14 +137,14 @@ public class LoginGUI extends JFrame {
 		lblNewLabel_4.setForeground(SystemColor.desktop);
 		lblNewLabel_4.setBackground(SystemColor.window);
 		lblNewLabel_4.setFont(new Font("SansSerif", Font.BOLD, 14));
-		lblNewLabel_4.setBounds(48, 163, 82, 20);
+		lblNewLabel_4.setBounds(48, 143, 82, 20);
 		panel.add(lblNewLabel_4);
 		
 		lblNewLabel_5 = new JLabel("Pass Word");
 		lblNewLabel_5.setForeground(SystemColor.desktop);
 		lblNewLabel_5.setFont(new Font("SansSerif", Font.BOLD, 14));
 		lblNewLabel_5.setBackground(SystemColor.window);
-		lblNewLabel_5.setBounds(48, 244, 82, 20);
+		lblNewLabel_5.setBounds(48, 224, 82, 20);
 		panel.add(lblNewLabel_5);
 		
 		JButton btnNewButton = new JButton("Manager Login");
@@ -152,7 +152,7 @@ public class LoginGUI extends JFrame {
 		btnNewButton.setForeground(new Color(244, 245, 249));
 		btnNewButton.setBackground(new Color(17, 24, 39));
 		btnNewButton.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		btnNewButton.setBounds(48, 335, 280, 40);
+		btnNewButton.setBounds(48, 315, 280, 40);
 		btnNewButton.setBorder(new LineBorder(new Color(17, 24, 39),2));
 		btnNewButton.addActionListener(new ActionListener() {
 			
@@ -191,7 +191,7 @@ public class LoginGUI extends JFrame {
 		btnNewButton_1.setForeground(new Color(244, 245, 249));
 		btnNewButton_1.setBackground(new Color(17, 24, 39));
 		btnNewButton_1.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		btnNewButton_1.setBounds(48, 385, 280, 40);
+		btnNewButton_1.setBounds(48, 365, 280, 40);
 //		btnNewButton_1.setBorderPainted(false);
 		btnNewButton_1.setBorder(new LineBorder(new Color(17, 24, 39),2));
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -221,15 +221,29 @@ public class LoginGUI extends JFrame {
 
             @Override
             public void mouseExited(MouseEvent e) {
-            	btnNewButton_1.setBackground(new Color(17, 24, 39));  // Màu gốc
+            	btnNewButton_1.setBackground(new Color(17, 24, 39));
             	btnNewButton_1.setForeground(new Color(244,245,249));
             }
         });
 		panel.add(btnNewButton_1);
 		
+		JButton btnForgotPass = new JButton("Forgot password ??");
+		btnForgotPass.setFocusable(false);
+		btnForgotPass.setBorderPainted(false);
+		btnForgotPass.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new ForgotPassGUI().setVisible(true);
+			}
+		});
+		btnForgotPass.setBackground(new Color(244, 245, 249));
+		btnForgotPass.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btnForgotPass.setForeground(Color.BLUE);
+		btnForgotPass.setBounds(48, 425, 280, 23);
+		panel.add(btnForgotPass);
+		
 		label = new JLabel("New label");
 		label.setIcon(new ImageIcon(LoginGUI.class.getResource("/image/bg-img.jpg")));
-		label.setBounds(177, 0, 643, 441);
+		label.setBounds(177, 0, 643, 464);
 		contentPane.add(label);
 	}
 }
