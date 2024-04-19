@@ -169,24 +169,32 @@ public class ManagerDAO {
 	}
 
 
-	public boolean isValidEmail(String email) {
-		ArrayList<String> emails = new ArrayList<>();
+	public void changPassWord(String password, String email, int id) {
 		try {
-			String query = "SELECT email FROM hotel.employee WHERE username IS NOT NULL";
+			String query = "UPDATE employee SET password = '"+password+"' WHERE email = '"+email+"' AND id = '"+id+"'";
+			new DBConn().updateDB(query);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+
+	public boolean isValidEmail(String email, int id) {
+		try {
+			String Email = null;
+			String query = "SELECT email FROM hotel.employee WHERE id = '"+id+"'";
 			ResultSet resultSet = new DBConn().queryDB(query);
 			
 			while (resultSet.next()) {
-				String mail = resultSet.getString("email");
-				emails.add(mail);
+				Email = resultSet.getString("email");
 			}
 			
-			for (String string : emails) {
-				if (email.equals(string)) {
-					return true;
-				}
+			if (Email == null || !Email.equals(email)) {
+				return false;
 			}
-			return false;
+			return true;
 		} catch (Exception e) {
+			// TODO: handle exception
 			System.out.println(e.getMessage());
 		}
 		return false;

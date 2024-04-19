@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import BUS.ManagerBUS;
+import SENDMAIL.SendMailOTP;
 
 import java.awt.SystemColor;
 import java.awt.Color;
@@ -17,6 +18,7 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.Random;
 import java.awt.event.ActionEvent;
 
 public class ForgotPassGUI extends JFrame {
@@ -30,6 +32,9 @@ public class ForgotPassGUI extends JFrame {
 	private JTextField textField_NewPass;
 	private JButton btn_CheckOTP;
 	private JButton btnNewPassword;
+	private String OTP;
+	private String passwordregex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$";
+	private JTextField textField_ID;
 
 	/**
 	 * Launch the application.
@@ -67,6 +72,19 @@ public class ForgotPassGUI extends JFrame {
 		panel.setLayout(null);
 		
 		
+		JLabel lblEnterYourId = new JLabel("Enter your ID");
+		lblEnterYourId.setForeground(SystemColor.desktop);
+		lblEnterYourId.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		lblEnterYourId.setBounds(247, 76, 162, 22);
+		panel.add(lblEnterYourId);
+		
+		textField_ID = new JTextField();
+		textField_ID.setForeground(SystemColor.desktop);
+		textField_ID.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		textField_ID.setColumns(10);
+		textField_ID.setBounds(247, 101, 177, 37);
+		panel.add(textField_ID);
+		
 		JLabel lblNewLabel = new JLabel("Password Recovery");
 		lblNewLabel.setForeground(SystemColor.desktop);
 		lblNewLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
@@ -77,14 +95,14 @@ public class ForgotPassGUI extends JFrame {
 		textFieldEmail = new JTextField();
 		textFieldEmail.setForeground(SystemColor.desktop);
 		textFieldEmail.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-		textFieldEmail.setBounds(96, 101, 245, 37);
+		textFieldEmail.setBounds(23, 101, 214, 37);
 		panel.add(textFieldEmail);
 		textFieldEmail.setColumns(10);
 		
 		label_Email = new JLabel("Enter your email");
 		label_Email.setForeground(SystemColor.desktop);
 		label_Email.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		label_Email.setBounds(96, 76, 162, 22);
+		label_Email.setBounds(23, 76, 162, 22);
 		panel.add(label_Email);
 		
 		JLabel label_OTPCode = new JLabel("OTP code");
@@ -117,21 +135,31 @@ public class ForgotPassGUI extends JFrame {
 		panel.add(textField_NewPass);
 		textField_NewPass.show(false);
 		
-		JButton btn_SendOTP = new JButton(" SEND OTP CODE");
+		JButton btn_SendOTP = new JButton("SEND OTP CODE");
 		btn_SendOTP.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String email = textFieldEmail.getText();
-				if (!new ManagerBUS().isValidEmail(email)) {
-					JOptionPane.showMessageDialog(null, "Email này không thuộc về tài khoản nào");
+				if (textField_ID.getText().isBlank() || textFieldEmail.getText().isBlank()) {
+					JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin");
 					return;
 				}
+				
+				String email = textFieldEmail.getText();
+				int id = Integer.valueOf(textField_ID.getText());
+				
+				if (!new ManagerBUS().isValidEmail(email, id)) {
+					JOptionPane.showMessageDialog(null, "Email không hợp lệ");
+					return;
+				}
+				
+
 				
 				label_OTPCode.show(true);
 				textField_OTPCode.show(true);
 				btn_SendOTP.show(false);
 				btn_CheckOTP.show(true);
+				OTP = generateOTP();
 				
-				
+				new SendMailOTP(email, OTP);
 			}
 		});
 		btn_SendOTP.setFont(new Font("Segoe UI", Font.BOLD, 16));
@@ -139,16 +167,27 @@ public class ForgotPassGUI extends JFrame {
 		btn_SendOTP.setBounds(133, 160, 173, 30);
 		panel.add(btn_SendOTP);
 		
-		btnNewPassword = new JButton("Change password");
-		btnNewPassword.setForeground(SystemColor.desktop);
-		btnNewPassword.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		btnNewPassword.setBounds(133, 289, 173, 30);
-		panel.add(btnNewPassword);
-		btnNewPassword.show(false);
+
 		
 		btn_CheckOTP = new JButton("CHECK OTP");
 		btn_CheckOTP.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				if (textField_OTPCode.getText().isBlank()) {
+					JOptionPane.showMessageDialog(null, "Vui lòng nhập mã OTP");
+					return;
+				}
+				
+				if (!textField_OTPCode.getText().equals(OTP)) {
+					JOptionPane.showMessageDialog(null, "Mã OTP không đúng");
+					return;
+				}
+	
+				
+				textField_NewPass.show(true);
+				label_newPass.show(true);
+				btnNewPassword.show(true);
+				btn_CheckOTP.show(false);
 			}
 		});
 		btn_CheckOTP.setForeground(SystemColor.desktop);
@@ -156,5 +195,43 @@ public class ForgotPassGUI extends JFrame {
 		btn_CheckOTP.setBounds(133, 220, 173, 30);
 		panel.add(btn_CheckOTP);
 		btn_CheckOTP.show(false);
+		
+		btnNewPassword = new JButton("Change password");
+		btnNewPassword.setForeground(SystemColor.desktop);
+		btnNewPassword.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		btnNewPassword.setBounds(133, 289, 173, 30);
+		btnNewPassword.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (textField_NewPass.getText().isBlank()) {
+					JOptionPane.showMessageDialog(null, "Vui lòng nhập mật khẩu mới");
+					return;
+				}
+				if (!textField_NewPass.getText().matches(passwordregex)) {
+					JOptionPane.showMessageDialog(null, "Mật khẩu gồm 6 kí tự bao gồm chữ thường, chữ hoa, và chữ số");
+					return;
+				}
+				String password = textField_NewPass.getText();
+				String email = textFieldEmail.getText();
+				int id = Integer.valueOf(textField_ID.getText());
+				new ManagerBUS().changePassWord(password, email, id);
+				JOptionPane.showMessageDialog(null, "Đổi MK thành công");
+			}
+		});
+		panel.add(btnNewPassword);
+		btnNewPassword.show(false);
+	}
+	
+	public String generateOTP() {
+		Random random = new Random();
+		StringBuilder otp = new StringBuilder();
+		
+		for (int i = 0; i < 6; i++) {
+			int digit = random.nextInt(10);
+			otp.append(digit);
+		}
+		
+		return otp.toString();
 	}
 }

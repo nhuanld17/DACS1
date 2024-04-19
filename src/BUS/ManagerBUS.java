@@ -41,8 +41,13 @@ public class ManagerBUS {
 		return new ManagerDAO().getEmpNameById(idEmp);
 	}
 
-	public boolean isValidEmail(String email) {
-		return new ManagerDAO().isValidEmail(email);
+
+	public void changePassWord(String password, String email, int id) {
+		new ManagerDAO().changPassWord(password, email, id);
+	}
+
+	public boolean isValidEmail(String email, int id) {
+		return new ManagerDAO().isValidEmail(email, id);
 	}
 
 }
