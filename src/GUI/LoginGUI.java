@@ -148,6 +148,7 @@ public class LoginGUI extends JFrame {
 		panel.add(lblNewLabel_5);
 		
 		JButton btnNewButton = new JButton("Manager Login");
+		btnNewButton.setFocusable(false);
 //		btnNewButton.setBorderPainted(false);
 		btnNewButton.setForeground(new Color(244, 245, 249));
 		btnNewButton.setBackground(new Color(17, 24, 39));
@@ -188,6 +189,7 @@ public class LoginGUI extends JFrame {
 		panel.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Employee Login");
+		btnNewButton_1.setFocusable(false);
 		btnNewButton_1.setForeground(new Color(244, 245, 249));
 		btnNewButton_1.setBackground(new Color(17, 24, 39));
 		btnNewButton_1.setFont(new Font("Segoe UI", Font.BOLD, 20));
@@ -233,6 +235,7 @@ public class LoginGUI extends JFrame {
 		btnForgotPass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new ForgotPassGUI().setVisible(true);
+				setVisible(false);
 			}
 		});
 		btnForgotPass.setBackground(new Color(244, 245, 249));

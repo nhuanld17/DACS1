@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import BUS.ManagerBUS;
 import SENDMAIL.SendMailOTP;
@@ -20,6 +21,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.Random;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 
 public class ForgotPassGUI extends JFrame {
 
@@ -79,6 +81,7 @@ public class ForgotPassGUI extends JFrame {
 		panel.add(lblEnterYourId);
 		
 		textField_ID = new JTextField();
+		textField_ID.setBorder(new LineBorder(new Color(173, 173, 173), 2));
 		textField_ID.setForeground(SystemColor.desktop);
 		textField_ID.setFont(new Font("Segoe UI", Font.PLAIN, 18));
 		textField_ID.setColumns(10);
@@ -89,10 +92,11 @@ public class ForgotPassGUI extends JFrame {
 		lblNewLabel.setForeground(SystemColor.desktop);
 		lblNewLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(0, 0, 434, 65);
+		lblNewLabel.setBounds(100, 0, 251, 65);
 		panel.add(lblNewLabel);
 		
 		textFieldEmail = new JTextField();
+		textFieldEmail.setBorder(new LineBorder(new Color(173, 173, 173), 2));
 		textFieldEmail.setForeground(SystemColor.desktop);
 		textFieldEmail.setFont(new Font("Segoe UI", Font.PLAIN, 18));
 		textFieldEmail.setBounds(23, 101, 214, 37);
@@ -113,6 +117,7 @@ public class ForgotPassGUI extends JFrame {
 		label_OTPCode.show(false);
 		
 		textField_OTPCode = new JTextField();
+		textField_OTPCode.setBorder(new LineBorder(new Color(173, 173, 173), 2));
 		textField_OTPCode.setForeground(SystemColor.desktop);
 		textField_OTPCode.setFont(new Font("Segoe UI", Font.PLAIN, 18));
 		textField_OTPCode.setColumns(10);
@@ -128,6 +133,7 @@ public class ForgotPassGUI extends JFrame {
 		label_newPass.show(false);
 		
 		textField_NewPass = new JTextField();
+		textField_NewPass.setBorder(new LineBorder(new Color(173, 173, 173), 2));
 		textField_NewPass.setForeground(SystemColor.desktop);
 		textField_NewPass.setFont(new Font("Segoe UI", Font.PLAIN, 18));
 		textField_NewPass.setColumns(10);
@@ -136,6 +142,9 @@ public class ForgotPassGUI extends JFrame {
 		textField_NewPass.show(false);
 		
 		JButton btn_SendOTP = new JButton("SEND OTP CODE");
+		btn_SendOTP.setFocusable(false);
+		btn_SendOTP.setBackground(new Color(17, 24, 39));
+		btn_SendOTP.setBorderPainted(false);
 		btn_SendOTP.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (textField_ID.getText().isBlank() || textFieldEmail.getText().isBlank()) {
@@ -163,13 +172,15 @@ public class ForgotPassGUI extends JFrame {
 			}
 		});
 		btn_SendOTP.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		btn_SendOTP.setForeground(SystemColor.desktop);
-		btn_SendOTP.setBounds(133, 160, 173, 30);
+		btn_SendOTP.setForeground(new Color(244, 245, 249));
+		btn_SendOTP.setBounds(23, 161, 173, 30);
 		panel.add(btn_SendOTP);
 		
 
 		
 		btn_CheckOTP = new JButton("CHECK OTP");
+		btn_CheckOTP.setFocusable(false);
+		btn_CheckOTP.setBackground(new Color(17, 24, 39));
 		btn_CheckOTP.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -190,16 +201,18 @@ public class ForgotPassGUI extends JFrame {
 				btn_CheckOTP.show(false);
 			}
 		});
-		btn_CheckOTP.setForeground(SystemColor.desktop);
+		btn_CheckOTP.setForeground(new Color(244, 245, 249));
 		btn_CheckOTP.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		btn_CheckOTP.setBounds(133, 220, 173, 30);
+		btn_CheckOTP.setBounds(23, 219, 173, 30);
 		panel.add(btn_CheckOTP);
 		btn_CheckOTP.show(false);
 		
-		btnNewPassword = new JButton("Change password");
-		btnNewPassword.setForeground(SystemColor.desktop);
+		btnNewPassword = new JButton("UPDATE");
+		btnNewPassword.setFocusable(false);
+		btnNewPassword.setBackground(new Color(17, 24, 39));
+		btnNewPassword.setForeground(new Color(244, 245, 249));
 		btnNewPassword.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		btnNewPassword.setBounds(133, 289, 173, 30);
+		btnNewPassword.setBounds(23, 289, 173, 30);
 		btnNewPassword.addActionListener(new ActionListener() {
 			
 			@Override
@@ -216,10 +229,24 @@ public class ForgotPassGUI extends JFrame {
 				String email = textFieldEmail.getText();
 				int id = Integer.valueOf(textField_ID.getText());
 				new ManagerBUS().changePassWord(password, email, id);
-				JOptionPane.showMessageDialog(null, "Đổi MK thành công");
+				JOptionPane.showMessageDialog(null, "Đổi mật khẩu thành công");
 			}
 		});
 		panel.add(btnNewPassword);
+		
+		JButton btnNewButton = new JButton("");
+		btnNewButton.setBorderPainted(false);
+		btnNewButton.setFocusable(false);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new LoginGUI().setVisible(true);
+				setVisible(false);
+			}
+		});
+		btnNewButton.setBackground(new Color(244, 245, 249));
+		btnNewButton.setIcon(new ImageIcon(ForgotPassGUI.class.getResource("/image/icons8-log-out-48.png")));
+		btnNewButton.setBounds(0, 0, 55, 44);
+		panel.add(btnNewButton);
 		btnNewPassword.show(false);
 	}
 	
