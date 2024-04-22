@@ -5,6 +5,16 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.io.source.ByteArrayOutputStream;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Image;
 
 import BUS.BillBUS;
 import BUS.EmployeeBUS;
@@ -13,13 +23,19 @@ import java.awt.SystemColor;
 import java.sql.Timestamp;
 
 import javax.swing.JLabel;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JSeparator;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class BillGUI extends JFrame {
@@ -249,7 +265,31 @@ public class BillGUI extends JFrame {
 		JButton btnNewButton = new JButton("");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				// Vô hiệu hóa lựa chọn "All Files" để người dùng không thể chọn bất kì loại file nào khác
+				fileChooser.setAcceptAllFileFilterUsed(false);
 				
+				// Thiết lập bộ lọc chỉ cho phép lưu file dưới dạng PDF
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Documents", "pdf");
+				fileChooser.addChoosableFileFilter(filter);
+				
+				int userSelection = fileChooser.showSaveDialog(null);
+				if (userSelection == JFileChooser.APPROVE_OPTION) {
+					File fileToSave = fileChooser.getSelectedFile();
+					String filePath = fileToSave.getAbsolutePath();
+					
+					if (!filePath.endsWith(".pdf")) {
+						filePath += ".pdf";
+					}
+					
+					BufferedImage img = capturePanel(panel);
+					try {
+						createPdfWithImage(filePath, img);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
 			}
 		});
 		btnNewButton.setFocusable(false);
@@ -258,5 +298,57 @@ public class BillGUI extends JFrame {
 		btnNewButton.setBackground(new Color(244, 245, 249));
 		btnNewButton.setBounds(445, 3, 45, 30);
 		panel_1.add(btnNewButton);
+	}
+	
+	public BufferedImage capturePanel(JPanel panel) {
+		// Tạo 1 đối tượng BufferedImage, sử dụng kích thước của Panel để thiết lập kích thước của hình ảnh
+		// BufferImage.TYPE_INT_RGB : tạo ra loại ảnh có 3 thành phần màu là red, green, và blue
+		BufferedImage image = new BufferedImage(panel.getWidth(), panel.getHeight(), BufferedImage.TYPE_INT_RGB);
+		
+		// Gọi phương thức paint của JPanel, truyền đối tượng Graphics của BufferImages
+		// phương thức paint() vẽ nội dung hiện tại của JPanel vào đối tượng Graphics được cung cấp
+		// trong trường hợp này là Graphics của BufferedImage. Giúp chụp nội dung hiển thị lên JPanel
+		panel.paint(image.getGraphics());
+		
+		 // Trả về đối tượng BufferedImage đã chứa hình ảnh của JPanel.
+		return image;
+	}
+	
+	public void createPdfWithImage(String pdfPath, BufferedImage panelImage) throws IOException {
+		// tạo 1 ByteArrayOutputStream để lưu trữ dữ liệu hình ảnh
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		
+		// Ghi ảnh từ BufferedImage vào ByteArrayOutputStream ở định dạng PNG
+		ImageIO.write(panelImage, "png", baos);
+		
+		// Chuyển đổi ByteArrayOutputStream thành 1 mảng Byte
+		byte[] imageBytes = baos.toByteArray();
+		
+		// Khởi tạo một PdfWriter để viết tệp PDF, sử dụng đường dẫn được cung cấp.
+		PdfWriter pdfWriter = new PdfWriter(pdfPath);
+		
+		// Tạo một đối tượng PdfDocument mới với PdfWriter đã khởi tạo.
+		PdfDocument pdfDoc = new PdfDocument(pdfWriter);
+		
+		 // Thiết lập kích thước trang PDF bằng với kích thước của ảnh BufferedImage.
+	    PageSize pageSize = new PageSize(panelImage.getWidth() - 10, panelImage.getHeight() - 10);
+	    pdfDoc.setDefaultPageSize(pageSize);
+	    
+	    // Tạo một đối tượng Document mới để thêm nội dung vào tài liệu PDF.
+	    Document doc = new Document(pdfDoc);
+	    
+	    // Tạo một đối tượng ImageData từ mảng byte của ảnh, để có thể thêm vào PDF.
+	    ImageData imageData = ImageDataFactory.create(imageBytes);
+	    
+	    // Tạo một đối tượng Image từ ImageData.
+	    Image pdfImage = new Image(imageData);
+
+	    // Đặt ảnh để nó không vượt quá kích thước trang
+	    pdfImage.setAutoScale(true);
+	    
+	    doc.add(pdfImage);
+	    
+	    doc.close();
+	    System.out.println("PDF created.");
 	}
 }
