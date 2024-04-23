@@ -10,6 +10,8 @@ import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.Duration;
@@ -24,6 +26,7 @@ import javax.print.attribute.standard.MediaSize.NA;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -38,6 +41,12 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import BUS.BillBUS;
 import BUS.EmployeeBUS;
@@ -634,6 +643,25 @@ public class EmployeeGUI extends JFrame {
 		    }
 		});
 		tab3.add(btn_PrintBill);
+		
+		JButton btn_PrintBill_1 = new JButton("EXPORT .XLS");
+		btn_PrintBill_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					toExcel();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btn_PrintBill_1.setForeground(SystemColor.desktop);
+		btn_PrintBill_1.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btn_PrintBill_1.setFocusable(false);
+		btn_PrintBill_1.setBorder(new LineBorder(new Color(17, 24, 39), 2));
+		btn_PrintBill_1.setBackground(new Color(244, 245, 249));
+		btn_PrintBill_1.setBounds(673, 353, 114, 30);
+		tab3.add(btn_PrintBill_1);
 
 		JPanel tab4 = new JPanel();
 		tab4.setBackground(new Color(244, 245, 249));
@@ -1094,6 +1122,43 @@ public class EmployeeGUI extends JFrame {
 		
 		double hours = duration.toHours();
 		new BillGUI(id, roomNumber, CCCD, dateOrder, dateReturn, price, hours).setVisible(true);;
+	}
+	
+	public void toExcel() throws IOException {
+		JFileChooser fileChooser = new JFileChooser();
+		int option = fileChooser.showSaveDialog(EmployeeGUI.this);
+		DefaultTableModel model = (DefaultTableModel) table_Bill.getModel();
+		
+		if (option == fileChooser.APPROVE_OPTION) {
+			String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+			
+			if (!filePath.toLowerCase().endsWith(".xlsx")) {
+				filePath += ".xlsx";
+			}
+			
+			Workbook workbook = new XSSFWorkbook();
+			Sheet sheet = workbook.createSheet("Bill List");
+			
+			Row headRow = sheet.createRow(0);
+			
+			for (int col = 0; col < model.getColumnCount(); col++) {
+				Cell cell = headRow.createCell(col);
+				cell.setCellValue(String.valueOf(model.getColumnName(col)));
+			}
+			
+			for (int row = 0; row < model.getRowCount(); row++) {
+				Row dataRow = sheet.createRow(row+1);
+				for (int col = 0; col < model.getColumnCount(); col++) {
+					Cell cell = dataRow.createCell(col);
+					cell.setCellValue(String.valueOf(model.getValueAt(row, col)));
+				}
+			}
+			
+			FileOutputStream fileOutputStream = new FileOutputStream(filePath);
+			workbook.write(fileOutputStream);
+			workbook.close();
+			
+		}
 	}
 }
 
