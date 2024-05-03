@@ -54,6 +54,7 @@ import BUS.ManagerBUS;
 import BUS.RoomBUS;
 import CONTROLLER.EmployeeController;
 import DAO.BillDAO;
+import DAO.EmployeeDAO;
 import DTO.Bill;
 import DTO.Customer;
 import DTO.Employee;
@@ -77,6 +78,7 @@ public class EmployeeGUI extends JFrame {
 	private JTextField textField_FindByName;
 	private JTextField textField_FindByCCCD;
 	private String EmployeeName;
+	private JLabel label_TotalCustomerThisDay;
 
 	/**
 	 * Launch the application.
@@ -386,7 +388,7 @@ public class EmployeeGUI extends JFrame {
 		JLabel label_ToDate = new JLabel(dayOfWeek+","+day+"/"+month+"/"+year);
 		label_ToDate.setForeground(SystemColor.desktop);
 		label_ToDate.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		label_ToDate.setBounds(588, 0, 209, 28);
+		label_ToDate.setBounds(605, 0, 192, 28);
 		tab1.add(label_ToDate);
 
 		JPanel tab2 = new JPanel();
@@ -394,10 +396,6 @@ public class EmployeeGUI extends JFrame {
 		tab2.setBackground(new Color(244, 245, 249));
 		tabbedPane.addTab("Tab2", null, tab2, null);
 		tab2.setLayout(null);
-
-		JLabel lblNewLabel_1 = new JLabel("Tab2");
-		lblNewLabel_1.setBounds(0, 0, 64, 21);
-		tab2.add(lblNewLabel_1);
 
 		table_Room = new JTable();
 		table_Room.setFillsViewportHeight(true);
@@ -490,10 +488,6 @@ public class EmployeeGUI extends JFrame {
 		tabbedPane.addTab("Tab3", null, tab3, null);
 		tab3.setLayout(null);
 
-		JLabel lblNewLabel_2 = new JLabel("Tab3");
-		lblNewLabel_2.setBounds(0, 0, 187, 22);
-		tab3.add(lblNewLabel_2);
-
 		JLabel lblDanhSchHa = new JLabel("Danh sách hóa đơn");
 		lblDanhSchHa.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-bill-60.png")));
 		lblDanhSchHa.setHorizontalAlignment(SwingConstants.CENTER);
@@ -549,6 +543,11 @@ public class EmployeeGUI extends JFrame {
 		btn_FindCCCD.setBounds(197, 109, 37, 30);
 		btn_FindCCCD.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (textField_FindByCCCD.getText().isBlank()) {
+					JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin");
+					return;
+				}
+				
 				clearBillTable();
 				String CCCD = textField_FindByCCCD.getText();
 				ArrayList<Bill> bills = new BillBUS().findBillByCCCD(CCCD);
@@ -598,9 +597,10 @@ public class EmployeeGUI extends JFrame {
 		tab3.add(btn_RefreshBillTable);
 		
 		JButton btn_Abate = new JButton("THANH TOÁN");
-		btn_Abate.setForeground(new Color(244, 245, 249));
+
 		btn_Abate.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btn_Abate.setFocusable(false);
+		btn_Abate.setForeground(new Color(244, 245, 249));
 		btn_Abate.setBorder(new LineBorder(new Color(17, 24, 39), 2));
 		btn_Abate.setBackground(new Color(17, 24, 39));
 		btn_Abate.setBounds(275, 109, 114, 30);
@@ -621,12 +621,15 @@ public class EmployeeGUI extends JFrame {
 		tab3.add(btn_Abate);
 		
 		JButton btn_PrintBill = new JButton("PRINT BILL");
-		btn_PrintBill.setFocusable(false);
+		btn_PrintBill.setForeground(new Color(244, 245, 249));
 		btn_PrintBill.setBorder(new LineBorder(new Color(17, 24, 39), 2));
+		btn_PrintBill.setBackground(new Color(17, 24, 39));
+		btn_PrintBill.setFocusable(false);
+//		btn_PrintBill.setBorder(new LineBorder(new Color(17, 24, 39), 2));
 		btn_PrintBill.setIcon(null);
-		btn_PrintBill.setForeground(SystemColor.desktop);
+//		btn_PrintBill.setForeground(SystemColor.desktop);
 		btn_PrintBill.addActionListener(actionListener);
-		btn_PrintBill.setBackground(new Color(244, 245, 249));
+//		btn_PrintBill.setBackground(new Color(244, 245, 249));
 		btn_PrintBill.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btn_PrintBill.setBounds(399, 109, 107, 30);
 		btn_PrintBill.addMouseListener(new MouseAdapter() {
@@ -662,6 +665,30 @@ public class EmployeeGUI extends JFrame {
 		btn_PrintBill_1.setBackground(new Color(244, 245, 249));
 		btn_PrintBill_1.setBounds(673, 353, 114, 30);
 		tab3.add(btn_PrintBill_1);
+		
+		int numberOfCustomerThisDay = new EmployeeBUS().getTotalCustomerThisDay(idEmp);
+		label_TotalCustomerThisDay = new JLabel("Hôm nay, bạn đã phục vụ: "+numberOfCustomerThisDay+" khách hàng");
+
+		label_TotalCustomerThisDay.setForeground(SystemColor.desktop);
+		label_TotalCustomerThisDay.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		label_TotalCustomerThisDay.setBounds(10, 354, 291, 22);
+		tab3.add(label_TotalCustomerThisDay);
+		
+		JButton btn_CustomerChart = new JButton("XEM BIỂU ĐỒ");
+		btn_CustomerChart.setIcon(null);
+		btn_CustomerChart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new NumberOfCustomerServedChart(idEmp);
+			}
+		});
+		btn_CustomerChart.setContentAreaFilled(false);
+		btn_CustomerChart.setForeground(SystemColor.desktop);
+		btn_CustomerChart.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btn_CustomerChart.setFocusable(false);
+		btn_CustomerChart.setBorder(new LineBorder(new Color(17, 24, 39), 2));
+		btn_CustomerChart.setBackground(new Color(244, 245, 249));
+		btn_CustomerChart.setBounds(294, 353, 114, 30);
+		tab3.add(btn_CustomerChart);
 
 		JPanel tab4 = new JPanel();
 		tab4.setBackground(new Color(244, 245, 249));
@@ -954,6 +981,8 @@ public class EmployeeGUI extends JFrame {
 		new EmployeeBUS().addCustomer(customer);
 		new BillBUS().addBill(bill);
 		setEmptyForm();
+		int numberOfCustomerThisDay = new EmployeeDAO().getTotalCustomerThisDay(idEmp);
+		label_TotalCustomerThisDay.setText("Hôm nay, bạn đã phục vụ: "+numberOfCustomerThisDay+" khách hàng");
 	}
 
 	
@@ -1087,10 +1116,11 @@ public class EmployeeGUI extends JFrame {
 		String CCCD = String.valueOf(model.getValueAt(rowIndex, 1));
 		
 		double hours = duration.toHours();
-		long price = (long) (hours*100000);
+		long price = (long) (hours*80000);
 		
 		new BillBUS().abateBill(id, price, dateReturn);
 		updateBillTable();
+		
 	}
 
 	public void showBill() {

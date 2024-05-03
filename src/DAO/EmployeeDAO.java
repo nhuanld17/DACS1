@@ -1,10 +1,15 @@
 package DAO;
 
+import java.security.Timestamp;
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import DTO.Customer;
+import DTO.CustomerServedChart;
 
 public class EmployeeDAO {
 
@@ -184,5 +189,54 @@ public class EmployeeDAO {
 			System.out.println(e.getMessage());
 		}
 		return null;
+	}
+
+	public int getTotalCustomerThisDay(int id) {
+		int number = 0;
+		try {
+			Date thisDate = new Date(System.currentTimeMillis());
+			System.out.println(thisDate.toString());
+			String query = "SELECT COUNT(*)"
+					+ " FROM hotel.bill INNER JOIN hotel.customer"
+					+ " ON bill.ID = customer.id"
+					+ " WHERE date(bill.dateOrder) = '"+thisDate+"' AND customer.IdEmp = '"+id+"';";
+			ResultSet resultSet = new DBConn().queryDB(query);
+			
+			while (resultSet.next()) {
+				number = resultSet.getInt("COUNT(*)");
+			}
+			
+			return number;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	public ArrayList<CustomerServedChart> getDailyCustomerServed(LocalDate[] date, int idEmp) {
+		ArrayList<CustomerServedChart> list = new ArrayList<>();
+		try {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			String query = "SELECT COUNT(*), date(bill.dateOrder)"
+					+ " FROM hotel.bill"
+					+ " INNER JOIN hotel.customer ON bill.ID = customer.id"
+					+ " INNER JOIN hotel.employee ON customer.idEmp = employee.id"
+					+ " WHERE date(bill.dateOrder) BETWEEN '"+date[0].format(formatter)+"' AND '"+date[6].format(formatter)+"' AND idEmp = '"+idEmp+"'"
+					+ " GROUP BY date(bill.dateOrder);";
+			
+			ResultSet resultSet = new DBConn().queryDB(query);
+			
+			while (resultSet.next()) {
+				Date date1 = resultSet.getDate("date(bill.dateOrder)");
+				int total = resultSet.getInt("COUNT(*)");
+				
+				list.add(new CustomerServedChart(date1, total));
+			}
+			
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<>();
 	}
 }

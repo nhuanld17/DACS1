@@ -49,4 +49,8 @@ public class EmployeeBUS {
 	public String getNameByID(int iD) {
 		return new EmployeeDAO().getNameByID(iD);
 	}
+
+	public int getTotalCustomerThisDay(int id) {
+		return new EmployeeDAO().getTotalCustomerThisDay(id);
+	}
 }
