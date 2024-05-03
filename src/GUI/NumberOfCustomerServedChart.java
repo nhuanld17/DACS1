@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -62,16 +63,14 @@ public class NumberOfCustomerServedChart extends JFrame {
 		
 		dataset = createDataSet();
 		
-		chart = ChartFactory.createBarChart(
-				"Số lượng khách hàng đã phục vụ hàng ngày",
-				"Ngày",
-				"Số lượng",
-				dataset,
-				PlotOrientation.VERTICAL,
-				true,
-				true,
-				false
-		);
+		chart = createBarChart(dataset);
+		chartPanel = new ChartPanel(chart);
+		chartPanel.setBounds(0, 11, 762, 383);
+		chartPanel.setBackground(new Color(244, 245, 249));
+		chartPanel.setForeground(SystemColor.desktop);
+		chartPanel.setPreferredSize(new Dimension(450, 300));
+		panel.add(chartPanel);
+
 		
 		panel.setLayout(null);
 		chartPanel = new ChartPanel(chart);
@@ -83,63 +82,39 @@ public class NumberOfCustomerServedChart extends JFrame {
 
 		
 		JButton btnNewButton = new JButton(">>");
+		btnNewButton.setFocusable(false);
+		btnNewButton.setForeground(new Color(244, 245, 249));
+		btnNewButton.setBackground(new Color(244,245,249));
+		btnNewButton.setBorder(new LineBorder(new Color(17, 24, 39),2));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				currentDate = currentDate.plusDays(7);
-				dataset = createDataSet();
-				chart = ChartFactory.createBarChart(
-						"Số lượng khách hàng đã phục vụ hàng ngày",
-						"Ngày",
-						"Số lượng",
-						dataset,
-						PlotOrientation.VERTICAL,
-						true,
-						true,
-						false
-				);
-				
-				panel.setLayout(null);
-				ChartPanel chartPanel = new ChartPanel(chart);
-				chartPanel.setBounds(0, 11, 762, 383);
-				chartPanel.setBackground(new Color(244, 245, 249));
-				chartPanel.setForeground(SystemColor.desktop);
-				chartPanel.setPreferredSize(new Dimension(450, 300));
-				panel.add(chartPanel);
+		        currentDate = currentDate.plusDays(7);
+		        dataset = createDataSet();
+		        chart = createBarChart(dataset);
+		        chartPanel.setChart(chart);
 			}
 		});
 		btnNewButton.setVerticalAlignment(SwingConstants.BOTTOM);
-		btnNewButton.setFont(new Font("Segoe UI", Font.BOLD, 18));
+		btnNewButton.setFont(new Font("Segoe UI Black", Font.BOLD, 18));
 		btnNewButton.setForeground(SystemColor.desktop);
 		btnNewButton.setBounds(663, 395, 89, 30);
 		panel.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("<<");
+		btnNewButton_1.setFocusable(false);
+		btnNewButton_1.setForeground(new Color(244, 245, 249));
+		btnNewButton_1.setBorder(new LineBorder(new Color(17, 24, 39),2));
+		btnNewButton_1.setBackground(new Color(244, 245, 249));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				currentDate = currentDate.minusDays(7);
-				dataset = createDataSet();
-				chart = ChartFactory.createBarChart(
-						"Số lượng khách hàng đã phục vụ hàng ngày",
-						"Ngày",
-						"Số lượng",
-						dataset,
-						PlotOrientation.VERTICAL,
-						true,
-						true,
-						false
-				);
-				
-				panel.setLayout(null);
-				ChartPanel chartPanel = new ChartPanel(chart);
-				chartPanel.setBounds(0, 11, 762, 383);
-				chartPanel.setBackground(new Color(244, 245, 249));
-				chartPanel.setForeground(SystemColor.desktop);
-				chartPanel.setPreferredSize(new Dimension(450, 300));
-				panel.add(chartPanel);
+		        currentDate = currentDate.minusDays(7);
+		        dataset = createDataSet();
+		        chart = createBarChart(dataset);
+		        chartPanel.setChart(chart);
 			}
 		});
 		btnNewButton_1.setVerticalAlignment(SwingConstants.BOTTOM);
-		btnNewButton_1.setFont(new Font("Segoe UI", Font.BOLD, 18));
+		btnNewButton_1.setFont(new Font("Segoe UI Black", Font.BOLD, 18));
 		btnNewButton_1.setForeground(SystemColor.desktop);
 		btnNewButton_1.setBounds(564, 395, 89, 30);
 		panel.add(btnNewButton_1);
@@ -148,6 +123,20 @@ public class NumberOfCustomerServedChart extends JFrame {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setVisible(true);
 	}
+
+	private JFreeChart createBarChart(CategoryDataset dataset) {
+	    return ChartFactory.createBarChart(
+	        "Số lượng khách hàng đã phục vụ hàng ngày",
+	        "Ngày",
+	        "Số lượng",
+	        dataset,
+	        PlotOrientation.VERTICAL,
+	        true,
+	        true,
+	        false
+	    );
+	}
+
 
 	private CategoryDataset createDataSet() {
 		LocalDate start = currentDate.minusDays(6);
