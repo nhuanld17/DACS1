@@ -21,6 +21,12 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import DAO.EmployeeDAO;
 import DTO.CustomerServedChart;
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.JButton;
+import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class NumberOfCustomerServedChart extends JFrame {
 
@@ -30,6 +36,9 @@ public class NumberOfCustomerServedChart extends JFrame {
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	private LocalDate[] date = new LocalDate[7];
 	private int idEmp;
+	private CategoryDataset dataset;
+	private JFreeChart chart;
+	private ChartPanel chartPanel;
 
 
 	/**
@@ -40,19 +49,20 @@ public class NumberOfCustomerServedChart extends JFrame {
 		this.idEmp = idEmp;
 		this.currentDate = LocalDate.now();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 776, 421);
+		setBounds(100, 100, 776, 465);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 762, 388);
+		panel.setBackground(new Color(255, 255, 255));
+		panel.setBounds(0, 0, 762, 432);
 		contentPane.add(panel);
 		
-		CategoryDataset dataset = createDataSet();
+		dataset = createDataSet();
 		
-		JFreeChart chart = ChartFactory.createBarChart(
+		chart = ChartFactory.createBarChart(
 				"Số lượng khách hàng đã phục vụ hàng ngày",
 				"Ngày",
 				"Số lượng",
@@ -62,12 +72,79 @@ public class NumberOfCustomerServedChart extends JFrame {
 				true,
 				false
 		);
+		
 		panel.setLayout(null);
-		ChartPanel chartPanel = new ChartPanel(chart);
+		chartPanel = new ChartPanel(chart);
+		chartPanel.setBounds(0, 11, 762, 383);
+		chartPanel.setBackground(new Color(244, 245, 249));
 		chartPanel.setForeground(SystemColor.desktop);
-		chartPanel.setBounds(0, 0, 762, 377);
 		chartPanel.setPreferredSize(new Dimension(450, 300));
 		panel.add(chartPanel);
+
+		
+		JButton btnNewButton = new JButton(">>");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				currentDate = currentDate.plusDays(7);
+				dataset = createDataSet();
+				chart = ChartFactory.createBarChart(
+						"Số lượng khách hàng đã phục vụ hàng ngày",
+						"Ngày",
+						"Số lượng",
+						dataset,
+						PlotOrientation.VERTICAL,
+						true,
+						true,
+						false
+				);
+				
+				panel.setLayout(null);
+				ChartPanel chartPanel = new ChartPanel(chart);
+				chartPanel.setBounds(0, 11, 762, 383);
+				chartPanel.setBackground(new Color(244, 245, 249));
+				chartPanel.setForeground(SystemColor.desktop);
+				chartPanel.setPreferredSize(new Dimension(450, 300));
+				panel.add(chartPanel);
+			}
+		});
+		btnNewButton.setVerticalAlignment(SwingConstants.BOTTOM);
+		btnNewButton.setFont(new Font("Segoe UI", Font.BOLD, 18));
+		btnNewButton.setForeground(SystemColor.desktop);
+		btnNewButton.setBounds(663, 395, 89, 30);
+		panel.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("<<");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				currentDate = currentDate.minusDays(7);
+				dataset = createDataSet();
+				chart = ChartFactory.createBarChart(
+						"Số lượng khách hàng đã phục vụ hàng ngày",
+						"Ngày",
+						"Số lượng",
+						dataset,
+						PlotOrientation.VERTICAL,
+						true,
+						true,
+						false
+				);
+				
+				panel.setLayout(null);
+				ChartPanel chartPanel = new ChartPanel(chart);
+				chartPanel.setBounds(0, 11, 762, 383);
+				chartPanel.setBackground(new Color(244, 245, 249));
+				chartPanel.setForeground(SystemColor.desktop);
+				chartPanel.setPreferredSize(new Dimension(450, 300));
+				panel.add(chartPanel);
+			}
+		});
+		btnNewButton_1.setVerticalAlignment(SwingConstants.BOTTOM);
+		btnNewButton_1.setFont(new Font("Segoe UI", Font.BOLD, 18));
+		btnNewButton_1.setForeground(SystemColor.desktop);
+		btnNewButton_1.setBounds(564, 395, 89, 30);
+		panel.add(btnNewButton_1);
+		
+
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setVisible(true);
 	}
@@ -77,6 +154,9 @@ public class NumberOfCustomerServedChart extends JFrame {
 		for (int i = 0; i < 7; i++) {
 			date[i] = start.plusDays(i);
 		}
+		
+		printDate(date);
+		
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		ArrayList<CustomerServedChart> list = new EmployeeDAO().getDailyCustomerServed(date, idEmp);
 		
@@ -84,5 +164,11 @@ public class NumberOfCustomerServedChart extends JFrame {
 			dataset.addValue(customerServedChart.getTotalCustomer(), "Số lượng", customerServedChart.getDate());
 		}
 		return dataset;
+	}
+
+	private void printDate(LocalDate[] date2) {
+		for (LocalDate localDate : date2) {
+			System.out.println(localDate.format(formatter));
+		}
 	}
 }

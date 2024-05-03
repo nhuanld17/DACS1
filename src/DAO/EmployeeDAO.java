@@ -1,9 +1,7 @@
 package DAO;
 
-import java.security.Timestamp;
 import java.sql.Date;
 import java.sql.ResultSet;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -212,26 +210,148 @@ public class EmployeeDAO {
 		}
 		return 0;
 	}
-
+	// Khá là cồng kềnh :VVV
 	public ArrayList<CustomerServedChart> getDailyCustomerServed(LocalDate[] date, int idEmp) {
 		ArrayList<CustomerServedChart> list = new ArrayList<>();
 		try {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-			String query = "SELECT COUNT(*), date(bill.dateOrder)"
+//			String query = "SELECT COUNT(*), date(bill.dateOrder)"
+//					+ " FROM hotel.bill"
+//					+ " INNER JOIN hotel.customer ON bill.ID = customer.id"
+//					+ " INNER JOIN hotel.employee ON customer.idEmp = employee.id"
+//					+ " WHERE date(bill.dateOrder) BETWEEN '"+date[0].format(formatter)+"' AND '"+date[6].format(formatter)+"' AND idEmp = '"+idEmp+"'"
+//					+ " GROUP BY date(bill.dateOrder);";
+//			
+//			ResultSet resultSet = new DBConn().queryDB(query);
+//			
+//			while (resultSet.next()) {
+//				Date date1 = resultSet.getDate("date(bill.dateOrder)");
+//				int total = resultSet.getInt("COUNT(*)");
+//				
+//				list.add(new CustomerServedChart(date1, total));
+//			}
+			
+			String query1 = "SELECT COUNT(*), date(bill.dateOrder)"
 					+ " FROM hotel.bill"
 					+ " INNER JOIN hotel.customer ON bill.ID = customer.id"
 					+ " INNER JOIN hotel.employee ON customer.idEmp = employee.id"
-					+ " WHERE date(bill.dateOrder) BETWEEN '"+date[0].format(formatter)+"' AND '"+date[6].format(formatter)+"' AND idEmp = '"+idEmp+"'"
+					+ " WHERE date(bill.dateOrder) = '"+date[0].format(formatter)+"' AND idEmp = '"+idEmp+"'"
 					+ " GROUP BY date(bill.dateOrder);";
 			
-			ResultSet resultSet = new DBConn().queryDB(query);
+			String query2 = "SELECT COUNT(*), date(bill.dateOrder)"
+					+ " FROM hotel.bill"
+					+ " INNER JOIN hotel.customer ON bill.ID = customer.id"
+					+ " INNER JOIN hotel.employee ON customer.idEmp = employee.id"
+					+ " WHERE date(bill.dateOrder) = '"+date[1].format(formatter)+"' AND idEmp = '"+idEmp+"'"
+					+ " GROUP BY date(bill.dateOrder);";
 			
-			while (resultSet.next()) {
-				Date date1 = resultSet.getDate("date(bill.dateOrder)");
-				int total = resultSet.getInt("COUNT(*)");
-				
-				list.add(new CustomerServedChart(date1, total));
+			String query3 = "SELECT COUNT(*), date(bill.dateOrder)"
+					+ " FROM hotel.bill"
+					+ " INNER JOIN hotel.customer ON bill.ID = customer.id"
+					+ " INNER JOIN hotel.employee ON customer.idEmp = employee.id"
+					+ " WHERE date(bill.dateOrder) = '"+date[2].format(formatter)+"' AND idEmp = '"+idEmp+"'"
+					+ " GROUP BY date(bill.dateOrder);";
+			
+			String query4 = "SELECT COUNT(*), date(bill.dateOrder)"
+					+ " FROM hotel.bill"
+					+ " INNER JOIN hotel.customer ON bill.ID = customer.id"
+					+ " INNER JOIN hotel.employee ON customer.idEmp = employee.id"
+					+ " WHERE date(bill.dateOrder) = '"+date[3].format(formatter)+"' AND idEmp = '"+idEmp+"'"
+					+ " GROUP BY date(bill.dateOrder);";
+			
+			String query5 = "SELECT COUNT(*), date(bill.dateOrder)"
+					+ " FROM hotel.bill"
+					+ " INNER JOIN hotel.customer ON bill.ID = customer.id"
+					+ " INNER JOIN hotel.employee ON customer.idEmp = employee.id"
+					+ " WHERE date(bill.dateOrder) = '"+date[4].format(formatter)+"' AND idEmp = '"+idEmp+"'"
+					+ " GROUP BY date(bill.dateOrder);";
+			
+			String query6 = "SELECT COUNT(*), date(bill.dateOrder)"
+					+ " FROM hotel.bill"
+					+ " INNER JOIN hotel.customer ON bill.ID = customer.id"
+					+ " INNER JOIN hotel.employee ON customer.idEmp = employee.id"
+					+ " WHERE date(bill.dateOrder) = '"+date[5].format(formatter)+"' AND idEmp = '"+idEmp+"'"
+					+ " GROUP BY date(bill.dateOrder);";
+			
+			String query7 = "SELECT COUNT(*), date(bill.dateOrder)"
+					+ " FROM hotel.bill"
+					+ " INNER JOIN hotel.customer ON bill.ID = customer.id"
+					+ " INNER JOIN hotel.employee ON customer.idEmp = employee.id"
+					+ " WHERE date(bill.dateOrder) = '"+date[6].format(formatter)+"' AND idEmp = '"+idEmp+"'"
+					+ " GROUP BY date(bill.dateOrder);";
+			
+			Date datee = null;
+			int total = 0;
+			ResultSet resultSet = new DBConn().queryDB(query1);
+			if (!resultSet.next()) {
+				datee = Date.valueOf(date[0]);
+				total = 0;
+			}else {
+				datee = resultSet.getDate("date(bill.dateOrder)");
+				total = resultSet.getInt("COUNT(*)");
 			}
+			list.add(new CustomerServedChart(datee, total));
+			
+			resultSet = new DBConn().queryDB(query2);
+			if (!resultSet.next()) {
+				datee = Date.valueOf(date[1]);
+				total = 0;
+			}else {
+				datee = resultSet.getDate("date(bill.dateOrder)");
+				total = resultSet.getInt("COUNT(*)");
+			}
+			list.add(new CustomerServedChart(datee, total));
+			
+			resultSet = new DBConn().queryDB(query3);
+			if (!resultSet.next()) {
+				datee = Date.valueOf(date[2]);
+				total = 0;
+			}else {
+				datee = resultSet.getDate("date(bill.dateOrder)");
+				total = resultSet.getInt("COUNT(*)");
+			}
+			list.add(new CustomerServedChart(datee, total));
+			
+			resultSet = new DBConn().queryDB(query4);
+			if (!resultSet.next()) {
+				datee = Date.valueOf(date[3]);
+				total = 0;
+			}else {
+				datee = resultSet.getDate("date(bill.dateOrder)");
+				total = resultSet.getInt("COUNT(*)");
+			}
+			list.add(new CustomerServedChart(datee, total));
+			
+			resultSet = new DBConn().queryDB(query5);
+			if (!resultSet.next()) {
+				datee = Date.valueOf(date[4]);
+				total = 0;
+			}else {
+				datee = resultSet.getDate("date(bill.dateOrder)");
+				total = resultSet.getInt("COUNT(*)");
+			}
+			list.add(new CustomerServedChart(datee, total));
+			
+			resultSet = new DBConn().queryDB(query6);
+			if (!resultSet.next()) {
+				datee = Date.valueOf(date[5]);
+				total = 0;
+			}else {
+				datee = resultSet.getDate("date(bill.dateOrder)");
+				total = resultSet.getInt("COUNT(*)");
+			}
+			list.add(new CustomerServedChart(datee, total));
+			
+			resultSet = new DBConn().queryDB(query7);
+			if (!resultSet.next()) {
+				datee = Date.valueOf(date[6]);
+				total = 0;
+			}else {
+				datee = resultSet.getDate("date(bill.dateOrder)");
+				total = resultSet.getInt("COUNT(*)");
+			}
+			list.add(new CustomerServedChart(datee, total));
+			
 			
 			return list;
 		} catch (Exception e) {
