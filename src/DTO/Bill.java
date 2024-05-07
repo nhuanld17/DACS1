@@ -79,6 +79,6 @@ public class Bill {
 		this.price = price;
 	}
 	public Object[] toObject() {
-		return new Object[] {""+id,cccd,roomNumber+"",dateOrder, dateReturn, (price > 0) ? price +" VNĐ" : ""};
+		return new Object[] {""+id,cccd,roomNumber+"",dateOrder, dateReturn, (price > 0) ? price : ""};
 	}
 }

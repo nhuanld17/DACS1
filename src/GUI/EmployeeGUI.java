@@ -1,15 +1,14 @@
 package GUI;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Date;
@@ -22,7 +21,6 @@ import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import javax.print.attribute.standard.MediaSize.NA;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -31,6 +29,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
@@ -53,13 +52,10 @@ import BUS.EmployeeBUS;
 import BUS.ManagerBUS;
 import BUS.RoomBUS;
 import CONTROLLER.EmployeeController;
-import DAO.BillDAO;
 import DAO.EmployeeDAO;
 import DTO.Bill;
 import DTO.Customer;
-import DTO.Employee;
 import DTO.Room;
-import javax.swing.JRadioButton;
 
 public class EmployeeGUI extends JFrame {
 
@@ -1180,6 +1176,10 @@ public class EmployeeGUI extends JFrame {
 				Row dataRow = sheet.createRow(row+1);
 				for (int col = 0; col < model.getColumnCount(); col++) {
 					Cell cell = dataRow.createCell(col);
+					String data = String.valueOf(model.getValueAt(row, col));
+					if (data == null) {
+						data = "";
+					}
 					cell.setCellValue(String.valueOf(model.getValueAt(row, col)));
 				}
 			}
