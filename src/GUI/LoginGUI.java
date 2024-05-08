@@ -10,6 +10,12 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,7 +34,7 @@ import DTO.Account;
 import DTO.Manager;
 
 
-public class LoginGUI extends JFrame {
+public class LoginGUI extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -39,6 +45,9 @@ public class LoginGUI extends JFrame {
 	private JLabel lblNewLabel_4;
 	private JLabel lblNewLabel_5;
 	private JLabel label;
+	private Socket socket;
+	private BufferedReader reader;
+	private PrintWriter writer;
 
 	/**
 	 * Launch the application.
@@ -196,24 +205,7 @@ public class LoginGUI extends JFrame {
 		btnNewButton_1.setBounds(48, 365, 280, 40);
 //		btnNewButton_1.setBorderPainted(false);
 		btnNewButton_1.setBorder(new LineBorder(new Color(17, 24, 39),2));
-		btnNewButton_1.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String userName = userNameTextField.getText();
-				String passWord = passWordTextField.getText();
-				
-				Account account = new Account(userName, passWord);
-				
-				if (new LoginDao().isAccountExist(account)) {
-					int id = new LoginDao().getIdByUserName(userName);
-					new EmployeeGUI(id).setVisible(true);
-					setVisible(false);
-				}else {
-					JOptionPane.showMessageDialog(null, "Đăng nhập thất bại");
-				}
-			}
-		});
+		btnNewButton_1.addActionListener(this);
 		btnNewButton_1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -248,5 +240,90 @@ public class LoginGUI extends JFrame {
 		label.setIcon(new ImageIcon(LoginGUI.class.getResource("/image/bg-img.jpg")));
 		label.setBounds(177, 0, 643, 464);
 		contentPane.add(label);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+//		try {
+//			socket = new Socket("localhost",9999);
+//			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+//			writer = new PrintWriter(socket.getOutputStream(), true);
+//		} catch (UnknownHostException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		} catch (IOException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+	
+		
+		String userName = userNameTextField.getText();
+		String passWord = passWordTextField.getText();
+
+		if (new LoginDao().isAccountExist(new Account(userName, passWord))) {
+			try {
+				socket = new Socket("localhost", 9999);
+				reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				writer = new PrintWriter(socket.getOutputStream(), true);
+			} catch (UnknownHostException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			new Thread((() -> {
+				writer.println(userName);
+				
+				String message;
+				
+				try {
+					message = reader.readLine();
+					
+					if (message != null && message.equals("DUPLICATE_LOGIN")) {
+						System.out.println(message);
+						JOptionPane.showMessageDialog(null, "TK đã được đăng nhập");
+						return;
+					} else if (message != null && message.equals("OKE")) {
+						System.out.println(message);
+						int id = new LoginDao().getIdByUserName(userName);
+						new EmployeeGUI(id, userName).setVisible(true);
+						setVisible(false);
+					}
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			})).start();
+		}else {
+			JOptionPane.showMessageDialog(null, "FAILED");
+		}
+		
+//		new Thread(() -> {
+//			String message;
+//			
+//			Account account = new Account(userName, passWord);
+//			
+//			if (new LoginDao().isAccountExist(account)) {
+//				try {
+//					message = reader.readLine();
+//					if (message != null && message.equals("DUPLICATE_LOGIN")) {
+//						System.out.println(message);
+//						JOptionPane.showMessageDialog(null, "Tài khoản này đã được đăng nhập");
+//					}else if (message != null && message.equals("OKE")) {
+//						System.out.println(message);
+//						int id = new LoginDao().getIdByUserName(userName);
+//						new EmployeeGUI(id, userName).setVisible(true);
+//						setVisible(false);
+//						
+//					}
+//				} catch (Exception e2) {
+//					// TODO: handle exception
+//				}
+//			}else {
+//				JOptionPane.showMessageDialog(null, "Đăng nhập thất bại");
+//			}
+//		}).start();;
 	}
 }

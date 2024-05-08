@@ -75,6 +75,7 @@ public class EmployeeGUI extends JFrame {
 	private JTextField textField_FindByCCCD;
 	private String EmployeeName;
 	private JLabel label_TotalCustomerThisDay;
+	private String username;
 
 	/**
 	 * Launch the application.
@@ -94,8 +95,10 @@ public class EmployeeGUI extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param userName 
 	 */
-	public EmployeeGUI(int idEmp) {
+	public EmployeeGUI(int idEmp, String userName) {
+		this.username = userName;
 		this.idEmp = idEmp;
 		EmployeeName = new ManagerBUS().getEmpNameById(idEmp);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
