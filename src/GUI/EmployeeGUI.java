@@ -44,6 +44,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -55,13 +57,16 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import BUS.BillBUS;
 import BUS.EmployeeBUS;
+import BUS.HistoryBUS;
 import BUS.ManagerBUS;
 import BUS.RoomBUS;
 import CONTROLLER.EmployeeController;
 import DAO.EmployeeDAO;
+import DAO.HistoryDAO;
 import DTO.Bill;
 import DTO.Customer;
 import DTO.Room;
+import javax.swing.ScrollPaneConstants;
 
 public class EmployeeGUI extends JFrame implements ActionListener {
 
@@ -138,7 +143,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		ActionListener actionListener = new EmployeeController(this);
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(162, -24, 802, 505);
+		tabbedPane.setBounds(162, -24, 802, 502);
 		contentPane.add(tabbedPane);
 
 		JPanel tab1 = new JPanel();
@@ -716,13 +721,16 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 
 		
 		panel_OnLineList = new JPanel();
+		panel_OnLineList.setBorder(new LineBorder(new Color(17, 24, 39), 2));
 		panel_OnLineList.setForeground(SystemColor.desktop);
 		panel_OnLineList.setBackground(new Color(244, 245, 249));
 		panel_OnLineList.setBounds(0, 49, 193, 428);
+		panel_OnLineList.setLayout(null);
 		
 		JScrollPane scrollPane_OnlineList = new JScrollPane(panel_OnLineList);
-		panel_OnLineList.setLayout(null);
-		scrollPane_OnlineList.setBounds(0, 47, 193, 430);
+		scrollPane_OnlineList.setBackground(new Color(244, 245, 249));
+	
+		scrollPane_OnlineList.setBounds(0, 39, 193, 435);
 		tab4.add(scrollPane_OnlineList);
 		
 		JPanel panel_OnlineLabel = new JPanel();
@@ -730,13 +738,15 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		panel_OnlineLabel.setBackground(new Color(244, 245, 249));
 		panel_OnlineLabel.setBounds(0, 3, 193, 33);
 		tab4.add(panel_OnlineLabel);
+		panel_OnlineLabel.setBorder(new LineBorder(new Color(17,24,39),2));
 		panel_OnlineLabel.setLayout(null);
 		
 		JLabel lblNewLabel_1 = new JLabel("ONLINE");
+		lblNewLabel_1.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-online-30.png")));
 		lblNewLabel_1.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		lblNewLabel_1.setForeground(new Color(17, 29, 34));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(10, 0, 173, 33);
+		lblNewLabel_1.setBounds(0, 0, 193, 33);
 		panel_OnlineLabel.add(lblNewLabel_1);
 		
 		JPanel panel_2 = new JPanel();
@@ -746,31 +756,43 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		panel_2.setLayout(null);
 		
 		displayMessArea = new JTextArea();
+		displayMessArea.setEditable(false);
+		displayMessArea.setForeground(SystemColor.desktop);
+		displayMessArea.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		displayMessArea.setBorder(new LineBorder(new Color(17, 24, 39), 2));
 		displayMessArea.setBounds(0, 0, 602, 364);
 
 //		panel_2.add(displayMessArea);
 		
 		typeArea = new JTextArea();
+		typeArea.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		typeArea.setForeground(SystemColor.desktop);
+		typeArea.setBorder(new LineBorder(new Color(17, 24, 39), 2));
 		typeArea.setBounds(0, 372, 521, 91);
 		
 		JScrollPane scrollPane_typeArea = new JScrollPane(typeArea);
-		scrollPane_typeArea.setBounds(0, 372, 521, 91);
+		scrollPane_typeArea.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane_typeArea.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane_typeArea.setBackground(new Color(244, 245, 249));
+		scrollPane_typeArea.setBounds(0, 372, 520, 97);
 		panel_2.add(scrollPane_typeArea);
 		
-		btnSendMessage = new JButton("SEND");
+		btnSendMessage = new JButton("");
+		btnSendMessage.setBorderPainted(false);
+		btnSendMessage.setFocusable(false);
+		btnSendMessage.setHorizontalAlignment(SwingConstants.LEFT);
+		btnSendMessage.setVerticalAlignment(SwingConstants.TOP);
+		btnSendMessage.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-send-40.png")));
+		btnSendMessage.setBackground(new Color(244, 245, 249));
+		btnSendMessage.setForeground(new Color(17, 29, 34));
 		btnSendMessage.addActionListener(this);
-		btnSendMessage.setBounds(524, 375, 68, 23);
+		btnSendMessage.setBounds(520, 365, 76, 56);
 		panel_2.add(btnSendMessage);
 		
 		JScrollPane scrollPane_displayMess = new JScrollPane(displayMessArea);
+		scrollPane_displayMess.setBackground(new Color(244, 245, 249));
 		scrollPane_displayMess.setBounds(0, 0, 600, 364);
 		panel_2.add(scrollPane_displayMess);
-		
-		JSeparator separator_3 = new JSeparator();
-		separator_3.setForeground(new Color(17, 29, 34));
-		separator_3.setBackground(new Color(17, 29, 34));
-		separator_3.setBounds(0, 40, 193, 5);
-		tab4.add(separator_3);
 
 		JButton btnTab1 = new JButton("Khách hàng");
 		btnTab1.setHorizontalAlignment(SwingConstants.LEFT);
@@ -1052,7 +1074,14 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		btnNewButton.setBackground(new Color(17, 24, 39));
 		btnNewButton.setBounds(10, 428, 40, 42);
 		panel.add(btnNewButton);
+		loadMessage();
+	}
 
+	private void loadMessage() {
+		ArrayList<String> messages = new HistoryBUS().getMessages();
+		for (String string : messages) {
+			displayMessArea.append(string +"\n\n");
+		}
 	}
 
 	protected void updateOnlinePanel(String users) {
@@ -1061,8 +1090,11 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		String[] userList = users.split(",");
 		int x = 5, y =5, width = 181, height = 28;
 		for (String user : userList) {
-			JLabel userLabel = new JLabel(user);
+			String name = new HistoryDAO().getNameByUserName(user);
+			JLabel userLabel = new JLabel(name);
 			userLabel.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-dot-20.png")));
+			userLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+			userLabel.setForeground(new Color(SystemColor.DESKTOP));
 			userLabel.setBounds(x, y, width, height);
 			userLabel.setHorizontalAlignment(SwingConstants.LEFT);
 			panel_OnLineList.add(userLabel);
@@ -1431,7 +1463,10 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 				writer.println(time);
 				writer.println(message);
 				typeArea.setText("");
-				displayMessArea.append(time + "\n" + username + ": " + message + "\n\n");
+				String name = new HistoryBUS().getNameByUserName(this.username);
+				displayMessArea.append(time + "\n" + name + ": " + message + "\n\n");
+				displayMessArea.setCaretPosition(displayMessArea.getDocument().getLength());
+
 			}
 		}
 	}
