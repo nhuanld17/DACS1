@@ -14,6 +14,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,8 +38,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
@@ -58,9 +62,8 @@ import DAO.EmployeeDAO;
 import DTO.Bill;
 import DTO.Customer;
 import DTO.Room;
-import javax.swing.JTextArea;
 
-public class EmployeeGUI extends JFrame {
+public class EmployeeGUI extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -82,6 +85,10 @@ public class EmployeeGUI extends JFrame {
 	private Socket socket;
 	private BufferedReader reader;
 	private PrintWriter writer;
+	private JPanel panel_OnLineList;
+	private JTextArea displayMessArea;
+	private JTextArea typeArea;
+	private JButton btnSendMessage;
 
 	/**
 	 * Launch the application.
@@ -708,52 +715,62 @@ public class EmployeeGUI extends JFrame {
 		
 
 		
-		JPanel panel_OnLineList = new JPanel();
+		panel_OnLineList = new JPanel();
 		panel_OnLineList.setForeground(SystemColor.desktop);
 		panel_OnLineList.setBackground(new Color(244, 245, 249));
 		panel_OnLineList.setBounds(0, 49, 193, 428);
-//		tab4.add(panel_OnLineList);
-		panel_OnLineList.setLayout(null);
 		
 		JScrollPane scrollPane_OnlineList = new JScrollPane(panel_OnLineList);
-		scrollPane_OnlineList.setBounds(0, 49, 193, 428);
+		panel_OnLineList.setLayout(null);
+		scrollPane_OnlineList.setBounds(0, 47, 193, 430);
 		tab4.add(scrollPane_OnlineList);
 		
 		JPanel panel_OnlineLabel = new JPanel();
 		panel_OnlineLabel.setForeground(SystemColor.desktop);
 		panel_OnlineLabel.setBackground(new Color(244, 245, 249));
-		panel_OnlineLabel.setBounds(0, 3, 193, 43);
+		panel_OnlineLabel.setBounds(0, 3, 193, 33);
 		tab4.add(panel_OnlineLabel);
 		panel_OnlineLabel.setLayout(null);
 		
 		JLabel lblNewLabel_1 = new JLabel("ONLINE");
-		lblNewLabel_1.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		lblNewLabel_1.setForeground(new Color(17, 24, 39));
+		lblNewLabel_1.setFont(new Font("Segoe UI", Font.BOLD, 18));
+		lblNewLabel_1.setForeground(new Color(17, 29, 34));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(0, 6, 193, 30);
+		lblNewLabel_1.setBounds(10, 0, 173, 33);
 		panel_OnlineLabel.add(lblNewLabel_1);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(new Color(244, 245, 249));
-		panel_2.setBounds(195, 3, 602, 474);
+		panel_2.setBounds(197, 3, 600, 474);
 		tab4.add(panel_2);
 		panel_2.setLayout(null);
 		
-		JTextArea displayMessArea = new JTextArea();
+		displayMessArea = new JTextArea();
 		displayMessArea.setBounds(0, 0, 602, 364);
+
 //		panel_2.add(displayMessArea);
 		
-		JTextArea typeArea = new JTextArea();
+		typeArea = new JTextArea();
 		typeArea.setBounds(0, 372, 521, 91);
-		panel_2.add(typeArea);
 		
-		JButton btnSendMessage = new JButton("New button");
+		JScrollPane scrollPane_typeArea = new JScrollPane(typeArea);
+		scrollPane_typeArea.setBounds(0, 372, 521, 91);
+		panel_2.add(scrollPane_typeArea);
+		
+		btnSendMessage = new JButton("SEND");
+		btnSendMessage.addActionListener(this);
 		btnSendMessage.setBounds(524, 375, 68, 23);
 		panel_2.add(btnSendMessage);
 		
 		JScrollPane scrollPane_displayMess = new JScrollPane(displayMessArea);
-		scrollPane_displayMess.setBounds(0, 0, 602, 364);
+		scrollPane_displayMess.setBounds(0, 0, 600, 364);
 		panel_2.add(scrollPane_displayMess);
+		
+		JSeparator separator_3 = new JSeparator();
+		separator_3.setForeground(new Color(17, 29, 34));
+		separator_3.setBackground(new Color(17, 29, 34));
+		separator_3.setBounds(0, 40, 193, 5);
+		tab4.add(separator_3);
 
 		JButton btnTab1 = new JButton("Khách hàng");
 		btnTab1.setHorizontalAlignment(SwingConstants.LEFT);
@@ -962,18 +979,44 @@ public class EmployeeGUI extends JFrame {
 		            String message = this.reader.readLine();
 		            if (message == null) break; // Dừng nếu đầu vào đã kết thúc.
 
-		            switch (message) {
-		                case "SYSTEM_ADD_A_CUSTOMER":
-		                case "SYSTEM_DELETE_A_CUSTOMER":
-		                case "SYSTEM_UPDATE_A_CUSTOMER":
-		                case "SYSTEM_ABATE_A_BILL":
-		                    updateBillTable();
-		                    updateCustomerTable();
-		                    updateRoomTable();
-		                    break;
-		            }
+//		            switch (message) {
+//		                case "SYSTEM_ADD_A_CUSTOMER":
+//		                case "SYSTEM_DELETE_A_CUSTOMER":
+//		                case "SYSTEM_UPDATE_A_CUSTOMER":
+//		                case "SYSTEM_ABATE_A_BILL":
+//		                    updateBillTable();
+//		                    updateCustomerTable();
+//		                    updateRoomTable();
+//		                    break;
+//		               
+//		            }
+		            
+		            if (message.equals("SYSTEM_ADD_A_CUSTOMER") || message.equals("SYSTEM_DELETE_A_CUSTOMER")
+		             || message.equals("SYSTEM_UPDATE_A_CUSTOMER") || message.equals("SYSTEM_ABATE_A_BILL")) {
+	                    updateBillTable();
+	                    updateCustomerTable();
+	                    updateRoomTable();
+					}
+		            
+		            if (message.startsWith("ONLINE_USERS:")) {
+						System.out.println(message);
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								updateOnlinePanel(message.substring(13));
+							}
+						});
+					}
+		            if (message.equals("NEW_MESSAGE")) {
+						String dateString = this.reader.readLine();
+						SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						java.util.Date parsedDate = dateFormat.parse(dateString);
+						Timestamp time = new Timestamp(parsedDate.getTime());
+						String content = this.reader.readLine();
+						String senderName = this.reader.readLine();
+						displayMessArea.append(time + "\n" +senderName +": "+content +"\n\n");
+					}
 		        }
-		    } catch (IOException e) {
+		    } catch (IOException | ParseException e) {
 		        if (!running.get()) {
 		            System.out.println("Thread is stopping because the flag was set to false.");
 		        } else {
@@ -1010,6 +1053,24 @@ public class EmployeeGUI extends JFrame {
 		btnNewButton.setBounds(10, 428, 40, 42);
 		panel.add(btnNewButton);
 
+	}
+
+	protected void updateOnlinePanel(String users) {
+		System.out.println("Updating online panel with users: "+users);
+		panel_OnLineList.removeAll();
+		String[] userList = users.split(",");
+		int x = 5, y =5, width = 181, height = 28;
+		for (String user : userList) {
+			JLabel userLabel = new JLabel(user);
+			userLabel.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-dot-20.png")));
+			userLabel.setBounds(x, y, width, height);
+			userLabel.setHorizontalAlignment(SwingConstants.LEFT);
+			panel_OnLineList.add(userLabel);
+			y = y + height + 10;
+			System.out.println("Added user: "+user);
+		}
+		panel_OnLineList.revalidate();
+		panel_OnLineList.repaint();
 	}
 
 	public void updateBillTable() {
@@ -1357,6 +1418,21 @@ public class EmployeeGUI extends JFrame {
 			workbook.write(fileOutputStream);
 			workbook.close();
 			
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnSendMessage) {
+			String message = typeArea.getText();
+			if (!message.isEmpty()) {
+				Timestamp time = new Timestamp(System.currentTimeMillis());
+				writer.println("GỬI");
+				writer.println(time);
+				writer.println(message);
+				typeArea.setText("");
+				displayMessArea.append(time + "\n" + username + ": " + message + "\n\n");
+			}
 		}
 	}
 }

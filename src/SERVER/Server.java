@@ -53,10 +53,10 @@ public class Server {
 		return false;
 	}
 	
-	public static void broadCastMessage(Timestamp time, String message, int id, ClientHandler sender) {
+	public static void broadCastMessage(Timestamp time, String message, String username, ClientHandler sender) {
 		for (ClientHandler client : clients.values()) {
 			if (client != sender) {
-				client.sendMessage(message, time, id);
+				client.sendMessage(message, time, username);
 			}
 		}
 	}

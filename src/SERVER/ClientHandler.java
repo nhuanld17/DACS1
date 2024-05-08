@@ -53,7 +53,16 @@ public class ClientHandler extends Thread{
 				case "THANH TOÁN":
 					Server.broadCastAction("SYSTEM_ABATE_A_BILL", this);
 					break;
-
+				case "GỬI":
+					Timestamp time = Timestamp.valueOf(reader.readLine());
+					String textChat = reader.readLine();
+					
+					new HistoryBUS().addToHistory(this.username, time, textChat);
+					String name = new HistoryBUS().getNameByUserName(username);
+					
+					String mess = time + "\n" + username + ": "+textChat;
+					System.out.println(mess);
+					Server.broadCastMessage(time, textChat, username, this);
 				default:
 					break;
 				}
@@ -77,10 +86,11 @@ public class ClientHandler extends Thread{
 		
 	}
 
-	public void sendMessage(String message, Timestamp time, int id2) {
-		writer.println(message);
+	public void sendMessage(String message, Timestamp time, String username2) {
+		writer.println("NEW_MESSAGE");
 		writer.println(time);
-		writer.println(id2);
+		writer.println(message);
+		writer.println(username2);
 	}
 
 	public void sendOnlineList(String id2) {

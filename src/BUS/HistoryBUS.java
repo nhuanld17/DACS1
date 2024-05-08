@@ -10,4 +10,8 @@ public class HistoryBUS {
 		new HistoryDAO().addToHistory(username, time, message);
 	}
 
+	public String getNameByUserName(String username) {
+		return new HistoryDAO().getNameByUserName(username);
+	}
+
 }

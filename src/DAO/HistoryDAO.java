@@ -20,7 +20,7 @@ public class HistoryDAO {
 
 	private int getIdByUserName(String username) {
 		int id = 0;
-		String query = "SELECT id FROM hotel.employee WHERE name = '"+username+"'";
+		String query = "SELECT id FROM hotel.employee WHERE username = '"+username+"'";
 		
 		try {
 			ResultSet resultSet = new DBConn().queryDB(query);
@@ -74,5 +74,21 @@ public class HistoryDAO {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public String getNameByUserName(String username) {
+		String name = null;
+		String query = "SELECT name FROM hotel.employee WHERE username = '"+username+"'";
+		try {
+			ResultSet resultSet = new DBConn().queryDB(query);
+			
+			while (resultSet.next()) {
+				name = resultSet.getString("name");
+			}
+			return name;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return name;
 	}
 }
