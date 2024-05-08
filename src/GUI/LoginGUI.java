@@ -284,12 +284,18 @@ public class LoginGUI extends JFrame implements ActionListener {
 					if (message != null && message.equals("DUPLICATE_LOGIN")) {
 						System.out.println(message);
 						JOptionPane.showMessageDialog(null, "TK đã được đăng nhập");
+//						socket.close();
+//						reader.close();
+//						writer.close();
 						return;
 					} else if (message != null && message.equals("OKE")) {
 						System.out.println(message);
 						int id = new LoginDao().getIdByUserName(userName);
-						new EmployeeGUI(id, userName).setVisible(true);
+						new EmployeeGUI(id, userName, socket, reader, writer).setVisible(true);
 						setVisible(false);
+//						socket.close();
+//						reader.close();
+//						writer.close();
 					}
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -298,6 +304,7 @@ public class LoginGUI extends JFrame implements ActionListener {
 			})).start();
 		}else {
 			JOptionPane.showMessageDialog(null, "FAILED");
+			return;
 		}
 		
 //		new Thread(() -> {

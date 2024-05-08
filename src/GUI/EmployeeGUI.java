@@ -1,7 +1,5 @@
 package GUI;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.SystemColor;
@@ -9,8 +7,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.Duration;
@@ -20,6 +21,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -56,6 +58,7 @@ import DAO.EmployeeDAO;
 import DTO.Bill;
 import DTO.Customer;
 import DTO.Room;
+import javax.swing.JTextArea;
 
 public class EmployeeGUI extends JFrame {
 
@@ -76,6 +79,9 @@ public class EmployeeGUI extends JFrame {
 	private String EmployeeName;
 	private JLabel label_TotalCustomerThisDay;
 	private String username;
+	private Socket socket;
+	private BufferedReader reader;
+	private PrintWriter writer;
 
 	/**
 	 * Launch the application.
@@ -96,8 +102,14 @@ public class EmployeeGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 * @param userName 
+	 * @param writer 
+	 * @param reader 
+	 * @param socket 
 	 */
-	public EmployeeGUI(int idEmp, String userName) {
+	public EmployeeGUI(int idEmp, String userName, Socket socket, BufferedReader reader, PrintWriter writer) {
+		this.socket = socket;
+		this.reader = reader;
+		this.writer = writer;
 		this.username = userName;
 		this.idEmp = idEmp;
 		EmployeeName = new ManagerBUS().getEmpNameById(idEmp);
@@ -693,10 +705,55 @@ public class EmployeeGUI extends JFrame {
 		tab4.setBackground(new Color(244, 245, 249));
 		tabbedPane.addTab("Tab4", null, tab4, null);
 		tab4.setLayout(null);
+		
 
-		JLabel lblNewLabel_3 = new JLabel("Tab4");
-		lblNewLabel_3.setBounds(0, 0, 81, 24);
-		tab4.add(lblNewLabel_3);
+		
+		JPanel panel_OnLineList = new JPanel();
+		panel_OnLineList.setForeground(SystemColor.desktop);
+		panel_OnLineList.setBackground(new Color(244, 245, 249));
+		panel_OnLineList.setBounds(0, 49, 193, 428);
+//		tab4.add(panel_OnLineList);
+		panel_OnLineList.setLayout(null);
+		
+		JScrollPane scrollPane_OnlineList = new JScrollPane(panel_OnLineList);
+		scrollPane_OnlineList.setBounds(0, 49, 193, 428);
+		tab4.add(scrollPane_OnlineList);
+		
+		JPanel panel_OnlineLabel = new JPanel();
+		panel_OnlineLabel.setForeground(SystemColor.desktop);
+		panel_OnlineLabel.setBackground(new Color(244, 245, 249));
+		panel_OnlineLabel.setBounds(0, 3, 193, 43);
+		tab4.add(panel_OnlineLabel);
+		panel_OnlineLabel.setLayout(null);
+		
+		JLabel lblNewLabel_1 = new JLabel("ONLINE");
+		lblNewLabel_1.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		lblNewLabel_1.setForeground(new Color(17, 24, 39));
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setBounds(0, 6, 193, 30);
+		panel_OnlineLabel.add(lblNewLabel_1);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(new Color(244, 245, 249));
+		panel_2.setBounds(195, 3, 602, 474);
+		tab4.add(panel_2);
+		panel_2.setLayout(null);
+		
+		JTextArea displayMessArea = new JTextArea();
+		displayMessArea.setBounds(0, 0, 602, 364);
+//		panel_2.add(displayMessArea);
+		
+		JTextArea typeArea = new JTextArea();
+		typeArea.setBounds(0, 372, 521, 91);
+		panel_2.add(typeArea);
+		
+		JButton btnSendMessage = new JButton("New button");
+		btnSendMessage.setBounds(524, 375, 68, 23);
+		panel_2.add(btnSendMessage);
+		
+		JScrollPane scrollPane_displayMess = new JScrollPane(displayMessArea);
+		scrollPane_displayMess.setBounds(0, 0, 602, 364);
+		panel_2.add(scrollPane_displayMess);
 
 		JButton btnTab1 = new JButton("Khách hàng");
 		btnTab1.setHorizontalAlignment(SwingConstants.LEFT);
@@ -731,7 +788,8 @@ public class EmployeeGUI extends JFrame {
 		btnTab3.setBounds(0, 253, 162, 42);
 		panel.add(btnTab3);
 
-		JButton btnTab4 = new JButton("Tab4");
+		JButton btnTab4 = new JButton("Chatting");
+		btnTab4.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-communication-30.png")));
 		btnTab4.setHorizontalAlignment(SwingConstants.LEFT);
 		btnTab4.setForeground(new Color(244, 245, 249));
 		btnTab4.setFont(new Font("Segoe UI", Font.BOLD, 16));
@@ -741,23 +799,7 @@ public class EmployeeGUI extends JFrame {
 		btnTab4.setBounds(0, 297, 162, 42);
 		panel.add(btnTab4);
 
-		JButton btnNewButton = new JButton("");
-		btnNewButton.setFocusable(false);
-		btnNewButton.setBorderPainted(false);
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int respone = JOptionPane.showConfirmDialog(null, "Bạn chắc chắn muốn thoát ???");
-				if (respone == JOptionPane.OK_OPTION) {
-					setVisible(false);
-					new LoginGUI().setVisible(true);
-				}
-			}
-		});
-		btnNewButton.setFocusable(false);
-		btnNewButton.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-log-out-48.png")));
-		btnNewButton.setBackground(new Color(17, 24, 39));
-		btnNewButton.setBounds(10, 428, 40, 42);
-		panel.add(btnNewButton);
+		
 		
 		JLabel lblNewLabel_6 = new JLabel("");
 		lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
@@ -849,6 +891,125 @@ public class EmployeeGUI extends JFrame {
 			}
 		});
 		/* ================= ACTION LISTENER CHO BUTTON TAB =============== */
+		
+		/*================== MULTI-THREAD ==========================*/
+//		Thread listen = new Thread(() -> {
+//			while (true) {
+//				try {
+//					String message = this.reader.readLine();
+//					
+//					if (message != null) {
+//						if (message.equals("SYSTEM_ADD_A_CUSTOMER")) {
+//							updateBillTable();
+//							updateCustomerTable();
+//							updateRoomTable();
+//						}
+//						if (message.equals("SYSTEM_DELETE_A_CUSTOMER")) {
+//							updateBillTable();
+//							updateCustomerTable();
+//							updateRoomTable();
+//						}
+//						if (message.equals("SYSTEM_UPDATE_A_CUSTOMER")) {
+//							updateBillTable();
+//							updateCustomerTable();
+//							updateRoomTable();
+//						}
+//						if (message.equals("SYSTEM_ABATE_A_BILL")) {
+//							updateBillTable();
+//							updateCustomerTable();
+//							updateRoomTable();
+//						}
+//					}
+//				} catch (IOException e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//					System.out.println("Try-catch:"+e1.getMessage());
+//				}
+//			}
+//		});
+//		listen.start();
+//		
+//		JButton btnNewButton = new JButton("");
+//		btnNewButton.setFocusable(false);
+//		btnNewButton.setBorderPainted(false);
+//		btnNewButton.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				int respone = JOptionPane.showConfirmDialog(null, "Bạn chắc chắn muốn đăng xuất ???");
+//				if (respone == JOptionPane.OK_OPTION) {
+//					setVisible(false);
+//					new LoginGUI().setVisible(true);
+//					listen.interrupt();
+//					try {
+//						EmployeeGUI.this.socket.close();
+//					} catch (IOException e1) {
+//						// TODO Auto-generated catch block
+//						e1.printStackTrace();
+//					}
+//				}
+//			}
+//		});
+//		btnNewButton.setFocusable(false);
+//		btnNewButton.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-log-out-48.png")));
+//		btnNewButton.setBackground(new Color(17, 24, 39));
+//		btnNewButton.setBounds(10, 428, 40, 42);
+//		panel.add(btnNewButton);
+		
+		
+		AtomicBoolean running = new AtomicBoolean(true);
+		Thread listen = new Thread(() -> {
+		    try {
+		        while (running.get() && !Thread.currentThread().isInterrupted()) {
+		            String message = this.reader.readLine();
+		            if (message == null) break; // Dừng nếu đầu vào đã kết thúc.
+
+		            switch (message) {
+		                case "SYSTEM_ADD_A_CUSTOMER":
+		                case "SYSTEM_DELETE_A_CUSTOMER":
+		                case "SYSTEM_UPDATE_A_CUSTOMER":
+		                case "SYSTEM_ABATE_A_BILL":
+		                    updateBillTable();
+		                    updateCustomerTable();
+		                    updateRoomTable();
+		                    break;
+		            }
+		        }
+		    } catch (IOException e) {
+		        if (!running.get()) {
+		            System.out.println("Thread is stopping because the flag was set to false.");
+		        } else {
+		            e.printStackTrace();
+		            System.out.println("IO Exception: " + e.getMessage());
+		        }
+		    }
+		});
+		listen.start();
+
+		// Cập nhật nút đăng xuất
+		JButton btnNewButton = new JButton("");
+		btnNewButton.setFocusable(false);
+		btnNewButton.setBorderPainted(false);
+		btnNewButton.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        int response = JOptionPane.showConfirmDialog(null, "Bạn chắc chắn muốn đăng xuất ???");
+		        if (response == JOptionPane.OK_OPTION) {
+		            setVisible(false);
+		            new LoginGUI().setVisible(true);
+		            running.set(false); // Đặt cờ để dừng vòng lặp trong thread.
+		            listen.interrupt(); // Yêu cầu dừng luồng.
+		            try {
+		                EmployeeGUI.this.socket.close();
+		            } catch (IOException e1) {
+		                e1.printStackTrace();
+		            }
+		        }
+		    }
+		});
+		btnNewButton.setFocusable(false);
+		btnNewButton.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-log-out-48.png")));
+		btnNewButton.setBackground(new Color(17, 24, 39));
+		btnNewButton.setBounds(10, 428, 40, 42);
+		panel.add(btnNewButton);
+
 	}
 
 	public void updateBillTable() {
@@ -982,6 +1143,7 @@ public class EmployeeGUI extends JFrame {
 		setEmptyForm();
 		int numberOfCustomerThisDay = new EmployeeDAO().getTotalCustomerThisDay(idEmp);
 		label_TotalCustomerThisDay.setText("Hôm nay, bạn đã phục vụ: "+numberOfCustomerThisDay+" khách hàng");
+		writer.println("THÊM");
 	}
 
 	
@@ -998,6 +1160,8 @@ public class EmployeeGUI extends JFrame {
 		new EmployeeBUS().deleteCustomer(id);
 		updateBillTable();
 		updateCustomerTable();
+		
+		writer.println("XÓA");
 	}
 
 	public void setForm() {
@@ -1085,6 +1249,8 @@ public class EmployeeGUI extends JFrame {
 		updateCustomerTable();
 		updateBillTable();
 		setEmptyForm();
+		
+		writer.println("CẬP NHẬT");
 	}
 
 	public void abateBill() {
@@ -1119,7 +1285,7 @@ public class EmployeeGUI extends JFrame {
 		
 		new BillBUS().abateBill(id, price, dateReturn);
 		updateBillTable();
-		
+		writer.println("THANH TOÁN");
 	}
 
 	public void showBill() {

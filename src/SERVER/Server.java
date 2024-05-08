@@ -23,13 +23,12 @@ public class Server {
 		while (true) {
 			Socket socket = serverSocket.accept();
 			System.out.println("Client connected");
-			
 			try {
 				BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
 				
 				String username = reader.readLine();
-				System.out.println("Server tiếp nhận id: "+username);
+				System.out.println("Server tiếp nhận: "+username);
 				if (isDuplicateAccount(username)) {
 					writer.println("DUPLICATE_LOGIN");
 					socket.close();
@@ -39,7 +38,6 @@ public class Server {
 					ClientHandler clientHandler = new ClientHandler(username, reader, writer, clients);
 				}
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				socket.close();
 				e.printStackTrace();
 			}
@@ -55,13 +53,14 @@ public class Server {
 		return false;
 	}
 	
-	public static void broadCast(Timestamp time, String message, int id, ClientHandler sender) {
+	public static void broadCastMessage(Timestamp time, String message, int id, ClientHandler sender) {
 		for (ClientHandler client : clients.values()) {
 			if (client != sender) {
 				client.sendMessage(message, time, id);
 			}
 		}
 	}
+	
 	
 	public static void sendOnlineUsers() {
 		String id = clients.keySet().stream()
@@ -78,5 +77,13 @@ public class Server {
 	
 	public static void main(String[] args) throws IOException {
 		new Server();
+	}
+
+	public static void broadCastAction(String message, ClientHandler sender) {
+		for (ClientHandler client : clients.values()) {
+			if (client != sender) {
+				client.sendAction(message);
+			}
+		}
 	}
 }
