@@ -94,6 +94,8 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 	private JTextArea displayMessArea;
 	private JTextArea typeArea;
 	private JButton btnSendMessage;
+	private JPanel tab5;
+	private JButton btnTab5;
 
 	/**
 	 * Launch the application.
@@ -793,6 +795,23 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		scrollPane_displayMess.setBackground(new Color(244, 245, 249));
 		scrollPane_displayMess.setBounds(0, 0, 600, 364);
 		panel_2.add(scrollPane_displayMess);
+		
+		tab5 = new JPanel();
+		tab5.setBackground(new Color(244, 245, 249));
+		tabbedPane.addTab("Tab5", null, tab5, null);
+		tabbedPane.setBackgroundAt(4, new Color(244, 245, 249));
+		tab5.setLayout(null);
+		
+		JPanel panel_bottom = new JPanel();
+		panel_bottom.setBackground(new Color(17, 24, 39));
+		panel_bottom.setBounds(89, 58, 658, 350);
+		tab5.add(panel_bottom);
+		panel_bottom.setLayout(null);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(-13, 0, 266, 37);
+		panel_bottom.add(panel_1);
+		panel_1.setBackground(new Color(255, 128, 0));
 
 		JButton btnTab1 = new JButton("Khách hàng");
 		btnTab1.setHorizontalAlignment(SwingConstants.LEFT);
@@ -872,6 +891,17 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		separator_2_1.setBackground(new Color(244, 245, 249));
 		separator_2_1.setBounds(10, 416, 142, 1);
 		panel.add(separator_2_1);
+		
+		btnTab5 = new JButton("Email");
+		btnTab5.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-gmail-30.png")));
+		btnTab5.setHorizontalAlignment(SwingConstants.LEFT);
+		btnTab5.setForeground(new Color(244, 245, 249));
+		btnTab5.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		btnTab5.setFocusable(false);
+		btnTab5.setBorderPainted(false);
+		btnTab5.setBackground(new Color(17, 24, 39));
+		btnTab5.setBounds(0, 341, 162, 42);
+		panel.add(btnTab5);
 
 		/* ================= ACTION LISTENER CHO BUTTON TAB =============== */
 		btnTab1.addActionListener(new ActionListener() {
@@ -885,6 +915,8 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 				btnTab3.setBackground(new Color(17, 24, 39));
 				btnTab4.setForeground(new Color(244, 245, 249));
 				btnTab4.setBackground(new Color(17, 24, 39));
+				btnTab5.setForeground(new Color(244, 245, 249));
+				btnTab5.setBackground(new Color(17, 24, 39));
 			}
 		});
 
@@ -899,6 +931,8 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 				btnTab3.setBackground(new Color(17, 24, 39));
 				btnTab4.setForeground(new Color(244, 245, 249));
 				btnTab4.setBackground(new Color(17, 24, 39));
+				btnTab5.setForeground(new Color(244, 245, 249));
+				btnTab5.setBackground(new Color(17, 24, 39));
 			}
 		});
 
@@ -913,6 +947,8 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 				btnTab1.setBackground(new Color(17, 24, 39));
 				btnTab4.setForeground(new Color(244, 245, 249));
 				btnTab4.setBackground(new Color(17, 24, 39));
+				btnTab5.setForeground(new Color(244, 245, 249));
+				btnTab5.setBackground(new Color(17, 24, 39));
 			}
 		});
 
@@ -920,6 +956,24 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				tabbedPane.setSelectedIndex(3);
 				btnTab4.setBackground(new Color(55, 65, 81));
+				btnTab4.setForeground(new Color(244, 245, 249));
+				btnTab3.setForeground(new Color(244, 245, 249));
+				btnTab3.setBackground(new Color(17, 24, 39));
+				btnTab2.setForeground(new Color(244, 245, 249));
+				btnTab2.setBackground(new Color(17, 24, 39));
+				btnTab1.setForeground(new Color(244, 245, 249));
+				btnTab1.setBackground(new Color(17, 24, 39));
+				btnTab5.setForeground(new Color(244, 245, 249));
+				btnTab5.setBackground(new Color(17, 24, 39));
+			}
+		});
+		
+		btnTab5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tabbedPane.setSelectedIndex(4);
+				btnTab5.setBackground(new Color(55, 65, 81));
+				btnTab5.setForeground(new Color(244, 245, 249));
+				btnTab4.setBackground(new Color(17, 24, 39));
 				btnTab4.setForeground(new Color(244, 245, 249));
 				btnTab3.setForeground(new Color(244, 245, 249));
 				btnTab3.setBackground(new Color(17, 24, 39));
@@ -1036,6 +1090,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 						String content = this.reader.readLine();
 						String senderName = this.reader.readLine();
 						displayMessArea.append(time + "\n" +senderName +": "+content +"\n\n");
+						displayMessArea.setCaretPosition(displayMessArea.getDocument().getLength());
 					}
 		        }
 		    } catch (IOException | ParseException e) {
@@ -1074,7 +1129,10 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		btnNewButton.setBackground(new Color(17, 24, 39));
 		btnNewButton.setBounds(10, 428, 40, 42);
 		panel.add(btnNewButton);
+		
+
 		loadMessage();
+		displayMessArea.setCaretPosition(displayMessArea.getDocument().getLength());
 	}
 
 	private void loadMessage() {

@@ -48,7 +48,7 @@ public class HistoryDAO {
 				String message = resultSet.getString("message");
 				Timestamp time = resultSet.getTimestamp("time");
 				String username = getUserNameById(id);
-				String str = time + "\n" +username+":"+message;
+				String str = time + "\n" +username+": "+message;
 				
 				mess.add(str);
 			}
