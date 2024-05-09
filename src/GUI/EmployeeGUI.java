@@ -1107,10 +1107,10 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		listen.start();
 
 		// Cập nhật nút đăng xuất
-		JButton btnNewButton = new JButton("");
-		btnNewButton.setFocusable(false);
-		btnNewButton.setBorderPainted(false);
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btn_LogOut = new JButton("");
+		btn_LogOut.setFocusable(false);
+		btn_LogOut.setBorderPainted(false);
+		btn_LogOut.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        int response = JOptionPane.showConfirmDialog(null, "Bạn chắc chắn muốn đăng xuất ???");
 		        if (response == JOptionPane.OK_OPTION) {
@@ -1126,11 +1126,11 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		        }
 		    }
 		});
-		btnNewButton.setFocusable(false);
-		btnNewButton.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-log-out-48.png")));
-		btnNewButton.setBackground(new Color(17, 24, 39));
-		btnNewButton.setBounds(10, 434, 40, 42);
-		panel.add(btnNewButton);
+		btn_LogOut.setFocusable(false);
+		btn_LogOut.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-log-out-48.png")));
+		btn_LogOut.setBackground(new Color(17, 24, 39));
+		btn_LogOut.setBounds(10, 434, 40, 42);
+		panel.add(btn_LogOut);
 		
 		JButton btnTab6 = new JButton("Profile");
 		btnTab6.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-user-location-30.png")));
