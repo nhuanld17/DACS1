@@ -145,7 +145,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		ActionListener actionListener = new EmployeeController(this);
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(162, -24, 802, 502);
+		tabbedPane.setBounds(162, -24, 802, 505);
 		contentPane.add(tabbedPane);
 
 		JPanel tab1 = new JPanel();
@@ -730,6 +730,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		panel_OnLineList.setLayout(null);
 		
 		JScrollPane scrollPane_OnlineList = new JScrollPane(panel_OnLineList);
+		scrollPane_OnlineList.setBorder(null);
 		scrollPane_OnlineList.setBackground(new Color(244, 245, 249));
 	
 		scrollPane_OnlineList.setBounds(0, 39, 193, 435);
@@ -740,7 +741,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		panel_OnlineLabel.setBackground(new Color(244, 245, 249));
 		panel_OnlineLabel.setBounds(0, 3, 193, 33);
 		tab4.add(panel_OnlineLabel);
-		panel_OnlineLabel.setBorder(new LineBorder(new Color(17,24,39),2));
+		panel_OnlineLabel.setBorder(new LineBorder(new Color(17, 24, 39), 2));
 		panel_OnlineLabel.setLayout(null);
 		
 		JLabel lblNewLabel_1 = new JLabel("ONLINE");
@@ -760,19 +761,20 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		displayMessArea = new JTextArea();
 		displayMessArea.setEditable(false);
 		displayMessArea.setForeground(SystemColor.desktop);
-		displayMessArea.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		displayMessArea.setFont(new Font("Segoe UI", Font.PLAIN, 17));
 		displayMessArea.setBorder(new LineBorder(new Color(17, 24, 39), 2));
 		displayMessArea.setBounds(0, 0, 602, 364);
 
 //		panel_2.add(displayMessArea);
 		
 		typeArea = new JTextArea();
-		typeArea.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		typeArea.setFont(new Font("Segoe UI", Font.PLAIN, 17));
 		typeArea.setForeground(SystemColor.desktop);
 		typeArea.setBorder(new LineBorder(new Color(17, 24, 39), 2));
 		typeArea.setBounds(0, 372, 521, 91);
 		
 		JScrollPane scrollPane_typeArea = new JScrollPane(typeArea);
+		scrollPane_typeArea.setBorder(null);
 		scrollPane_typeArea.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane_typeArea.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane_typeArea.setBackground(new Color(244, 245, 249));
@@ -821,7 +823,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		btnTab1.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		btnTab1.setBorderPainted(false);
 		btnTab1.setFocusable(false);
-		btnTab1.setBounds(0, 165, 162, 42);
+		btnTab1.setBounds(0, 155, 162, 42);
 		panel.add(btnTab1);
 
 		JButton btnTab2 = new JButton("DS Phòng");
@@ -832,7 +834,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		btnTab2.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		btnTab2.setFocusable(false);
 		btnTab2.setBorderPainted(false);
-		btnTab2.setBounds(0, 209, 162, 42);
+		btnTab2.setBounds(0, 199, 162, 42);
 		panel.add(btnTab2);
 
 		JButton btnTab3 = new JButton("DS Hóa Đơn");
@@ -843,7 +845,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		btnTab3.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		btnTab3.setFocusable(false);
 		btnTab3.setBorderPainted(false);
-		btnTab3.setBounds(0, 253, 162, 42);
+		btnTab3.setBounds(0, 243, 162, 42);
 		panel.add(btnTab3);
 
 		JButton btnTab4 = new JButton("Chatting");
@@ -854,7 +856,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		btnTab4.setBackground(new Color(17, 24, 39));
 		btnTab4.setFocusable(false);
 		btnTab4.setBorderPainted(false);
-		btnTab4.setBounds(0, 297, 162, 42);
+		btnTab4.setBounds(0, 287, 162, 42);
 		panel.add(btnTab4);
 
 		
@@ -889,7 +891,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		JSeparator separator_2_1 = new JSeparator();
 		separator_2_1.setForeground(new Color(244, 245, 249));
 		separator_2_1.setBackground(new Color(244, 245, 249));
-		separator_2_1.setBounds(10, 416, 142, 1);
+		separator_2_1.setBounds(10, 427, 142, 1);
 		panel.add(separator_2_1);
 		
 		btnTab5 = new JButton("Email");
@@ -900,7 +902,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		btnTab5.setFocusable(false);
 		btnTab5.setBorderPainted(false);
 		btnTab5.setBackground(new Color(17, 24, 39));
-		btnTab5.setBounds(0, 341, 162, 42);
+		btnTab5.setBounds(0, 331, 162, 42);
 		panel.add(btnTab5);
 
 		/* ================= ACTION LISTENER CHO BUTTON TAB =============== */
@@ -1127,8 +1129,19 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		btnNewButton.setFocusable(false);
 		btnNewButton.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-log-out-48.png")));
 		btnNewButton.setBackground(new Color(17, 24, 39));
-		btnNewButton.setBounds(10, 428, 40, 42);
+		btnNewButton.setBounds(10, 434, 40, 42);
 		panel.add(btnNewButton);
+		
+		JButton btnTab6 = new JButton("Profile");
+		btnTab6.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-user-location-30.png")));
+		btnTab6.setHorizontalAlignment(SwingConstants.LEFT);
+		btnTab6.setForeground(new Color(244, 245, 249));
+		btnTab6.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		btnTab6.setFocusable(false);
+		btnTab6.setBorderPainted(false);
+		btnTab6.setBackground(new Color(17, 24, 39));
+		btnTab6.setBounds(0, 375, 162, 42);
+		panel.add(btnTab6);
 		
 
 		loadMessage();
