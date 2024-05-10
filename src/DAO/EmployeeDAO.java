@@ -2,12 +2,14 @@ package DAO;
 
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import DTO.Customer;
 import DTO.CustomerServedChart;
+import DTO.Employee;
 
 public class EmployeeDAO {
 

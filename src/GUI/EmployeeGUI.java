@@ -63,8 +63,10 @@ import BUS.RoomBUS;
 import CONTROLLER.EmployeeController;
 import DAO.EmployeeDAO;
 import DAO.HistoryDAO;
+import DAO.ManagerDAO;
 import DTO.Bill;
 import DTO.Customer;
+import DTO.Employee;
 import DTO.Room;
 import javax.swing.ScrollPaneConstants;
 import java.awt.Cursor;
@@ -97,13 +99,11 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 	private JButton btnSendMessage;
 	private JPanel tab5;
 	private JButton btnTab5;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
+	private JTextField textFieldEmpName;
+	private JTextField textFieldBirthDateEmp;
+	private JTextField textField_EmailEmp;
+	private JTextField textField_usernameEmp;
+	private JTextField textField_passwordEmp;
 
 	/**
 	 * Launch the application.
@@ -1183,6 +1183,9 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		loadMessage();
 		displayMessArea.setCaretPosition(displayMessArea.getDocument().getLength());
 		
+		/* ===========  EMPLOYEE INFORMATION AREA  ================ */ 
+		Employee info = new ManagerBUS().getEmployeeById(this.idEmp);
+		
 		JPanel tab6 = new JPanel();
 		tab6.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		tab6.setForeground(new Color(17, 24, 39));
@@ -1196,45 +1199,52 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		tab6.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("Thông tin nhân viên");
+		lblNewLabel_3.setForeground(SystemColor.desktop);
 		lblNewLabel_3.setFont(new Font("Segoe UI", Font.BOLD, 26));
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_3.setBounds(0, 13, 797, 60);
 		tab6.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_7 = new JLabel("Họ và tên");
-		lblNewLabel_7.setForeground(new Color(17, 24, 39));
+		lblNewLabel_7.setForeground(SystemColor.desktop);
 		lblNewLabel_7.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		lblNewLabel_7.setBounds(169, 131, 83, 27);
 		tab6.add(lblNewLabel_7);
 		
-		textField = new JTextField();
-		textField.setForeground(SystemColor.desktop);
-		textField.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-		textField.setBorder(new LineBorder(new Color(17, 24, 39)));
-		textField.setBounds(169, 159, 207, 35);
-		tab6.add(textField);
-		textField.setColumns(10);
+		textFieldEmpName = new JTextField();
+		textFieldEmpName.setDisabledTextColor(Color.DARK_GRAY);
+		textFieldEmpName.setText(info.getName());
+		textFieldEmpName.setForeground(SystemColor.desktop);
+		textFieldEmpName.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		textFieldEmpName.setBorder(new LineBorder(new Color(17, 24, 39)));
+		textFieldEmpName.setBounds(169, 159, 207, 35);
+		tab6.add(textFieldEmpName);
+		textFieldEmpName.setColumns(10);
+		textFieldEmpName.setEnabled(false);
 		
-		JLabel lblNewLabel_7_1 = new JLabel("ID:");
-		lblNewLabel_7_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_7_1.setForeground(new Color(17, 24, 39));
-		lblNewLabel_7_1.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		lblNewLabel_7_1.setBounds(25, 222, 96, 27);
-		tab6.add(lblNewLabel_7_1);
+		JLabel label_id_info = new JLabel("ID:"+info.getId());
+		label_id_info.setHorizontalAlignment(SwingConstants.CENTER);
+		label_id_info.setForeground(SystemColor.desktop);
+		label_id_info.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		label_id_info.setBounds(25, 222, 96, 27);
+		tab6.add(label_id_info);
 		
 		JLabel lblNewLabel_7_2 = new JLabel("Ngày sinh");
-		lblNewLabel_7_2.setForeground(new Color(17, 24, 39));
+		lblNewLabel_7_2.setForeground(SystemColor.desktop);
 		lblNewLabel_7_2.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		lblNewLabel_7_2.setBounds(449, 131, 83, 27);
 		tab6.add(lblNewLabel_7_2);
 		
-		textField_1 = new JTextField();
-		textField_1.setForeground(SystemColor.desktop);
-		textField_1.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-		textField_1.setBorder(new LineBorder(new Color(17, 24, 39)));
-		textField_1.setColumns(10);
-		textField_1.setBounds(449, 159, 207, 35);
-		tab6.add(textField_1);
+		textFieldBirthDateEmp = new JTextField();
+		textFieldBirthDateEmp.setDisabledTextColor(Color.DARK_GRAY);
+		textFieldBirthDateEmp.setText(info.getBirthDate().toString());
+		textFieldBirthDateEmp.setForeground(SystemColor.desktop);
+		textFieldBirthDateEmp.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		textFieldBirthDateEmp.setBorder(new LineBorder(new Color(17, 24, 39)));
+		textFieldBirthDateEmp.setColumns(10);
+		textFieldBirthDateEmp.setBounds(449, 159, 207, 35);
+		tab6.add(textFieldBirthDateEmp);
+		textFieldBirthDateEmp.setEnabled(false);
 		
 		JSeparator separator_3 = new JSeparator();
 		separator_3.setForeground(new Color(17, 24, 39));
@@ -1243,84 +1253,123 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		tab6.add(separator_3);
 		
 		JLabel lblNewLabel_7_3 = new JLabel("Email");
-		lblNewLabel_7_3.setForeground(new Color(17, 24, 39));
+		lblNewLabel_7_3.setForeground(SystemColor.desktop);
 		lblNewLabel_7_3.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		lblNewLabel_7_3.setBounds(169, 216, 83, 27);
 		tab6.add(lblNewLabel_7_3);
 		
-		textField_2 = new JTextField();
-		textField_2.setForeground(SystemColor.desktop);
-		textField_2.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-		textField_2.setColumns(10);
-		textField_2.setBorder(new LineBorder(new Color(17, 24, 39)));
-		textField_2.setBounds(169, 244, 207, 35);
-		tab6.add(textField_2);
+		textField_EmailEmp = new JTextField();
+		textField_EmailEmp.setDisabledTextColor(Color.DARK_GRAY);
+		textField_EmailEmp.setText(info.getEmail());
+		textField_EmailEmp.setForeground(SystemColor.desktop);
+		textField_EmailEmp.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		textField_EmailEmp.setColumns(10);
+		textField_EmailEmp.setBorder(new LineBorder(new Color(17, 24, 39)));
+		textField_EmailEmp.setBounds(169, 244, 207, 35);
+		tab6.add(textField_EmailEmp);
+		textField_EmailEmp.setEnabled(false);
 		
 		JLabel lblNewLabel_7_2_1 = new JLabel("Giới tính");
-		lblNewLabel_7_2_1.setForeground(new Color(17, 24, 39));
+		lblNewLabel_7_2_1.setForeground(SystemColor.desktop);
 		lblNewLabel_7_2_1.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		lblNewLabel_7_2_1.setBounds(449, 216, 83, 27);
 		tab6.add(lblNewLabel_7_2_1);
 		
-		textField_3 = new JTextField();
-		textField_3.setForeground(SystemColor.desktop);
-		textField_3.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-		textField_3.setColumns(10);
-		textField_3.setBorder(new LineBorder(new Color(17, 24, 39)));
-		textField_3.setBounds(449, 244, 126, 35);
-		tab6.add(textField_3);
-		
-		textField_4 = new JTextField();
-		textField_4.setForeground(SystemColor.desktop);
-		textField_4.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-		textField_4.setColumns(10);
-		textField_4.setBorder(new LineBorder(new Color(17, 24, 39)));
-		textField_4.setBounds(169, 318, 207, 35);
-		tab6.add(textField_4);
-		
-		JLabel lblNewLabel_7_3_1 = new JLabel("Vị trí");
-		lblNewLabel_7_3_1.setForeground(new Color(17, 24, 39));
-		lblNewLabel_7_3_1.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		lblNewLabel_7_3_1.setBounds(169, 290, 83, 27);
-		tab6.add(lblNewLabel_7_3_1);
-		
-		textField_5 = new JTextField();
-		textField_5.setForeground(SystemColor.desktop);
-		textField_5.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-		textField_5.setColumns(10);
-		textField_5.setBorder(new LineBorder(new Color(17, 24, 39)));
-		textField_5.setBounds(449, 318, 207, 35);
-		tab6.add(textField_5);
+		textField_usernameEmp = new JTextField();
+		textField_usernameEmp.setDisabledTextColor(Color.DARK_GRAY);
+		textField_usernameEmp.setText(info.getUserName());
+		textField_usernameEmp.setForeground(SystemColor.desktop);
+		textField_usernameEmp.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		textField_usernameEmp.setColumns(10);
+		textField_usernameEmp.setBorder(new LineBorder(new Color(17, 24, 39)));
+		textField_usernameEmp.setBounds(169, 328, 207, 35);
+		tab6.add(textField_usernameEmp);
+		textField_usernameEmp.setEnabled(false);
 		
 		JLabel lblNewLabel_7_3_2 = new JLabel("Tên tài khoản");
-		lblNewLabel_7_3_2.setForeground(new Color(17, 24, 39));
+		lblNewLabel_7_3_2.setForeground(SystemColor.desktop);
 		lblNewLabel_7_3_2.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		lblNewLabel_7_3_2.setBounds(449, 290, 139, 27);
+		lblNewLabel_7_3_2.setBounds(169, 300, 139, 27);
 		tab6.add(lblNewLabel_7_3_2);
 		
 		JLabel lblNewLabel_7_3_2_1 = new JLabel("Mật khẩu");
-		lblNewLabel_7_3_2_1.setForeground(new Color(17, 24, 39));
+		lblNewLabel_7_3_2_1.setForeground(SystemColor.desktop);
 		lblNewLabel_7_3_2_1.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		lblNewLabel_7_3_2_1.setBounds(169, 364, 139, 27);
+		lblNewLabel_7_3_2_1.setBounds(449, 300, 139, 27);
 		tab6.add(lblNewLabel_7_3_2_1);
 		
-		textField_6 = new JTextField();
-		textField_6.setForeground(SystemColor.desktop);
-		textField_6.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-		textField_6.setColumns(10);
-		textField_6.setBorder(new LineBorder(new Color(17, 24, 39)));
-		textField_6.setBounds(169, 392, 207, 35);
-		tab6.add(textField_6);
+		textField_passwordEmp = new JTextField();
+		textField_passwordEmp.setDisabledTextColor(Color.DARK_GRAY);
+		textField_passwordEmp.setText(info.getPassword());
+		textField_passwordEmp.setForeground(SystemColor.desktop);
+		textField_passwordEmp.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		textField_passwordEmp.setColumns(10);
+		textField_passwordEmp.setBorder(new LineBorder(new Color(17, 24, 39)));
+		textField_passwordEmp.setBounds(449, 328, 207, 35);
+		tab6.add(textField_passwordEmp);
+		textField_passwordEmp.setEnabled(false);
 		
-		JButton btnNewButton = new JButton("EDIT");
-		btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnNewButton.setContentAreaFilled(false);
-		btnNewButton.setBackground(new Color(244, 245, 249));
-		btnNewButton.setBorder(new LineBorder(new Color(17, 24, 39), 2));
-		btnNewButton.setForeground(new Color(17, 24, 39));
-		btnNewButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		btnNewButton.setBounds(449, 392, 89, 35);
-		tab6.add(btnNewButton);
+		JButton btnEditEmpInfo = new JButton("EDIT");
+		btnEditEmpInfo.setBackground(new Color(244, 245, 249));
+		btnEditEmpInfo.setBorder(new LineBorder(new Color(17, 24, 39), 2));
+		btnEditEmpInfo.setForeground(new Color(17, 24, 39));
+		btnEditEmpInfo.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		btnEditEmpInfo.setBounds(449, 392, 89, 35);
+		tab6.add(btnEditEmpInfo);
+		
+		JButton btnUpdateEmpInfo = new JButton("SAVE");
+		btnUpdateEmpInfo.setForeground(new Color(17, 24, 39));
+		btnUpdateEmpInfo.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		btnUpdateEmpInfo.setBorder(new LineBorder(new Color(17, 24, 39), 2));
+		btnUpdateEmpInfo.setBackground(new Color(244, 245, 249));
+		btnUpdateEmpInfo.setBounds(562, 392, 89, 35);
+		tab6.add(btnUpdateEmpInfo);
+		
+		JRadioButton rdbtn_Man = new JRadioButton("Nam");
+		rdbtn_Man.setForeground(SystemColor.desktop);
+		rdbtn_Man.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		rdbtn_Man.setBackground(new Color(244, 245, 249));
+		rdbtn_Man.setBounds(449, 244, 58, 35);
+		tab6.add(rdbtn_Man);
+		
+		JRadioButton rdbtn_Woman = new JRadioButton("Nữ");
+		rdbtn_Woman.setForeground(SystemColor.desktop);
+		rdbtn_Woman.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		rdbtn_Woman.setBackground(new Color(244, 245, 249));
+		rdbtn_Woman.setBounds(520, 244, 109, 35);
+		tab6.add(rdbtn_Woman);
+		
+		ButtonGroup btnGroupSex = new ButtonGroup();
+		btnGroupSex.add(rdbtn_Man);
+		btnGroupSex.add(rdbtn_Woman);
+		
+		if (info.isSex()) {
+			rdbtn_Man.setSelected(true);
+		} else {
+			rdbtn_Woman.setSelected(true);
+		}
+		rdbtn_Man.setEnabled(false);
+		rdbtn_Woman.setEnabled(false);
+		
+		/* ====== ACTIONLISTENER FOR BUTTON TAB6 ===========*/
+		btnEditEmpInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textFieldEmpName.setEnabled(true);
+				textFieldBirthDateEmp.setEnabled(true);
+				textField_EmailEmp.setEnabled(true);
+				rdbtn_Man.setEnabled(true);
+				rdbtn_Woman.setEnabled(true);
+				textField_usernameEmp.setEnabled(true);
+				textField_passwordEmp.setEnabled(true);
+			}
+		});
+		
+		btnUpdateEmpInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
 	}
 
 	private void loadMessage() {

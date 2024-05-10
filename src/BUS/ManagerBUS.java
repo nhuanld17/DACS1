@@ -2,6 +2,7 @@ package BUS;
 
 import java.util.ArrayList;
 
+import DAO.EmployeeDAO;
 import DAO.ManagerDAO;
 import DTO.Employee;
 
@@ -48,6 +49,10 @@ public class ManagerBUS {
 
 	public boolean isValidEmail(String email, int id) {
 		return new ManagerDAO().isValidEmail(email, id);
+	}
+
+	public Employee getEmployeeById(int idEmp) {
+		return new ManagerDAO().getEmployeeById(idEmp);
 	}
 
 }

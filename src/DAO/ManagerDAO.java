@@ -2,6 +2,7 @@ package DAO;
 
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import DTO.Employee;
@@ -199,4 +200,31 @@ public class ManagerDAO {
 		}
 		return false;
 	}
+
+	public Employee getEmployeeById(int idEmp) {
+		Employee employee = null;
+		String query = "SELECT * FROM hotel.employee WHERE id = '"+idEmp+"'";
+		try {
+			ResultSet resultSet = new DBConn().queryDB(query);
+			
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String name = resultSet.getString("name");
+				Date birthdate = resultSet.getDate("birthdate");
+				String email = resultSet.getString("email");
+				boolean sex = resultSet.getBoolean("sex");
+				String position = resultSet.getString("position");
+				String username = resultSet.getString("username");
+				String password = resultSet.getString("password");
+				
+				employee = new Employee(id, name, birthdate, email, sex, position, username, password);
+			}
+			return employee;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }
