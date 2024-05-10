@@ -67,6 +67,7 @@ import DTO.Bill;
 import DTO.Customer;
 import DTO.Room;
 import javax.swing.ScrollPaneConstants;
+import java.awt.Cursor;
 
 public class EmployeeGUI extends JFrame implements ActionListener {
 
@@ -96,6 +97,13 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 	private JButton btnSendMessage;
 	private JPanel tab5;
 	private JButton btnTab5;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
+	private JTextField textField_5;
+	private JTextField textField_6;
 
 	/**
 	 * Launch the application.
@@ -157,7 +165,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		lblNewLabel.setFont(new Font("Segoe UI", Font.BOLD, 26));
 		lblNewLabel.setForeground(SystemColor.desktop);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(260, 38, 255, 36);
+		lblNewLabel.setBounds(271, 38, 255, 36);
 		tab1.add(lblNewLabel);
 
 		JLabel lblNewLabel_4 = new JLabel("Họ và tên");
@@ -904,6 +912,17 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		btnTab5.setBackground(new Color(17, 24, 39));
 		btnTab5.setBounds(0, 331, 162, 42);
 		panel.add(btnTab5);
+		
+		JButton btnTab6 = new JButton("Profile");
+		btnTab6.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-user-location-30.png")));
+		btnTab6.setHorizontalAlignment(SwingConstants.LEFT);
+		btnTab6.setForeground(new Color(244, 245, 249));
+		btnTab6.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		btnTab6.setFocusable(false);
+		btnTab6.setBorderPainted(false);
+		btnTab6.setBackground(new Color(17, 24, 39));
+		btnTab6.setBounds(0, 375, 162, 42);
+		panel.add(btnTab6);
 
 		/* ================= ACTION LISTENER CHO BUTTON TAB =============== */
 		btnTab1.addActionListener(new ActionListener() {
@@ -919,6 +938,8 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 				btnTab4.setBackground(new Color(17, 24, 39));
 				btnTab5.setForeground(new Color(244, 245, 249));
 				btnTab5.setBackground(new Color(17, 24, 39));
+				btnTab6.setForeground(new Color(244, 245, 249));
+				btnTab6.setBackground(new Color(17, 24, 39));
 			}
 		});
 
@@ -935,6 +956,8 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 				btnTab4.setBackground(new Color(17, 24, 39));
 				btnTab5.setForeground(new Color(244, 245, 249));
 				btnTab5.setBackground(new Color(17, 24, 39));
+				btnTab6.setForeground(new Color(244, 245, 249));
+				btnTab6.setBackground(new Color(17, 24, 39));
 			}
 		});
 
@@ -951,6 +974,8 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 				btnTab4.setBackground(new Color(17, 24, 39));
 				btnTab5.setForeground(new Color(244, 245, 249));
 				btnTab5.setBackground(new Color(17, 24, 39));
+				btnTab6.setForeground(new Color(244, 245, 249));
+				btnTab6.setBackground(new Color(17, 24, 39));
 			}
 		});
 
@@ -967,6 +992,8 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 				btnTab1.setBackground(new Color(17, 24, 39));
 				btnTab5.setForeground(new Color(244, 245, 249));
 				btnTab5.setBackground(new Color(17, 24, 39));
+				btnTab6.setForeground(new Color(244, 245, 249));
+				btnTab6.setBackground(new Color(17, 24, 39));
 			}
 		});
 		
@@ -983,8 +1010,29 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 				btnTab2.setBackground(new Color(17, 24, 39));
 				btnTab1.setForeground(new Color(244, 245, 249));
 				btnTab1.setBackground(new Color(17, 24, 39));
+				btnTab6.setForeground(new Color(244, 245, 249));
+				btnTab6.setBackground(new Color(17, 24, 39));
 			}
 		});
+		
+		btnTab6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tabbedPane.setSelectedIndex(5);
+				btnTab6.setBackground(new Color(55, 65, 81));
+				btnTab6.setForeground(new Color(244, 245, 249));
+				btnTab5.setBackground(new Color(17, 24, 39));
+				btnTab5.setForeground(new Color(244, 245, 249));
+				btnTab4.setForeground(new Color(244, 245, 249));
+				btnTab4.setBackground(new Color(17, 24, 39));
+				btnTab3.setForeground(new Color(244, 245, 249));
+				btnTab3.setBackground(new Color(17, 24, 39));
+				btnTab2.setForeground(new Color(244, 245, 249));
+				btnTab2.setBackground(new Color(17, 24, 39));
+				btnTab1.setForeground(new Color(244, 245, 249));
+				btnTab1.setBackground(new Color(17, 24, 39));
+			}
+		});
+		
 		/* ================= ACTION LISTENER CHO BUTTON TAB =============== */
 		
 		/*================== MULTI-THREAD ==========================*/
@@ -1132,20 +1180,147 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		btn_LogOut.setBounds(10, 434, 40, 42);
 		panel.add(btn_LogOut);
 		
-		JButton btnTab6 = new JButton("Profile");
-		btnTab6.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-user-location-30.png")));
-		btnTab6.setHorizontalAlignment(SwingConstants.LEFT);
-		btnTab6.setForeground(new Color(244, 245, 249));
-		btnTab6.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		btnTab6.setFocusable(false);
-		btnTab6.setBorderPainted(false);
-		btnTab6.setBackground(new Color(17, 24, 39));
-		btnTab6.setBounds(0, 375, 162, 42);
-		panel.add(btnTab6);
-		
-
 		loadMessage();
 		displayMessArea.setCaretPosition(displayMessArea.getDocument().getLength());
+		
+		JPanel tab6 = new JPanel();
+		tab6.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		tab6.setForeground(new Color(17, 24, 39));
+		tab6.setBackground(new Color(244, 245, 249));
+		tabbedPane.addTab("Tab6", null, tab6, null);
+		tab6.setLayout(null);
+		
+		JLabel lblNewLabel_2 = new JLabel("");
+		lblNewLabel_2.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-user-96.png")));
+		lblNewLabel_2.setBounds(25, 131, 96, 96);
+		tab6.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("Thông tin nhân viên");
+		lblNewLabel_3.setFont(new Font("Segoe UI", Font.BOLD, 26));
+		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3.setBounds(0, 13, 797, 60);
+		tab6.add(lblNewLabel_3);
+		
+		JLabel lblNewLabel_7 = new JLabel("Họ và tên");
+		lblNewLabel_7.setForeground(new Color(17, 24, 39));
+		lblNewLabel_7.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		lblNewLabel_7.setBounds(169, 131, 83, 27);
+		tab6.add(lblNewLabel_7);
+		
+		textField = new JTextField();
+		textField.setForeground(SystemColor.desktop);
+		textField.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		textField.setBorder(new LineBorder(new Color(17, 24, 39)));
+		textField.setBounds(169, 159, 207, 35);
+		tab6.add(textField);
+		textField.setColumns(10);
+		
+		JLabel lblNewLabel_7_1 = new JLabel("ID:");
+		lblNewLabel_7_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_7_1.setForeground(new Color(17, 24, 39));
+		lblNewLabel_7_1.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		lblNewLabel_7_1.setBounds(25, 222, 96, 27);
+		tab6.add(lblNewLabel_7_1);
+		
+		JLabel lblNewLabel_7_2 = new JLabel("Ngày sinh");
+		lblNewLabel_7_2.setForeground(new Color(17, 24, 39));
+		lblNewLabel_7_2.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		lblNewLabel_7_2.setBounds(449, 131, 83, 27);
+		tab6.add(lblNewLabel_7_2);
+		
+		textField_1 = new JTextField();
+		textField_1.setForeground(SystemColor.desktop);
+		textField_1.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		textField_1.setBorder(new LineBorder(new Color(17, 24, 39)));
+		textField_1.setColumns(10);
+		textField_1.setBounds(449, 159, 207, 35);
+		tab6.add(textField_1);
+		
+		JSeparator separator_3 = new JSeparator();
+		separator_3.setForeground(new Color(17, 24, 39));
+		separator_3.setBackground(new Color(17, 24, 39));
+		separator_3.setBounds(10, 98, 777, 2);
+		tab6.add(separator_3);
+		
+		JLabel lblNewLabel_7_3 = new JLabel("Email");
+		lblNewLabel_7_3.setForeground(new Color(17, 24, 39));
+		lblNewLabel_7_3.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		lblNewLabel_7_3.setBounds(169, 216, 83, 27);
+		tab6.add(lblNewLabel_7_3);
+		
+		textField_2 = new JTextField();
+		textField_2.setForeground(SystemColor.desktop);
+		textField_2.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		textField_2.setColumns(10);
+		textField_2.setBorder(new LineBorder(new Color(17, 24, 39)));
+		textField_2.setBounds(169, 244, 207, 35);
+		tab6.add(textField_2);
+		
+		JLabel lblNewLabel_7_2_1 = new JLabel("Giới tính");
+		lblNewLabel_7_2_1.setForeground(new Color(17, 24, 39));
+		lblNewLabel_7_2_1.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		lblNewLabel_7_2_1.setBounds(449, 216, 83, 27);
+		tab6.add(lblNewLabel_7_2_1);
+		
+		textField_3 = new JTextField();
+		textField_3.setForeground(SystemColor.desktop);
+		textField_3.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		textField_3.setColumns(10);
+		textField_3.setBorder(new LineBorder(new Color(17, 24, 39)));
+		textField_3.setBounds(449, 244, 126, 35);
+		tab6.add(textField_3);
+		
+		textField_4 = new JTextField();
+		textField_4.setForeground(SystemColor.desktop);
+		textField_4.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		textField_4.setColumns(10);
+		textField_4.setBorder(new LineBorder(new Color(17, 24, 39)));
+		textField_4.setBounds(169, 318, 207, 35);
+		tab6.add(textField_4);
+		
+		JLabel lblNewLabel_7_3_1 = new JLabel("Vị trí");
+		lblNewLabel_7_3_1.setForeground(new Color(17, 24, 39));
+		lblNewLabel_7_3_1.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		lblNewLabel_7_3_1.setBounds(169, 290, 83, 27);
+		tab6.add(lblNewLabel_7_3_1);
+		
+		textField_5 = new JTextField();
+		textField_5.setForeground(SystemColor.desktop);
+		textField_5.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		textField_5.setColumns(10);
+		textField_5.setBorder(new LineBorder(new Color(17, 24, 39)));
+		textField_5.setBounds(449, 318, 207, 35);
+		tab6.add(textField_5);
+		
+		JLabel lblNewLabel_7_3_2 = new JLabel("Tên tài khoản");
+		lblNewLabel_7_3_2.setForeground(new Color(17, 24, 39));
+		lblNewLabel_7_3_2.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		lblNewLabel_7_3_2.setBounds(449, 290, 139, 27);
+		tab6.add(lblNewLabel_7_3_2);
+		
+		JLabel lblNewLabel_7_3_2_1 = new JLabel("Mật khẩu");
+		lblNewLabel_7_3_2_1.setForeground(new Color(17, 24, 39));
+		lblNewLabel_7_3_2_1.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		lblNewLabel_7_3_2_1.setBounds(169, 364, 139, 27);
+		tab6.add(lblNewLabel_7_3_2_1);
+		
+		textField_6 = new JTextField();
+		textField_6.setForeground(SystemColor.desktop);
+		textField_6.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		textField_6.setColumns(10);
+		textField_6.setBorder(new LineBorder(new Color(17, 24, 39)));
+		textField_6.setBounds(169, 392, 207, 35);
+		tab6.add(textField_6);
+		
+		JButton btnNewButton = new JButton("EDIT");
+		btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnNewButton.setContentAreaFilled(false);
+		btnNewButton.setBackground(new Color(244, 245, 249));
+		btnNewButton.setBorder(new LineBorder(new Color(17, 24, 39), 2));
+		btnNewButton.setForeground(new Color(17, 24, 39));
+		btnNewButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		btnNewButton.setBounds(449, 392, 89, 35);
+		tab6.add(btnNewButton);
 	}
 
 	private void loadMessage() {
@@ -1537,7 +1712,6 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 				String name = new HistoryBUS().getNameByUserName(this.username);
 				displayMessArea.append(time + "\n" + name + ": " + message + "\n\n");
 				displayMessArea.setCaretPosition(displayMessArea.getDocument().getLength());
-
 			}
 		}
 	}
