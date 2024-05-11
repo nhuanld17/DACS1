@@ -30,6 +30,9 @@ public class BillDAO {
 				Timestamp dateOrder = resultSet.getTimestamp("dateOrder");
 				Timestamp dateReturn = resultSet.getTimestamp("dateReturn");
 				long price = resultSet.getLong("price");
+				if (resultSet.wasNull()) {
+				    price = -1; // Hoặc bất kỳ giá trị mặc định nào bạn muốn gán khi có NULL
+				}
 				
 				bills.add(new Bill(id, roomNumber, CCCD, dateOrder, dateReturn, price));
 			}

@@ -1,6 +1,9 @@
 package GUI;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
@@ -40,12 +43,11 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -63,13 +65,10 @@ import BUS.RoomBUS;
 import CONTROLLER.EmployeeController;
 import DAO.EmployeeDAO;
 import DAO.HistoryDAO;
-import DAO.ManagerDAO;
 import DTO.Bill;
 import DTO.Customer;
 import DTO.Employee;
 import DTO.Room;
-import javax.swing.ScrollPaneConstants;
-import java.awt.Cursor;
 
 public class EmployeeGUI extends JFrame implements ActionListener {
 
@@ -82,6 +81,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 	private JTable table_Customer;
 	private String birthDateRegex = "^(?:(?:19|20)\\d\\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]|(?:0[1-9]|1\\d|2[0-8]))|(?:19|20)\\d\\d-(0[1-9]|1[0-2])-(29|30)(?:-0[1-9]|-1[0-9]|-2[0-8])|(?:19|20)(?:0[48]|[2468][048]|[13579][26])-02-29$";
 	public String regex_cccd = "^(01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56|57|58|59|60|61|62|63|64)[0-9]{10}$";
+	private String emailRegex = "^[a-zA-Z0-9._%+-]+@gmail.com$";
 	public int idEmp;
 	private JTable table_Room;
 	private JTable table_Bill;
@@ -104,6 +104,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 	private JTextField textField_EmailEmp;
 	private JTextField textField_usernameEmp;
 	private JTextField textField_passwordEmp;
+	private ButtonGroup btnGroupSex;
 
 	/**
 	 * Launch the application.
@@ -1339,7 +1340,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		rdbtn_Woman.setBounds(520, 244, 109, 35);
 		tab6.add(rdbtn_Woman);
 		
-		ButtonGroup btnGroupSex = new ButtonGroup();
+		btnGroupSex = new ButtonGroup();
 		btnGroupSex.add(rdbtn_Man);
 		btnGroupSex.add(rdbtn_Woman);
 		
@@ -1366,10 +1367,54 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		
 		btnUpdateEmpInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Lấy thông tin từ form
+				String name = textFieldEmpName.getText();
+				Date birthdate = Date.valueOf(textFieldBirthDateEmp.getText());
+				String email = textField_EmailEmp.getText();
+				String username = textField_usernameEmp.getText();
+				String password = textField_passwordEmp.getText();
 				
+				// Kiểm tra có mục nào để trống hay không
+				if (name.isEmpty() || birthdate.toString().isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty() || (!rdbtn_Man.isSelected() && !rdbtn_Woman.isSelected())) {
+					JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin");
+					return;
+				}
+				
+				// Kiểm tra định dạng ngày sinh theo yyyy-MM-dd
+				if (!birthdate.toString().matches(birthDateRegex)) {
+					JOptionPane.showMessageDialog(null, "Nhập ngày sinh theo định dạng yyyy-MM-dd");
+					return;
+				}
+				
+				// Kiểm tra định dạng email
+				if (!email.matches(emailRegex)) {
+					JOptionPane.showMessageDialog(null, "Định dạng email chưa đúng");
+					return;
+				}
+				
+				// Kiểm tra username có trùng với nhân viên khác hay không
+				if (isDuplicateUserName(userName)) {
+					JOptionPane.showMessageDialog(null, "Tên tài khoản đã được sử dụng trong hệ thống");
+					return;
+				}
+				
+				if (password.length() < 8 || password.contains(" ")) {
+					JOptionPane.showMessageDialog(null, "Mật khẩu không được ít hơn 8 kí tự và không chứa dấu cách");
+					return;
+				}
 			}
 		});
 		
+	}
+	
+	public boolean isDuplicateUserName(String userName) {
+		ArrayList<String> userNames = new ManagerBUS().getListUserName();
+		for (String string : userNames) {
+			if (userName.equals(string)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private void loadMessage() {
