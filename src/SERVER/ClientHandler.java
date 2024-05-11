@@ -21,7 +21,8 @@ public class ClientHandler extends Thread{
 		System.out.println(username+" here");
 		this.writer = writer;
 		this.clients = clients;
-		clients.put(username, this);
+//		clients.put(username, this);
+		clients.put(this.username, this);
 		start();
 	}
 	

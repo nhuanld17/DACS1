@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import com.orsoncharts.OnDrawHandler;
 
 public class Server {
-	private static HashMap<String, ClientHandler> clients = new HashMap<>();
+	public static HashMap<String, ClientHandler> clients = new HashMap<>();
 	
 	public Server() throws IOException {
 		ServerSocket serverSocket = new ServerSocket(9999);

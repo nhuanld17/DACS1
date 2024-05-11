@@ -1,5 +1,6 @@
 package BUS;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 import DAO.EmployeeDAO;
@@ -53,6 +54,11 @@ public class ManagerBUS {
 
 	public Employee getEmployeeById(int idEmp) {
 		return new ManagerDAO().getEmployeeById(idEmp);
+	}
+	
+	// Lưu thay đổi thông tin nhân viên
+	public void changeEmployeeInfo(int idEmp, String name, Date birthdate, String email, boolean sex, String username, String password) {
+		new ManagerDAO().changeEmployeeInfo(idEmp,name, birthdate, email,sex, username, password);
 	}
 
 }

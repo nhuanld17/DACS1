@@ -227,4 +227,19 @@ public class ManagerDAO {
 		return null;
 	}
 
+
+	public void changeEmployeeInfo(int idEmp, String name, Date birthdate, String email, boolean sex, String username, String password) {
+		int sexInt = sex ? 1 : 0;
+		String query = "UPDATE hotel.employee"
+				+ " SET name = '"+name+"', birthdate = '"+birthdate+"', email = '"+email+"', sex = '"+sexInt+"', username = '"+username+"', password = '"+password+"'"
+				+ " WHERE id = '"+idEmp+"'";
+		
+		try {
+			new DBConn().updateDB(query);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 }

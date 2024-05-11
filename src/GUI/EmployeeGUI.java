@@ -1,7 +1,5 @@
 package GUI;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -81,7 +79,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 	private JTable table_Customer;
 	private String birthDateRegex = "^(?:(?:19|20)\\d\\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]|(?:0[1-9]|1\\d|2[0-8]))|(?:19|20)\\d\\d-(0[1-9]|1[0-2])-(29|30)(?:-0[1-9]|-1[0-9]|-2[0-8])|(?:19|20)(?:0[48]|[2468][048]|[13579][26])-02-29$";
 	public String regex_cccd = "^(01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56|57|58|59|60|61|62|63|64)[0-9]{10}$";
-	private String emailRegex = "^[a-zA-Z0-9._%+-]+@gmail.com$";
+	private String emailRegex = "(?i)[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}";
 	public int idEmp;
 	private JTable table_Room;
 	private JTable table_Bill;
@@ -105,6 +103,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 	private JTextField textField_usernameEmp;
 	private JTextField textField_passwordEmp;
 	private ButtonGroup btnGroupSex;
+	private JLabel label_EmployeeName;
 
 	/**
 	 * Launch the application.
@@ -637,7 +636,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		btn_Abate.setForeground(new Color(244, 245, 249));
 		btn_Abate.setBorder(new LineBorder(new Color(17, 24, 39), 2));
 		btn_Abate.setBackground(new Color(17, 24, 39));
-		btn_Abate.setBounds(275, 109, 114, 30);
+		btn_Abate.setBounds(278, 109, 114, 30);
 		btn_Abate.addActionListener(actionListener);
 		btn_Abate.addMouseListener(new MouseAdapter() {
 		    public void mouseEntered(MouseEvent e) {
@@ -867,8 +866,6 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		btnTab4.setBorderPainted(false);
 		btnTab4.setBounds(0, 287, 162, 42);
 		panel.add(btnTab4);
-
-		
 		
 		JLabel lblNewLabel_6 = new JLabel("");
 		lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
@@ -884,7 +881,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		lblHello.setBounds(0, 86, 162, 25);
 		panel.add(lblHello);
 		
-		JLabel label_EmployeeName = new JLabel(EmployeeName+":V");
+		label_EmployeeName = new JLabel(EmployeeName+":V");
 		label_EmployeeName.setHorizontalAlignment(SwingConstants.CENTER);
 		label_EmployeeName.setForeground(new Color(244, 245, 249));
 		label_EmployeeName.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -1311,6 +1308,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		textField_passwordEmp.setEnabled(false);
 		
 		JButton btnEditEmpInfo = new JButton("EDIT");
+		btnEditEmpInfo.setFocusable(false);
 		btnEditEmpInfo.setBackground(new Color(244, 245, 249));
 		btnEditEmpInfo.setBorder(new LineBorder(new Color(17, 24, 39), 2));
 		btnEditEmpInfo.setForeground(new Color(17, 24, 39));
@@ -1319,6 +1317,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		tab6.add(btnEditEmpInfo);
 		
 		JButton btnUpdateEmpInfo = new JButton("SAVE");
+		btnUpdateEmpInfo.setFocusable(false);
 		btnUpdateEmpInfo.setForeground(new Color(17, 24, 39));
 		btnUpdateEmpInfo.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		btnUpdateEmpInfo.setBorder(new LineBorder(new Color(17, 24, 39), 2));
@@ -1368,11 +1367,12 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		btnUpdateEmpInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Lấy thông tin từ form
-				String name = textFieldEmpName.getText();
-				Date birthdate = Date.valueOf(textFieldBirthDateEmp.getText());
-				String email = textField_EmailEmp.getText();
-				String username = textField_usernameEmp.getText();
-				String password = textField_passwordEmp.getText();
+				String name = textFieldEmpName.getText().trim();
+				Date birthdate = Date.valueOf(textFieldBirthDateEmp.getText().trim());
+				String email = textField_EmailEmp.getText().trim();
+				String username = textField_usernameEmp.getText().trim();
+				String password = textField_passwordEmp.getText().trim();
+				boolean sex = true;
 				
 				// Kiểm tra có mục nào để trống hay không
 				if (name.isEmpty() || birthdate.toString().isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty() || (!rdbtn_Man.isSelected() && !rdbtn_Woman.isSelected())) {
@@ -1388,20 +1388,58 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 				
 				// Kiểm tra định dạng email
 				if (!email.matches(emailRegex)) {
+					System.out.println(email);
 					JOptionPane.showMessageDialog(null, "Định dạng email chưa đúng");
 					return;
 				}
 				
 				// Kiểm tra username có trùng với nhân viên khác hay không
-				if (isDuplicateUserName(userName)) {
-					JOptionPane.showMessageDialog(null, "Tên tài khoản đã được sử dụng trong hệ thống");
-					return;
+				if (!username.equals(EmployeeGUI.this.username)) {
+					if (isDuplicateUserName(username)) {
+						JOptionPane.showMessageDialog(null, "Tên tài khoản đã được sử dụng trong hệ thống");
+						return;
+					}
 				}
 				
 				if (password.length() < 8 || password.contains(" ")) {
 					JOptionPane.showMessageDialog(null, "Mật khẩu không được ít hơn 8 kí tự và không chứa dấu cách");
 					return;
 				}
+				
+				if (rdbtn_Man.isSelected()) {
+					sex = true;
+				} else if (rdbtn_Woman.isSelected()) {
+					sex = false;
+				}
+				
+				// Tiến hành lưu thay đổi ở cơ sở dữ liệu
+				new ManagerBUS().changeEmployeeInfo(EmployeeGUI.this.idEmp,name,birthdate,email,sex,username,password);
+				
+				// Disable form
+				textFieldEmpName.setEnabled(false);
+				textFieldBirthDateEmp.setEnabled(false);
+				textField_EmailEmp.setEnabled(false);
+				rdbtn_Man.setEnabled(false);
+				rdbtn_Woman.setEnabled(false);
+				textField_usernameEmp.setEnabled(false);
+				textField_passwordEmp.setEnabled(false);
+				
+				// Thay đổi tên ở sidebar
+
+				// Phần này giữ lại
+				EmployeeName = new ManagerBUS().getEmpNameById(idEmp);
+				label_EmployeeName.setText(EmployeeName + ":V");
+				EmployeeGUI.this.setVisible(false);
+				new LoginGUI().setVisible(true);
+				running.set(false); // Đặt cờ để dừng vòng lặp trong thread.
+				listen.interrupt(); // Yêu cầu dừng luồng.
+				try {
+					EmployeeGUI.this.socket.close();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				
+				
 			}
 		});
 		
@@ -1803,7 +1841,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 				writer.println(time);
 				writer.println(message);
 				typeArea.setText("");
-				String name = new HistoryBUS().getNameByUserName(this.username);
+				String name = new HistoryBUS().getNameByUserName(EmployeeGUI.this.username);
 				displayMessArea.append(time + "\n" + name + ": " + message + "\n\n");
 				displayMessArea.setCaretPosition(displayMessArea.getDocument().getLength());
 			}
