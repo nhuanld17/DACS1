@@ -81,4 +81,8 @@ public class Bill {
 	public Object[] toObject() {
 		return new Object[] {""+id,cccd,roomNumber+"",dateOrder, dateReturn, (price >= 0) ? price : ""};
 	}
+	
+	public Object[] NotAbateToObject() {
+		return new Object[] {""+id,cccd,roomNumber+"",dateOrder, dateReturn, price};
+	}
 }

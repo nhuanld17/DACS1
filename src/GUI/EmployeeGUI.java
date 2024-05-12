@@ -3,6 +3,7 @@ package GUI;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -274,8 +275,6 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		tab1.add(separator);
 
 		table_Customer = new JTable();
-		table_Customer.setFillsViewportHeight(true);
-
 		table_Customer.setModel(
 				new DefaultTableModel(new Object[][] {}, new String[] { "STT", "Họ và tên", "Số CCCD", "Ngày sinh" }));
 		table_Customer.setForeground(SystemColor.desktop);
@@ -288,7 +287,6 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		table_Customer.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		table_Customer.setBounds(10, 235, 777, 231);
 		updateCustomerTable();
-//		tab1.add(table_Customer);
 
 		JScrollPane scrollPane_Customer = new JScrollPane(table_Customer);
 		scrollPane_Customer.setBorder(new LineBorder(new Color(0, 0, 0), 2));
@@ -606,7 +604,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 				clearBillTable();
 
 				for (Bill bill : bills) {
-					model.addRow(bill.toObject());
+					model.addRow(bill.NotAbateToObject());
 				}
 			}
 		});
@@ -1136,7 +1134,8 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 						java.util.Date parsedDate = dateFormat.parse(dateString);
 						Timestamp time = new Timestamp(parsedDate.getTime());
 						String content = this.reader.readLine();
-						String senderName = this.reader.readLine();
+						String senderUserName = this.reader.readLine();
+						String senderName = new ManagerBUS().getEmpNameByUserName(senderUserName);
 						displayMessArea.append(time + "\n" +senderName +": "+content +"\n\n");
 						displayMessArea.setCaretPosition(displayMessArea.getDocument().getLength());
 					}
@@ -1425,21 +1424,22 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 				textField_passwordEmp.setEnabled(false);
 				
 				// Thay đổi tên ở sidebar
-
-				// Phần này giữ lại
 				EmployeeName = new ManagerBUS().getEmpNameById(idEmp);
 				label_EmployeeName.setText(EmployeeName + ":V");
-				EmployeeGUI.this.setVisible(false);
-				new LoginGUI().setVisible(true);
-				running.set(false); // Đặt cờ để dừng vòng lặp trong thread.
-				listen.interrupt(); // Yêu cầu dừng luồng.
-				try {
-					EmployeeGUI.this.socket.close();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+				/*
+				 * // Phần này giữ lại EmployeeName = new ManagerBUS().getEmpNameById(idEmp);
+				 * label_EmployeeName.setText(EmployeeName + ":V");
+				 * EmployeeGUI.this.setVisible(false); new LoginGUI().setVisible(true);
+				 * running.set(false); // Đặt cờ để dừng vòng lặp trong thread.
+				 * listen.interrupt(); // Yêu cầu dừng luồng. try {
+				 * EmployeeGUI.this.socket.close(); } catch (IOException e1) {
+				 * e1.printStackTrace(); }
+				 */
 				
-				
+				// TEST
+				EmployeeGUI.this.writer.println("UPDATE_EMP_INFO");
+				EmployeeGUI.this.writer.println(username);
+				EmployeeGUI.this.username = username;
 			}
 		});
 		
@@ -1841,8 +1841,9 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 				writer.println(time);
 				writer.println(message);
 				typeArea.setText("");
-				String name = new HistoryBUS().getNameByUserName(EmployeeGUI.this.username);
-				displayMessArea.append(time + "\n" + name + ": " + message + "\n\n");
+//				String name = new HistoryBUS().getNameByUserName(EmployeeGUI.this.username);
+				EmployeeName = new ManagerBUS().getEmpNameById(idEmp);
+				displayMessArea.append(time + "\n" + EmployeeName + ": " + message + "\n\n");
 				displayMessArea.setCaretPosition(displayMessArea.getDocument().getLength());
 			}
 		}

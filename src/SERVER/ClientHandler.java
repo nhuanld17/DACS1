@@ -59,11 +59,28 @@ public class ClientHandler extends Thread{
 					String textChat = reader.readLine();
 					
 					new HistoryBUS().addToHistory(this.username, time, textChat);
-					String name = new HistoryBUS().getNameByUserName(username);
+					String name = new HistoryBUS().getNameByUserName(this.username);
 					
 					String mess = time + "\n" + username + ": "+textChat;
 					System.out.println(mess);
 					Server.broadCastMessage(time, textChat, username, this);
+					break;
+				case "UPDATE_EMP_INFO":
+					String newUserName = reader.readLine();
+					String oldUserName = this.username;
+					
+					if (this.clients.containsKey(oldUserName)) {
+						ClientHandler clientHandler = this.clients.get(oldUserName);
+						this.clients.remove(oldUserName);
+						Server.clients.remove(oldUserName);
+						this.username = newUserName;
+						System.out.println("Đã đổi từ "+oldUserName +" thành "+newUserName);
+						this.clients.put(this.username, clientHandler);
+						Server.clients.put(this.username, clientHandler);
+					}
+					
+					Server.updateUserList();
+					break;
 				default:
 					break;
 				}

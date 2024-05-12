@@ -61,4 +61,8 @@ public class ManagerBUS {
 		new ManagerDAO().changeEmployeeInfo(idEmp,name, birthdate, email,sex, username, password);
 	}
 
+	public String getEmpNameByUserName(String senderUserName) {
+		return new ManagerDAO().getEmpNameByUserName(senderUserName);
+	}
+
 }

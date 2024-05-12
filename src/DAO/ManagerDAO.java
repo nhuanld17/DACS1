@@ -241,5 +241,23 @@ public class ManagerDAO {
 			e.printStackTrace();
 		}
 	}
+
+
+	public String getEmpNameByUserName(String senderUserName) {
+		String name = null;
+		String query = "SELECT name FROM hotel.employee WHERE username = '"+senderUserName+"'";
+		try {
+			ResultSet resultSet = new DBConn().queryDB(query);
+			
+			while (resultSet.next()) {
+				name = resultSet.getString("name");
+			}
+			return name;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 }
