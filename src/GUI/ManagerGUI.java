@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
 import java.sql.Date;
 import java.text.Normalizer;
@@ -28,6 +30,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.mail.MessagingException;
 import javax.swing.ActionMap;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
@@ -41,8 +45,11 @@ import BUS.ManagerBUS;
 import CONTROLLER.ManagerController;
 import DAO.ManagerDAO;
 import DTO.Employee;
+import SENDMAIL.SendMail;
 
 import javax.swing.JScrollPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextArea;
 
 public class ManagerGUI extends JFrame {
 
@@ -60,6 +67,11 @@ public class ManagerGUI extends JFrame {
 	private String birthDateRegex = "^(?:(?:19|20)\\d\\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]|(?:0[1-9]|1\\d|2[0-8]))|(?:19|20)\\d\\d-(0[1-9]|1[0-2])-(29|30)(?:-0[1-9]|-1[0-9]|-2[0-8])|(?:19|20)(?:0[48]|[2468][048]|[13579][26])-02-29$";
 	private String nameRegex = "^[a-zA-Z ]{1,50}$";
 	private JTextField textField_FindName;
+	private JTextField textField_EmailSender;
+	private JPasswordField passwordField;
+	private JTextField textField_EmailReceiver;
+	private JTextField textField_Email_Title;
+	private JTextField textField_ListFile;
 
 	/**
 	 * Launch the application.
@@ -409,6 +421,164 @@ public class ManagerGUI extends JFrame {
 		
 		JPanel Tab4 = new JPanel();
 		tabbedPane.addTab("Tab4", null, Tab4, null);
+		Tab4.setLayout(null);
+		
+		JLabel lblNewLabel_8 = new JLabel("EMAIL AREA");
+		lblNewLabel_8.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-gmail-30.png")));
+		lblNewLabel_8.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_8.setForeground(SystemColor.desktop);
+		lblNewLabel_8.setFont(new Font("Segoe Script", Font.BOLD, 18));
+		lblNewLabel_8.setBounds(21, 0, 210, 44);
+		Tab4.add(lblNewLabel_8);
+		
+		textField_EmailSender = new JTextField();
+		textField_EmailSender.setForeground(SystemColor.desktop);
+		textField_EmailSender.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		textField_EmailSender.setColumns(10);
+		textField_EmailSender.setBorder(new LineBorder(SystemColor.desktop));
+		textField_EmailSender.setBounds(46, 68, 246, 35);
+		Tab4.add(textField_EmailSender);
+		
+		JLabel lblNewLabel_9 = new JLabel("From email:");
+		lblNewLabel_9.setForeground(SystemColor.desktop);
+		lblNewLabel_9.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		lblNewLabel_9.setBounds(46, 38, 246, 26);
+		Tab4.add(lblNewLabel_9);
+		
+		JLabel lblNewLabel_9_1 = new JLabel("Password:");
+		lblNewLabel_9_1.setForeground(SystemColor.desktop);
+		lblNewLabel_9_1.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		lblNewLabel_9_1.setBounds(352, 38, 246, 26);
+		Tab4.add(lblNewLabel_9_1);
+		
+		passwordField = new JPasswordField();
+		passwordField.setForeground(SystemColor.desktop);
+		passwordField.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		passwordField.setBorder(new LineBorder(SystemColor.desktop));
+		passwordField.setBounds(352, 68, 246, 35);
+		Tab4.add(passwordField);
+		
+		textField_EmailReceiver = new JTextField();
+		textField_EmailReceiver.setForeground(SystemColor.desktop);
+		textField_EmailReceiver.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		textField_EmailReceiver.setColumns(10);
+		textField_EmailReceiver.setBorder(new LineBorder(SystemColor.desktop));
+		textField_EmailReceiver.setBounds(46, 131, 246, 35);
+		Tab4.add(textField_EmailReceiver);
+		
+		JLabel lblNewLabel_9_2 = new JLabel("To:");
+		lblNewLabel_9_2.setForeground(SystemColor.desktop);
+		lblNewLabel_9_2.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		lblNewLabel_9_2.setBounds(46, 104, 246, 26);
+		Tab4.add(lblNewLabel_9_2);
+		
+		JLabel lblNewLabel_9_2_1 = new JLabel("Title:");
+		lblNewLabel_9_2_1.setForeground(SystemColor.desktop);
+		lblNewLabel_9_2_1.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		lblNewLabel_9_2_1.setBounds(46, 166, 246, 26);
+		Tab4.add(lblNewLabel_9_2_1);
+		
+		textField_Email_Title = new JTextField();
+		textField_Email_Title.setForeground(SystemColor.desktop);
+		textField_Email_Title.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		textField_Email_Title.setColumns(10);
+		textField_Email_Title.setBorder(new LineBorder(SystemColor.desktop));
+		textField_Email_Title.setBounds(46, 193, 553, 35);
+		Tab4.add(textField_Email_Title);
+		
+		JLabel lblNewLabel_9_2_1_1 = new JLabel("Content:");
+		lblNewLabel_9_2_1_1.setForeground(SystemColor.desktop);
+		lblNewLabel_9_2_1_1.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		lblNewLabel_9_2_1_1.setBounds(46, 227, 246, 26);
+		Tab4.add(lblNewLabel_9_2_1_1);
+		
+		JTextArea textArea_Email_Content = new JTextArea();
+		textArea_Email_Content.setForeground(SystemColor.desktop);
+		textArea_Email_Content.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		textArea_Email_Content.setBounds(46, 254, 551, 129);
+		
+		textField_ListFile = new JTextField();
+		textField_ListFile.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		textField_ListFile.setColumns(10);
+		textField_ListFile.setBorder(new LineBorder(SystemColor.desktop));
+		textField_ListFile.setBounds(45, 394, 463, 35);
+		Tab4.add(textField_ListFile);
+		
+		JButton btn_fileAttachment = new JButton("");
+		btn_fileAttachment.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				int respone = fileChooser.showOpenDialog(null);
+				
+				if (respone == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = fileChooser.getSelectedFile();
+					String currentListFile = textField_ListFile.getText();
+					
+					if (currentListFile.isEmpty()) {
+						textField_ListFile.setText(selectedFile.getAbsolutePath());
+					}else {
+						currentListFile += "-"+selectedFile.getAbsolutePath();
+						textField_ListFile.setText(currentListFile);
+					}
+				}
+			}
+		});
+		btn_fileAttachment.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-attachment-24.png")));
+		btn_fileAttachment.setFocusable(false);
+		btn_fileAttachment.setBorderPainted(false);
+		btn_fileAttachment.setBackground(new Color(240, 240, 240));
+		btn_fileAttachment.setBounds(507, 394, 57, 35);
+		Tab4.add(btn_fileAttachment);
+		
+		JButton btnSendMail = new JButton("SEND");
+		btnSendMail.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String emailSender = textField_EmailSender.getText();
+				String password = passwordField.getText();
+				
+				String receiver = textField_EmailReceiver.getText();
+				String title = textField_Email_Title.getText();
+				String content = textArea_Email_Content.getText();
+				String paths = textField_ListFile.getText().trim();
+				
+				ArrayList<File> files = new ArrayList<>();
+				String[] listPath = paths.split("\\-");
+				for (String path : listPath) {
+					files.add(new File(path));
+				}
+				
+				if (emailSender.equals(receiver)) {
+					JOptionPane.showMessageDialog(null, "Email người gửi và Email người nhận không được trùng nhau");
+					return;
+				}
+				
+				if (emailSender.isEmpty() || password.isEmpty() || receiver.isEmpty()
+				 || content.isEmpty() || title.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin");
+					return;
+				}
+				
+				try {
+					new SendMail(emailSender, password, receiver, title, content, files);
+					JOptionPane.showMessageDialog(null, "Gửi thành công");
+				} catch (UnsupportedEncodingException | MessagingException e1) {
+					JOptionPane.showMessageDialog(null, "Lỗi ! \n Hãy kiểm tra lại tài khoản Gmail và mật khẩu \n Chú ý mật khẩu Gmail là mật khẩu ứng dụng");
+					System.out.println(e1.getMessage());
+					return;
+				}
+			}
+		});
+		btnSendMail.setBackground(new Color(244, 245, 249));
+		btnSendMail.setForeground(SystemColor.desktop);
+		btnSendMail.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		btnSendMail.setBorder(new LineBorder(new Color(17, 24, 39), 2));
+		btnSendMail.setBounds(46, 436, 102, 30);
+		Tab4.add(btnSendMail);
+		
+		JScrollPane scrollPane_1 = new JScrollPane(textArea_Email_Content);
+		scrollPane_1.setBorder(new LineBorder(SystemColor.desktop));
+		scrollPane_1.setBounds(46, 254, 552, 129);
+		Tab4.add(scrollPane_1);
 		
 		JButton btnTab1 = new JButton("Nhân Viên");
 		btnTab1.setHorizontalAlignment(SwingConstants.LEFT);
@@ -441,7 +611,8 @@ public class ManagerGUI extends JFrame {
 		btnTab3.setBounds(0, 257, 153, 42);
 		panel.add(btnTab3);
 		
-		JButton btnTab4 = new JButton("Tab4");
+		JButton btnTab4 = new JButton("GMAIL");
+		btnTab4.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-gmail-30.png")));
 		btnTab4.setHorizontalAlignment(SwingConstants.LEFT);
 		btnTab4.setBorderPainted(false);
 		btnTab4.setFocusable(false);
