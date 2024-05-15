@@ -117,7 +117,6 @@ public class ManagerGUI extends JFrame {
 		Tab1.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Quản Lí Nhân Viên");
-		lblNewLabel.setIcon(null);
 		lblNewLabel.setFont(new Font("Segoe UI", Font.BOLD, 26));
 		lblNewLabel.setForeground(SystemColor.desktop);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);

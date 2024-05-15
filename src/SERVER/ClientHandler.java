@@ -20,9 +20,9 @@ public class ClientHandler extends Thread{
 		this.reader = reader;
 		System.out.println(username+" here");
 		this.writer = writer;
-		this.clients = clients;
-//		clients.put(username, this);
+//		this.clients = clients;
 		clients.put(this.username, this);
+		this.clients = clients;
 		start();
 	}
 	

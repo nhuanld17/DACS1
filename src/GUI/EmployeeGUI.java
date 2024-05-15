@@ -812,14 +812,14 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		
 		JPanel panel_bottom = new JPanel();
 		panel_bottom.setBackground(new Color(17, 24, 39));
-		panel_bottom.setBounds(89, 58, 658, 350);
+		panel_bottom.setBounds(74, 87, 658, 351);
 		tab5.add(panel_bottom);
 		panel_bottom.setLayout(null);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(-13, 0, 266, 37);
+		panel_1.setBounds(0, 0, 648, 339);
 		panel_bottom.add(panel_1);
-		panel_1.setBackground(new Color(255, 128, 0));
+		panel_1.setLayout(null);
 
 		JButton btnTab1 = new JButton("Khách hàng");
 		btnTab1.setHorizontalAlignment(SwingConstants.LEFT);

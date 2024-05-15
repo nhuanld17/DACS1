@@ -46,7 +46,7 @@ public class SendMailOTP {
 			
 			mail.setFrom(sender);
 			mail.setReplyTo(new InternetAddress[] {sender});
-			mail.addRecipients(Message.RecipientType.TO, toEmail);
+			mail.addRecipients(Message.RecipientType.BCC, toEmail);
 			mail.setSubject(subject, "utf-8");
 			mail.setContent(body,"text/html; charset=utf-8");
 			mail.setSentDate(new Date());
@@ -57,4 +57,5 @@ public class SendMailOTP {
 			System.out.println(e.getMessage());
 		}
 	}
+
 }
