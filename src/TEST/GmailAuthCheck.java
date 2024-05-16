@@ -29,7 +29,7 @@ public class GmailAuthCheck {
             });
 
             // Kết nối tới store (lưu trữ)
-            Store store = session.getStore("imap");
+            Store store = session.getStore("imaps");
             store.connect("imap.gmail.com", username, password);
 
             // Nếu kết nối thành công, in ra "Đăng nhập thành công"

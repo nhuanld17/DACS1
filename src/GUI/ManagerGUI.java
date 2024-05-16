@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
@@ -72,6 +74,7 @@ public class ManagerGUI extends JFrame {
 	private JTextField textField_EmailReceiver;
 	private JTextField textField_Email_Title;
 	private JTextField textField_ListFile;
+	private JTable salaryTable;
 
 	/**
 	 * Launch the application.
@@ -417,7 +420,23 @@ public class ManagerGUI extends JFrame {
 		tabbedPane.addTab("Tab2", null, Tab2, null);
 		
 		JPanel Tab3 = new JPanel();
+		Tab3.setBackground(new Color(254, 245, 249));
 		tabbedPane.addTab("Tab3", null, Tab3, null);
+		Tab3.setLayout(null);
+		
+		salaryTable = new JTable();
+		salaryTable.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"ID", "Họ và tên", "Vị trí", "Số lượng khách hàng"
+			}
+		));
+		salaryTable.setBounds(37, 167, 493, 267);
+		
+		JScrollPane scrollPane_2 = new JScrollPane(salaryTable);
+		scrollPane_2.setBounds(37, 167, 493, 267);
+		Tab3.add(scrollPane_2);
 		
 		JPanel Tab4 = new JPanel();
 		tabbedPane.addTab("Tab4", null, Tab4, null);
@@ -480,7 +499,7 @@ public class ManagerGUI extends JFrame {
 		
 		textField_Email_Title = new JTextField();
 		textField_Email_Title.setForeground(SystemColor.desktop);
-		textField_Email_Title.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		textField_Email_Title.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		textField_Email_Title.setColumns(10);
 		textField_Email_Title.setBorder(new LineBorder(SystemColor.desktop));
 		textField_Email_Title.setBounds(46, 193, 553, 35);
@@ -501,7 +520,7 @@ public class ManagerGUI extends JFrame {
 		textField_ListFile.setFont(new Font("Segoe UI", Font.PLAIN, 18));
 		textField_ListFile.setColumns(10);
 		textField_ListFile.setBorder(new LineBorder(SystemColor.desktop));
-		textField_ListFile.setBounds(45, 394, 463, 35);
+		textField_ListFile.setBounds(45, 394, 523, 35);
 		Tab4.add(textField_ListFile);
 		
 		JButton btn_fileAttachment = new JButton("");
@@ -527,10 +546,23 @@ public class ManagerGUI extends JFrame {
 		btn_fileAttachment.setFocusable(false);
 		btn_fileAttachment.setBorderPainted(false);
 		btn_fileAttachment.setBackground(new Color(240, 240, 240));
-		btn_fileAttachment.setBounds(507, 394, 57, 35);
+		btn_fileAttachment.setBounds(569, 394, 31, 35);
 		Tab4.add(btn_fileAttachment);
 		
 		JButton btnSendMail = new JButton("SEND");
+		btnSendMail.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            	btnSendMail.setBackground(new Color(244,245,249));
+            	btnSendMail.setForeground(new Color(17, 24, 39));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            	btnSendMail.setBackground(new Color(17, 24, 39));
+            	btnSendMail.setForeground(new Color(244,245,249));
+            }
+		});
 		btnSendMail.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String emailSender = textField_EmailSender.getText();
@@ -547,14 +579,14 @@ public class ManagerGUI extends JFrame {
 					files.add(new File(path));
 				}
 				
-				if (emailSender.equals(receiver)) {
-					JOptionPane.showMessageDialog(null, "Email người gửi và Email người nhận không được trùng nhau");
-					return;
-				}
-				
 				if (emailSender.isEmpty() || password.isEmpty() || receiver.isEmpty()
 				 || content.isEmpty() || title.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin");
+					return;
+				}
+				
+				if (emailSender.equals(receiver)) {
+					JOptionPane.showMessageDialog(null, "Email người gửi và Email người nhận không được trùng nhau");
 					return;
 				}
 				
@@ -568,8 +600,8 @@ public class ManagerGUI extends JFrame {
 				}
 			}
 		});
-		btnSendMail.setBackground(new Color(244, 245, 249));
-		btnSendMail.setForeground(SystemColor.desktop);
+		btnSendMail.setBackground(new Color(17, 24, 39));
+		btnSendMail.setForeground(new Color(254, 245, 249));
 		btnSendMail.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		btnSendMail.setBorder(new LineBorder(new Color(17, 24, 39), 2));
 		btnSendMail.setBounds(46, 436, 102, 30);
@@ -601,7 +633,8 @@ public class ManagerGUI extends JFrame {
 		btnTab2.setBounds(0, 204, 153, 42);
 		panel.add(btnTab2);
 		
-		JButton btnTab3 = new JButton("Tab3");
+		JButton btnTab3 = new JButton("Lương");
+		btnTab3.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-salary-30.png")));
 		btnTab3.setHorizontalAlignment(SwingConstants.LEFT);
 		btnTab3.setBorderPainted(false);
 		btnTab3.setFocusable(false);

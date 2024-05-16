@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -816,7 +817,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		panel_2.add(scrollPane_displayMess);
 		
 		tab5 = new JPanel();
-		tab5.setBackground(new Color(244, 245, 249));
+		tab5.setBackground(new Color(240, 240, 240));
 		tabbedPane.addTab("Tab5", null, tab5, null);
 		tabbedPane.setBackgroundAt(4, new Color(244, 245, 249));
 		tab5.setLayout(null);
@@ -872,7 +873,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		
 		textField_EmailTitle = new JTextField();
 		textField_EmailTitle.setBorder(new LineBorder(SystemColor.desktop));
-		textField_EmailTitle.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		textField_EmailTitle.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		textField_EmailTitle.setForeground(SystemColor.desktop);
 		textField_EmailTitle.setBounds(41, 194, 553, 35);
 		tab5.add(textField_EmailTitle);
@@ -904,7 +905,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		textField_ListFile.setFont(new Font("Segoe UI", Font.PLAIN, 18));
 		textField_ListFile.setBorder(new LineBorder(SystemColor.desktop));
 		textField_ListFile.setColumns(10);
-		textField_ListFile.setBounds(40, 395, 463, 35);
+		textField_ListFile.setBounds(40, 395, 517, 35);
 		tab5.add(textField_ListFile);
 		
 		JButton btn_fileAttachment = new JButton("");
@@ -927,17 +928,31 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		});
 		btn_fileAttachment.setFocusable(false);
 		btn_fileAttachment.setBorderPainted(false);
-		btn_fileAttachment.setBackground(new Color(244, 245, 249));
+		btn_fileAttachment.setBackground(new Color(240, 240, 240));
 		btn_fileAttachment.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-attachment-24.png")));
-		btn_fileAttachment.setBounds(513, 395, 57, 35);
+		btn_fileAttachment.setBounds(560, 395, 33, 35);
 		tab5.add(btn_fileAttachment);
 		
 		JButton btnSendMail = new JButton("SEND");
+		btnSendMail.setBackground(new Color(17, 24, 39));
 		btnSendMail.setBorder(new LineBorder(new Color(17, 24, 39), 2));
 		btnSendMail.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		btnSendMail.setForeground(SystemColor.desktop);
+		btnSendMail.setForeground(new Color(254, 245, 249));
 		btnSendMail.setBounds(40, 441, 102, 30);
 		tab5.add(btnSendMail);
+		btnSendMail.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            	btnSendMail.setBackground(new Color(244,245,249));
+            	btnSendMail.setForeground(new Color(17, 24, 39));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            	btnSendMail.setBackground(new Color(17, 24, 39));
+            	btnSendMail.setForeground(new Color(244,245,249));
+            }
+		});
 		btnSendMail.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String emailSender = textField_EmailSender.getText().trim();
@@ -954,15 +969,15 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 					File file = new File(path);
 					listFile.add(file);
 				}
-				
-				if (emailSender.equals(reveiver)) {
-					JOptionPane.showMessageDialog(null, "Email người gửi và người nhận không được trùng nhau");
-					return;
-				}
-				
+
 				if (emailSender.isEmpty() || password.isEmpty() || reveiver.isEmpty()
 				 || title.isEmpty() || content.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin");
+					return;
+				}
+				
+				if (emailSender.equals(reveiver)) {
+					JOptionPane.showMessageDialog(null, "Email người gửi và người nhận không được trùng nhau");
 					return;
 				}
 				

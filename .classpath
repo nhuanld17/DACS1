@@ -37,5 +37,6 @@
 	<classpathentry kind="lib" path="F:/eclipse-workspace/DACS/src/Lib/JFreeChart/swtgraphics2d.jar"/>
 	<classpathentry kind="lib" path="F:/eclipse-workspace/DACS/src/Lib/javax.mail-1.6.2.jar"/>
 	<classpathentry kind="lib" path="F:/eclipse-workspace/DACS/src/Lib/javax.activation-1.2.0.jar"/>
+	<classpathentry kind="lib" path="F:/eclipse-workspace/DACS/src/Lib/javax.mail.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
