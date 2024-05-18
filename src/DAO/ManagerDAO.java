@@ -259,5 +259,128 @@ public class ManagerDAO {
 		}
 		return null;
 	}
+
+
+	public ArrayList<Object[]> getEmpSalary() {
+		ArrayList<Object[]> result = new ArrayList<>();
+		String query = "SELECT e.id, e.position, e.name, COUNT(DISTINCT c.id) AS customer_count "
+				+ " FROM employee e"
+				+ " LEFT JOIN customer c ON e.id = c.idEmp "
+				+ " LEFT JOIN bill b ON c.id = b.ID AND MONTH(b.dateOrder) = MONTH(CURRENT_DATE()) AND YEAR(b.dateOrder) = YEAR(CURRENT_DATE()) "
+				+ " GROUP BY e.id, e.name "
+				+ " ORDER BY customer_count DESC; ";
+		
+		ResultSet resultSet;
+		try {
+			resultSet = new DBConn().queryDB(query);
+			
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String name = resultSet.getString("name");
+				String position = resultSet.getString("position");
+				int customer_count = resultSet.getInt("customer_count");
+				
+				Object[] object = new Object[] {id, name, position, customer_count};
+				result.add(object);
+			}
+			
+			return result;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new ArrayList<>();
+	}
+
+
+	public int getMaleNumber() {
+		int number = 0;
+		String query = "SELECT COUNT(*) FROM hotel.employee WHERE sex = 1;";
+		ResultSet resultSet;
+		try {
+			resultSet = new DBConn().queryDB(query);
+			while (resultSet.next()) {
+				number = resultSet.getInt("COUNT(*)");
+			}
+			
+			return number;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return number;
+	}
+
+
+	public int getFemaleNumber() {
+		int number = 0;
+		String query = "SELECT COUNT(*) FROM hotel.employee WHERE sex = 0;";
+		ResultSet resultSet;
+		try {
+			resultSet = new DBConn().queryDB(query);
+			while (resultSet.next()) {
+				number = resultSet.getInt("COUNT(*)");
+			}
+			
+			return number;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return number;
+	}
+
+
+	public int getTiepTanNumber() {
+		int number = 0;
+		String query = "SELECT COUNT(*) FROM hotel.employee WHERE position = 'Tiếp tân'";
+		try {
+			ResultSet resultSet = new DBConn().queryDB(query);
+			while (resultSet.next()) {
+				number = resultSet.getInt("COUNT(*)");
+			}
+			return number;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return number;
+	}
+
+
+	public int getBaoVeNumber() {
+		int number = 0;
+		String query = "SELECT COUNT(*) FROM hotel.employee WHERE position = 'Bảo vệ'";
+		try {
+			ResultSet resultSet = new DBConn().queryDB(query);
+			while (resultSet.next()) {
+				number = resultSet.getInt("COUNT(*)");
+			}
+			return number;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return number;
+	}
+
+
+	public int getLaoCongNumber() {
+		int number = 0;
+		String query = "SELECT COUNT(*) FROM hotel.employee WHERE position = 'Lao công'";
+		try {
+			ResultSet resultSet = new DBConn().queryDB(query);
+			while (resultSet.next()) {
+				number = resultSet.getInt("COUNT(*)");
+			}
+			return number;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return number;
+	}
 	
 }

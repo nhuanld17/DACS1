@@ -2,8 +2,6 @@ package BUS;
 
 import java.sql.Date;
 import java.util.ArrayList;
-
-import DAO.EmployeeDAO;
 import DAO.ManagerDAO;
 import DTO.Employee;
 
@@ -63,6 +61,30 @@ public class ManagerBUS {
 
 	public String getEmpNameByUserName(String senderUserName) {
 		return new ManagerDAO().getEmpNameByUserName(senderUserName);
+	}
+
+	public ArrayList<Object[]> getEmpSalary() {
+		return new ManagerDAO().getEmpSalary();
+	}
+
+	public int getMaleNumber() {
+		return new ManagerDAO().getMaleNumber();
+	}
+
+	public int getFemaleNumber() {
+		return new ManagerDAO().getFemaleNumber();
+	}
+
+	public int getTiepTanNumber() {
+		return new ManagerDAO().getTiepTanNumber();
+	}
+
+	public int getBaoVeNumber() {
+		return new ManagerDAO().getBaoVeNumber();
+	}
+
+	public int getLaoCongNumber() {
+		return new ManagerDAO().getLaoCongNumber();
 	}
 
 }
