@@ -18,6 +18,7 @@ import java.sql.Date;
 import java.text.DecimalFormat;
 import java.text.Normalizer;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -113,6 +115,11 @@ public class ManagerGUI extends JFrame {
 	private double baoVeRate;
 	private double laoCongRate;
 	private JPanel panel_chart_position;
+	private JComboBox<String> comboBox_Year;
+	private JComboBox<String> comboBox_Month;
+	private int currentYear;
+	private Month currentMonth;
+	private int currentMonthValue;
 
 	/**
 	 * Launch the application.
@@ -452,38 +459,6 @@ public class ManagerGUI extends JFrame {
 		JPanel Tab2 = new JPanel();
 		tabbedPane.addTab("Tab2", null, Tab2, null);
 
-		JPanel Tab3 = new JPanel();
-		Tab3.setBackground(new Color(254, 245, 249));
-		tabbedPane.addTab("Tab3", null, Tab3, null);
-		Tab3.setLayout(null);
-
-		salaryTable = new JTable();
-		salaryTable.setFillsViewportHeight(true);
-		salaryTable.setModel(new DefaultTableModel(new Object[][] {},
-				new String[] { "ID", "Họ và tên", "Vị trí", "Số lượng khách hàng" }));
-		salaryTable.setForeground(SystemColor.desktop);
-		salaryTable.setRowHeight(25);
-		salaryTable.setGridColor(new Color(0, 0, 0));
-		JTableHeader salaryHeader = salaryTable.getTableHeader();
-		salaryHeader.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		salaryHeader.setBackground(new Color(244, 245, 249));
-		salaryHeader.setForeground(SystemColor.desktop);
-		salaryTable.setBackground(new Color(244, 245, 249));
-		salaryTable.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		salaryTable.setBackground(new Color(244, 245, 249));
-		salaryTable.setBounds(37, 167, 493, 267);
-		updateTableSalary();
-
-		JScrollPane scrollPane_2 = new JScrollPane(salaryTable);
-		scrollPane_2.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		scrollPane_2.setBounds(5, 261, 607, 210);
-		Tab3.add(scrollPane_2);
-
-		panel_chart_gioitinh = new JPanel();
-		panel_chart_gioitinh.setBackground(new Color(254, 245, 249));
-		panel_chart_gioitinh.setBounds(0, 0, 389, 220);
-		Tab3.add(panel_chart_gioitinh);
-
 		datasetGioiTinh = createDatasetGioiTinh();
 
 		chartGioiTinh = ChartFactory.createPieChart("Tỉ lệ nam nữ", // Tiêu đề biểu đồ
@@ -500,18 +475,79 @@ public class ManagerGUI extends JFrame {
 		// Đổi font cho title
 		title = chartGioiTinh.getTitle();
 		title.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		panel_chart_gioitinh.setLayout(new BorderLayout(0, 0));
-
-		gioiTinhPanel = new ChartPanel(chartGioiTinh);
-		gioiTinhPanel.setPreferredSize(new Dimension(367, 210));
-		panel_chart_gioitinh.add(gioiTinhPanel, BorderLayout.CENTER);
-		gioiTinhPanel.setLayout(null);
 
 		maleNumber = new ManagerBUS().getMaleNumber();
 		femaleNumber = new ManagerBUS().getFemaleNumber();
 
 		maleRate = (double) maleNumber / (maleNumber + femaleNumber);
 		femaleRate = (double) femaleNumber / (maleNumber + femaleNumber);
+
+		datasetPosition = createDatasetPosition();
+
+		positionChart = ChartFactory.createPieChart("Vị trí", datasetPosition, false, false, false);
+
+		plot1 = (PiePlot) positionChart.getPlot();
+		plot1.setSectionPaint("Tiếp tân", new Color(255, 127, 14));
+		plot1.setSectionPaint("Bảo vệ", new Color(31, 119, 180));
+		plot1.setSectionPaint("Lao công", new Color(43, 160, 45));
+		plot1.setBackgroundPaint(new Color(254, 245, 249));
+		positionChart.setBackgroundPaint(new Color(254, 245, 249));
+		title2 = positionChart.getTitle();
+		title2.setFont(new Font("Segoe UI", Font.BOLD, 20));
+
+		tiepTanNumber = new ManagerBUS().getTiepTanNumber();
+		baoVeNumber = new ManagerBUS().getBaoVeNumber();
+		laoCongNumber = new ManagerBUS().getLaoCongNumber();
+
+		tiepTanRate = (double) tiepTanNumber / (tiepTanNumber + baoVeNumber + laoCongNumber);
+		baoVeRate = (double) baoVeNumber / (tiepTanNumber + baoVeNumber + laoCongNumber);
+		laoCongRate = (double) laoCongNumber / (tiepTanNumber + baoVeNumber + laoCongNumber);
+
+		// Lấy ngày hiện tại
+		LocalDate currentDate = LocalDate.now();
+
+		// Lấy tháng hiện tại (Theo kiểu số nguyên)
+		currentMonthValue = currentDate.getMonthValue();
+
+		JPanel tab3 = new JPanel();
+		tab3.setBackground(new Color(254, 245, 249));
+		tabbedPane.addTab("Tab3", null, tab3, null);
+		tab3.setLayout(null);
+
+		salaryTable = new JTable();
+		salaryTable.setFillsViewportHeight(true);
+		salaryTable.setModel(new DefaultTableModel(new Object[][] {},
+				new String[] { "ID", "Họ và tên", "Vị trí", "Số lượng khách hàng" }));
+		salaryTable.setForeground(SystemColor.desktop);
+		salaryTable.setRowHeight(25);
+		salaryTable.setGridColor(new Color(0, 0, 0));
+		JTableHeader salaryHeader = salaryTable.getTableHeader();
+		salaryHeader = salaryTable.getTableHeader();
+		salaryHeader.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		salaryHeader.setBackground(new Color(244, 245, 249));
+		salaryHeader.setForeground(SystemColor.desktop);
+		updateTableSalary();
+
+		salaryTable.setBackground(new Color(244, 245, 249));
+		salaryTable.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		salaryTable.setBackground(new Color(244, 245, 249));
+		salaryTable.setBounds(37, 167, 493, 267);
+
+		JScrollPane scrollPane_2 = new JScrollPane(salaryTable);
+		scrollPane_2.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		scrollPane_2.setBounds(5, 261, 607, 210);
+		tab3.add(scrollPane_2);
+
+		panel_chart_gioitinh = new JPanel();
+		panel_chart_gioitinh.setBackground(new Color(254, 245, 249));
+		panel_chart_gioitinh.setBounds(0, 0, 389, 220);
+		tab3.add(panel_chart_gioitinh);
+		panel_chart_gioitinh.setLayout(new BorderLayout(0, 0));
+
+		gioiTinhPanel = new ChartPanel(chartGioiTinh);
+		gioiTinhPanel.setPreferredSize(new Dimension(367, 210));
+		panel_chart_gioitinh.add(gioiTinhPanel, BorderLayout.CENTER);
+		gioiTinhPanel.setLayout(null);
 
 		lbl_Rate_Nam = new JLabel("Nam: " + decimalFormat.format(maleRate * 100) + "%");
 		lbl_Rate_Nam.setForeground(Color.BLACK);
@@ -528,21 +564,8 @@ public class ManagerGUI extends JFrame {
 		panel_chart_position = new JPanel();
 		panel_chart_position.setBackground(new Color(254, 245, 249));
 		panel_chart_position.setBounds(419, 0, 389, 220);
-		Tab3.add(panel_chart_position);
+		tab3.add(panel_chart_position);
 		panel_chart_position.setLayout(new BorderLayout());
-
-		datasetPosition = createDatasetPosition();
-
-		positionChart = ChartFactory.createPieChart("Vị trí", datasetPosition, false, false, false);
-
-		plot1 = (PiePlot) positionChart.getPlot();
-		plot1.setSectionPaint("Tiếp tân", new Color(255, 127, 14));
-		plot1.setSectionPaint("Bảo vệ", new Color(31, 119, 180));
-		plot1.setSectionPaint("Lao công", new Color(43, 160, 45));
-		plot1.setBackgroundPaint(new Color(254, 245, 249));
-		positionChart.setBackgroundPaint(new Color(254, 245, 249));
-		title2 = positionChart.getTitle();
-		title2.setFont(new Font("Segoe UI", Font.BOLD, 20));
 
 		positionPanel = new ChartPanel(positionChart);
 		positionPanel.setPreferredSize(new Dimension(367, 210));
@@ -567,17 +590,58 @@ public class ManagerGUI extends JFrame {
 		labl_Rate_Lao_Cong.setBounds(6, 138, 115, 28);
 		positionPanel.add(labl_Rate_Lao_Cong);
 
-		tiepTanNumber = new ManagerBUS().getTiepTanNumber();
-		baoVeNumber = new ManagerBUS().getBaoVeNumber();
-		laoCongNumber = new ManagerBUS().getLaoCongNumber();
-
-		tiepTanRate = (double) tiepTanNumber / (tiepTanNumber + baoVeNumber + laoCongNumber);
-		baoVeRate = (double) baoVeNumber / (tiepTanNumber + baoVeNumber + laoCongNumber);
-		laoCongRate = (double) laoCongNumber / (tiepTanNumber + baoVeNumber + laoCongNumber);
-
 		labl_Rate_Tiep_Tan.setText("Tiếp tân: " + decimalFormat.format(tiepTanRate * 100) + "%");
 		labl_Rate_Bao_Ve.setText("Bảo vệ: " + decimalFormat.format(baoVeRate * 100) + "%");
 		labl_Rate_Lao_Cong.setText("Lao công:" + decimalFormat.format(laoCongRate * 100) + "%");
+
+		JLabel lblNewLabel_4 = new JLabel("Tháng");
+		lblNewLabel_4.setBackground(new Color(254, 245, 249));
+		lblNewLabel_4.setForeground(SystemColor.desktop);
+		lblNewLabel_4.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		lblNewLabel_4.setBounds(328, 231, 61, 26);
+		tab3.add(lblNewLabel_4);
+
+		// Khởi tạo comboBox_Month
+		comboBox_Month = new JComboBox<>();
+		comboBox_Month.setModel(new DefaultComboBoxModel<>(
+		        new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}));
+		comboBox_Month.setForeground(SystemColor.desktop);
+		comboBox_Month.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		comboBox_Month.setBackground(new Color(254, 245, 249));
+		comboBox_Month.setBounds(396, 230, 76, 29);
+		comboBox_Month.setSelectedItem(currentMonthValue + "");
+		tab3.add(comboBox_Month);
+		comboBox_Month.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        showTableByTime();
+		    }
+		});
+
+		JLabel lblNewLabel_5 = new JLabel("Năm");
+		lblNewLabel_5.setForeground(SystemColor.desktop);
+		lblNewLabel_5.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		lblNewLabel_5.setBounds(475, 231, 54, 26);
+		tab3.add(lblNewLabel_5);
+		
+		currentYear = currentDate.getYear();
+
+		comboBox_Year = new JComboBox();
+
+		comboBox_Year.setModel(new DefaultComboBoxModel(
+				new String[] { "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030" }));
+		comboBox_Year.setForeground(SystemColor.desktop);
+		comboBox_Year.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		comboBox_Year.setBackground(new Color(254, 245, 249));
+		comboBox_Year.setBounds(530, 230, 82, 29);
+		comboBox_Year.setSelectedItem(currentYear+"");
+		comboBox_Year.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showTableByTime();
+			}
+		});
+		
+
+		tab3.add(comboBox_Year);
 
 		JPanel Tab4 = new JPanel();
 		tabbedPane.addTab("Tab4", null, Tab4, null);
@@ -900,6 +964,34 @@ public class ManagerGUI extends JFrame {
 
 	}
 
+//	protected void showEmployeeEachPosition() {
+//		String position = (String) comboBox.getSelectedItem();
+//		if (position.equals("Tất cả")) {
+//			updateTableSalary();
+//			return;
+//		}
+//		ArrayList<Object[]> emp = new ManagerBUS().getEmpEachPosition(position);
+//		
+//		clearTableSalary();
+//		DefaultTableModel model = (DefaultTableModel) salaryTable.getModel();
+//		for (Object[] objects : emp) {
+//			model.addRow(objects);
+//		}
+//	}
+
+	protected void showTableByTime() {
+
+	    int month = Integer.valueOf((String) comboBox_Month.getSelectedItem());
+	    int year = Integer.valueOf((String) comboBox_Year.getSelectedItem());
+
+	    ArrayList<Object[]> rows = new ManagerBUS().getRowByTime(month, year);
+	    clearTableSalary();
+	    DefaultTableModel model = (DefaultTableModel) salaryTable.getModel();
+	    for (Object[] objects : rows) {
+	        model.addRow(objects);
+	    }
+	}
+
 	private DefaultPieDataset createDatasetPosition() {
 		DefaultPieDataset dataset = new DefaultPieDataset();
 		int tiepTanNumber = new ManagerBUS().getTiepTanNumber();
@@ -926,8 +1018,11 @@ public class ManagerGUI extends JFrame {
 
 	private void updateTableSalary() {
 		clearTableSalary();
+		LocalDate currentDate = LocalDate.now();
+		currentYear = currentDate.getYear();
+		currentMonthValue = currentDate.getMonthValue();
 		DefaultTableModel model = (DefaultTableModel) salaryTable.getModel();
-		ArrayList<Object[]> employee = new ManagerBUS().getEmpSalary();
+		ArrayList<Object[]> employee = new ManagerBUS().getEmpSalary(currentMonthValue, currentYear);
 
 		for (Object[] objects : employee) {
 			model.addRow(objects);
@@ -1068,6 +1163,7 @@ public class ManagerGUI extends JFrame {
 			e.printStackTrace();
 		}
 		updateAllChart();
+		updateTableSalary();
 	}
 
 	public void updateAllChart() {
@@ -1101,8 +1197,7 @@ public class ManagerGUI extends JFrame {
 		gioiTinhPanel.setPreferredSize(new Dimension(367, 210));
 		panel_chart_gioitinh.add(gioiTinhPanel);
 		gioiTinhPanel.setLayout(null);
-		
-		
+
 		// UPDATE biểu đồ vị trí
 
 		datasetPosition = createDatasetPosition();
@@ -1122,7 +1217,7 @@ public class ManagerGUI extends JFrame {
 		positionPanel.setPreferredSize(new Dimension(367, 210));
 		panel_chart_position.add(positionPanel);
 		positionPanel.setLayout(null);
-		
+
 		tiepTanNumber = new ManagerBUS().getTiepTanNumber();
 		baoVeNumber = new ManagerBUS().getBaoVeNumber();
 		laoCongNumber = new ManagerBUS().getLaoCongNumber();
@@ -1154,6 +1249,7 @@ public class ManagerGUI extends JFrame {
 			e.printStackTrace();
 		}
 		updateAllChart();
+		updateTableSalary();
 	}
 
 	public void setForm() {
@@ -1239,5 +1335,6 @@ public class ManagerGUI extends JFrame {
 		}
 
 		updateAllChart();
+		updateTableSalary();
 	}
 }

@@ -261,22 +261,22 @@ public class ManagerDAO {
 	}
 
 
-	public ArrayList<Object[]> getEmpSalary() {
+	public ArrayList<Object[]> getEmpSalary(int month, int year) {
 		ArrayList<Object[]> result = new ArrayList<>();
-		String query = "SELECT e.id, e.position, e.name, COUNT(DISTINCT c.id) AS customer_count "
-				+ " FROM employee e"
-				+ " LEFT JOIN customer c ON e.id = c.idEmp "
-				+ " LEFT JOIN bill b ON c.id = b.ID AND MONTH(b.dateOrder) = MONTH(CURRENT_DATE()) AND YEAR(b.dateOrder) = YEAR(CURRENT_DATE()) "
-				+ " GROUP BY e.id, e.name "
-				+ " ORDER BY customer_count DESC; ";
+		String query = "SELECT e.id AS employee_id, e.name AS employee_name, e.position, COUNT(b.id) AS customer_count\r\n"
+				+ "FROM employee e\r\n"
+				+ "LEFT JOIN customer c ON e.id = c.idEmp\r\n"
+				+ "LEFT JOIN bill b ON c.id = b.id AND MONTH(b.dateOrder) = '"+month+"' AND YEAR(b.dateOrder) = '"+year+"'\r\n"
+				+ "GROUP BY e.id, e.name, e.position\r\n"
+				+ "ORDER BY customer_count DESC;";
 		
 		ResultSet resultSet;
 		try {
 			resultSet = new DBConn().queryDB(query);
 			
 			while (resultSet.next()) {
-				int id = resultSet.getInt("id");
-				String name = resultSet.getString("name");
+				int id = resultSet.getInt("employee_id");
+				String name = resultSet.getString("employee_name");
 				String position = resultSet.getString("position");
 				int customer_count = resultSet.getInt("customer_count");
 				
@@ -381,6 +381,64 @@ public class ManagerDAO {
 			e.printStackTrace();
 		}
 		return number;
+	}
+
+
+	public ArrayList<Object[]> getEmpEachPosition(String position) {
+		ArrayList<Object[]> result = new ArrayList<>();
+		String query = "SELECT e.id, e.name, e.position, COUNT(DISTINCT c.id) AS customer_count"
+				+ " FROM employee e"
+				+ " LEFT JOIN customer c ON e.id = c.idEmp\r\n"
+				+ " LEFT JOIN bill b ON c.id = b.ID AND MONTH(b.dateOrder) = MONTH(CURRENT_DATE()) AND YEAR(b.dateOrder) = YEAR(CURRENT_DATE())"
+				+ " WHERE e.position = '"+position+"'"
+				+ " GROUP BY e.id, e.name, e.position"
+				+ " ORDER BY customer_count DESC;";
+		
+		try {
+			ResultSet resultSet = new DBConn().queryDB(query);
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String name = resultSet.getString("name");
+				String Position = resultSet.getString("position");
+				int customer_count = resultSet.getInt("customer_count");
+				
+				result.add(new Object[] {id, name, Position, customer_count});
+			}
+			
+			return result;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+
+	public ArrayList<Object[]> getRowByTime(int month, int year) {
+		ArrayList<Object[]> row = new ArrayList<>();
+		String query = "SELECT e.id AS employee_id, e.name AS employee_name, e.position, COUNT(b.id) AS customer_count\r\n"
+				+ "FROM employee e\r\n"
+				+ "LEFT JOIN customer c ON e.id = c.idEmp\r\n"
+				+ "LEFT JOIN bill b ON c.id = b.id AND MONTH(b.dateOrder) = '"+month+"' AND YEAR(b.dateOrder) = '"+year+"'\r\n"
+				+ "GROUP BY e.id, e.name, e.position\r\n"
+				+ "ORDER BY customer_count DESC;";
+		try {
+			ResultSet resultSet = new DBConn().queryDB(query);
+			while (resultSet.next()) {
+				int id = resultSet.getInt("employee_id");
+				String name = resultSet.getString("employee_name");
+				String position = resultSet.getString("position");
+				int customer_count = resultSet.getInt("customer_count");
+				
+				row.add(new Object[] {id, name, position, customer_count});
+			}
+			return row;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return row;
 	}
 	
 }

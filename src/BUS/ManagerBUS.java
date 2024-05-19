@@ -63,8 +63,8 @@ public class ManagerBUS {
 		return new ManagerDAO().getEmpNameByUserName(senderUserName);
 	}
 
-	public ArrayList<Object[]> getEmpSalary() {
-		return new ManagerDAO().getEmpSalary();
+	public ArrayList<Object[]> getEmpSalary(int month, int year) {
+		return new ManagerDAO().getEmpSalary(month, year);
 	}
 
 	public int getMaleNumber() {
@@ -87,4 +87,7 @@ public class ManagerBUS {
 		return new ManagerDAO().getLaoCongNumber();
 	}
 
+	public ArrayList<Object[]> getRowByTime(int month, int year) {
+		return new ManagerDAO().getRowByTime(month, year);
+	}
 }
