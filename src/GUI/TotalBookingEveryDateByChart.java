@@ -1,14 +1,20 @@
 package GUI;
 
+import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Rectangle;
+import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -20,40 +26,47 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import DAO.EmployeeDAO;
-import DTO.CustomerServedChart;
-import java.awt.Color;
-import java.awt.Font;
-import javax.swing.JButton;
-import javax.swing.SwingConstants;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import DAO.BillDAO;
 
-public class NumberOfCustomerServedChart extends JFrame {
+public class TotalBookingEveryDateByChart extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private LocalDate currentDate;
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	private LocalDate[] date = new LocalDate[7];
-	private int idEmp;
 	private CategoryDataset dataset;
 	private JFreeChart chart;
 	private ChartPanel chartPanel;
 
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					TotalBookingEveryDateByChart frame = new TotalBookingEveryDateByChart();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
 	/**
 	 * Create the frame.
 	 */
-	public NumberOfCustomerServedChart(int idEmp) {
-		this.idEmp = idEmp;
-		this.currentDate = LocalDate.now();
+	public TotalBookingEveryDateByChart() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 776, 465);
+		setBounds(100, 100, 775, 468);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		this.currentDate = LocalDate.now();
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
@@ -69,7 +82,6 @@ public class NumberOfCustomerServedChart extends JFrame {
 		chartPanel.setForeground(SystemColor.desktop);
 		chartPanel.setPreferredSize(new Dimension(450, 300));
 		panel.add(chartPanel);
-
 		
 		panel.setLayout(null);
 		chartPanel = new ChartPanel(chart);
@@ -123,19 +135,18 @@ public class NumberOfCustomerServedChart extends JFrame {
 		setVisible(true);
 	}
 
-	private JFreeChart createBarChart(CategoryDataset dataset) {
+	private JFreeChart createBarChart(CategoryDataset dataset2) {
 	    return ChartFactory.createBarChart(
-	        "Số lượng khách hàng đã phục vụ hàng ngày",
-	        "Ngày",
-	        "Số lượng",
-	        dataset,
-	        PlotOrientation.VERTICAL,
-	        true,
-	        true,
-	        false
-	    );
+		        "Số lượt đặt phòng hằng ngày",
+		        "Ngày",
+		        "Số lượt",
+		        dataset2,
+		        PlotOrientation.VERTICAL,
+		        true,
+		        true,
+		        false
+		    );
 	}
-
 
 	private CategoryDataset createDataSet() {
 		LocalDate start = currentDate.minusDays(6);
@@ -143,24 +154,13 @@ public class NumberOfCustomerServedChart extends JFrame {
 			date[i] = start.plusDays(i);
 		}
 		
-		printDate(date);
-		
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		ArrayList<CustomerServedChart> list = new EmployeeDAO().getDailyCustomerServed(date, idEmp);
+		ArrayList<Integer> totalBooking = new BillDAO().getDailyTotalBooking(date);
 		
-		for (CustomerServedChart customerServedChart : list) {
-			dataset.addValue(customerServedChart.getTotalCustomer(), "Số lượng", customerServedChart.getDate());
+		for (int i = 0; i < totalBooking.size(); i++) {
+			dataset.addValue(totalBooking.get(i), "Lượt đặt phòng", date[i]);
 		}
 		return dataset;
 	}
 
-	private void printDate(LocalDate[] date2) {
-		for (LocalDate localDate : date2) {
-			System.out.println(localDate.format(formatter));
-		}
-	}
-	
-	public static void main(String[] args) {
-		new NumberOfCustomerServedChart(3);
-	}
 }

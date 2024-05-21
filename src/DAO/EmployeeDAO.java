@@ -217,21 +217,6 @@ public class EmployeeDAO {
 		ArrayList<CustomerServedChart> list = new ArrayList<>();
 		try {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//			String query = "SELECT COUNT(*), date(bill.dateOrder)"
-//					+ " FROM hotel.bill"
-//					+ " INNER JOIN hotel.customer ON bill.ID = customer.id"
-//					+ " INNER JOIN hotel.employee ON customer.idEmp = employee.id"
-//					+ " WHERE date(bill.dateOrder) BETWEEN '"+date[0].format(formatter)+"' AND '"+date[6].format(formatter)+"' AND idEmp = '"+idEmp+"'"
-//					+ " GROUP BY date(bill.dateOrder);";
-//			
-//			ResultSet resultSet = new DBConn().queryDB(query);
-//			
-//			while (resultSet.next()) {
-//				Date date1 = resultSet.getDate("date(bill.dateOrder)");
-//				int total = resultSet.getInt("COUNT(*)");
-//				
-//				list.add(new CustomerServedChart(date1, total));
-//			}
 			
 			String query1 = "SELECT COUNT(*), date(bill.dateOrder)"
 					+ " FROM hotel.bill"

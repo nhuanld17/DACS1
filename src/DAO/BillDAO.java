@@ -4,9 +4,12 @@ package DAO;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import DTO.Bill;
+import DTO.CustomerServedChart;
 
 public class BillDAO {
 
@@ -181,5 +184,85 @@ public class BillDAO {
 		}
 		return number;
 	}
+
+	public ArrayList<Integer> getDailyTotalBooking(LocalDate[] date) {
+		ArrayList<Integer> list = new ArrayList<>();
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		
+		try {
+			String query1 = "SELECT COUNT(*) FROM hotel.bill WHERE date(dateOrder) = '"+date[0].format(formatter)+"'";
+			String query2 = "SELECT COUNT(*) FROM hotel.bill WHERE date(dateOrder) = '"+date[1].format(formatter)+"'";
+			String query3 = "SELECT COUNT(*) FROM hotel.bill WHERE date(dateOrder) = '"+date[2].format(formatter)+"'";
+			String query4 = "SELECT COUNT(*) FROM hotel.bill WHERE date(dateOrder) = '"+date[3].format(formatter)+"'";
+			String query5 = "SELECT COUNT(*) FROM hotel.bill WHERE date(dateOrder) = '"+date[4].format(formatter)+"'";
+			String query6 = "SELECT COUNT(*) FROM hotel.bill WHERE date(dateOrder) = '"+date[5].format(formatter)+"'";
+			String query7 = "SELECT COUNT(*) FROM hotel.bill WHERE date(dateOrder) = '"+date[6].format(formatter)+"'";
+			
+			int total = 0;
+			ResultSet resultSet = new DBConn().queryDB(query1);
+			if (!resultSet.next()) {
+				total = 0;
+			}else {
+				total = resultSet.getInt("COUNT(*)");
+			}
+			list.add(total);
+			
+			resultSet = new DBConn().queryDB(query2);
+			if (!resultSet.next()) {
+				total = 0;
+			}else {
+				total = resultSet.getInt("COUNT(*)");
+			}
+			list.add(total);
+			
+			resultSet = new DBConn().queryDB(query3);
+			if (!resultSet.next()) {
+				total = 0;
+			}else {
+				total = resultSet.getInt("COUNT(*)");
+			}
+			list.add(total);
+			
+			resultSet = new DBConn().queryDB(query4);
+			if (!resultSet.next()) {
+				total = 0;
+			}else {
+				total = resultSet.getInt("COUNT(*)");
+			}
+			list.add(total);
+			
+			resultSet = new DBConn().queryDB(query5);
+			if (!resultSet.next()) {
+				total = 0;
+			}else {
+				total = resultSet.getInt("COUNT(*)");
+			}
+			list.add(total);
+			
+			resultSet = new DBConn().queryDB(query6);
+			if (!resultSet.next()) {
+				total = 0;
+			}else {
+				total = resultSet.getInt("COUNT(*)");
+			}
+			list.add(total);
+			
+			resultSet = new DBConn().queryDB(query7);
+			if (!resultSet.next()) {
+				total = 0;
+			}else {
+				total = resultSet.getInt("COUNT(*)");
+			}
+			list.add(total);
+			
+			
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}	
 	
 }
