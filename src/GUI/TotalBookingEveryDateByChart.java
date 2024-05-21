@@ -59,7 +59,7 @@ public class TotalBookingEveryDateByChart extends JFrame {
 	 * Create the frame.
 	 */
 	public TotalBookingEveryDateByChart() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 775, 468);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -77,6 +77,7 @@ public class TotalBookingEveryDateByChart extends JFrame {
 		
 		chart = createBarChart(dataset);
 		chartPanel = new ChartPanel(chart);
+		chartPanel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		chartPanel.setBounds(0, 11, 762, 383);
 		chartPanel.setBackground(new Color(244, 245, 249));
 		chartPanel.setForeground(SystemColor.desktop);

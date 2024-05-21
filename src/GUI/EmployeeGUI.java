@@ -727,6 +727,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		tab3.add(lblBnPhc);
 		
 		btn_CustomerChart = new JButton("XEM BIỂU ĐỒ");
+		btn_CustomerChart.setToolTipText("BIỂU ĐỒ SỐ KHÁCH HÀNG MÀ NHÂN VIÊN ĐÃ PHỤC VỤ TRONG 1 NGÀY");
 		btn_CustomerChart.setIcon(null);
 		btn_CustomerChart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -739,7 +740,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		btn_CustomerChart.setFocusable(false);
 		btn_CustomerChart.setBorder(new LineBorder(new Color(17, 24, 39), 2));
 		btn_CustomerChart.setBackground(new Color(244, 245, 249));
-		btn_CustomerChart.setBounds(294, 372, 114, 30);
+		btn_CustomerChart.setBounds(270, 372, 114, 30);
 		tab3.add(btn_CustomerChart);
 		
 		lbl_datenow = new JLabel("Hôm nay, "+dayOfWeek+", ngày "+day+", tháng "+month+", năm "+year+":");
@@ -753,15 +754,29 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		label_TotalBookingThisDate = new JLabel("Số lượt đặt phòng: "+totalBookingNow);
 		label_TotalBookingThisDate.setForeground(SystemColor.desktop);
 		label_TotalBookingThisDate.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		label_TotalBookingThisDate.setBounds(10, 408, 291, 22);
+		label_TotalBookingThisDate.setBounds(10, 408, 163, 22);
 		tab3.add(label_TotalBookingThisDate);
+		
+		JButton btn_TotalBookingChart = new JButton("XEM BIỂU ĐỒ");
+		btn_TotalBookingChart.setToolTipText("BIỂU ĐỒ SỐ LƯỢT ĐẶT PHÒNG TRONG CÁC NGÀY");
+		btn_TotalBookingChart.setForeground(SystemColor.desktop);
+		btn_TotalBookingChart.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btn_TotalBookingChart.setFocusable(false);
+		btn_TotalBookingChart.setContentAreaFilled(false);
+		btn_TotalBookingChart.setBorder(new LineBorder(new Color(17, 24, 39), 2));
+		btn_TotalBookingChart.setBackground(new Color(244, 245, 249));
+		btn_TotalBookingChart.setBounds(175, 406, 114, 30);
+		btn_TotalBookingChart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new TotalBookingEveryDateByChart().setVisible(true);;
+			}
+		});
+		tab3.add(btn_TotalBookingChart);
 		
 		JPanel tab4 = new JPanel();
 		tab4.setBackground(new Color(244, 245, 249));
 		tabbedPane.addTab("Tab4", null, tab4, null);
 		tab4.setLayout(null);
-		
-
 		
 		panel_OnLineList = new JPanel();
 		panel_OnLineList.setBorder(new LineBorder(new Color(17, 24, 39), 2));
