@@ -165,5 +165,21 @@ public class BillDAO {
 			e.printStackTrace();
 		}
 	}
+
+	public int getTotalBookingByDate(String formattedDate) {
+		int number = 0;
+		String query = "SELECT COUNT(*) FROM hotel.bill WHERE date(dateOrder) = '"+formattedDate+"'";
+		try {
+			ResultSet resultSet = new DBConn().queryDB(query);
+			while (resultSet.next()) {
+				number = resultSet.getInt("COUNT(*)");
+			}
+			return number;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return number;
+	}
 	
 }

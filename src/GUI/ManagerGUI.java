@@ -599,7 +599,7 @@ public class ManagerGUI extends JFrame {
 		comboBox_Year = new JComboBox();
 
 		comboBox_Year.setModel(new DefaultComboBoxModel(
-				new String[] { "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030" }));
+		new String[] { "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030" }));
 		comboBox_Year.setForeground(SystemColor.desktop);
 		comboBox_Year.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		comboBox_Year.setBackground(new Color(254, 245, 249));

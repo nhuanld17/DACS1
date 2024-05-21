@@ -44,4 +44,8 @@ public class BillBUS {
 		new BillDAO().abateBill(id, price, dateReturn);
 	}
 
+	public int getTotalBookingByDate(String formattedDate) {
+		return new BillDAO().getTotalBookingByDate(formattedDate);
+	}
+
 }

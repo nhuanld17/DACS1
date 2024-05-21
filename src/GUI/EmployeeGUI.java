@@ -94,7 +94,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 	private JTextField textField_FindByName;
 	private JTextField textField_FindByCCCD;
 	private String EmployeeName;
-	private JLabel label_TotalCustomerThisDay;
+	private JLabel lblBnPhc;
 	private String username;
 	private Socket socket;
 	private BufferedReader reader;
@@ -117,6 +117,15 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 	private JTextField textField_EmailReceiver;
 	private JTextField textField_EmailTitle;
 	private JTextField textField_ListFile;
+	private JButton btn_CustomerChart;
+	private JLabel lbl_datenow;
+	private String dayOfWeek;
+	private String day;
+	private String month;
+	private String year;
+	private JLabel label_TotalBookingThisDate;
+	private String formattedDate;
+	private LocalDate today;
 
 	/**
 	 * Launch the application.
@@ -414,19 +423,19 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		
 		
 		// Lấy ngày hiện tại
-		LocalDate today = LocalDate.now();
+		today = LocalDate.now();
 		
 		// Lấy ngày trong tuần
-		String dayOfWeek = today.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+		dayOfWeek = today.getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("vi", "VN"));
 		
 		// Định dạng ngày tháng theo yêu cầu
-		String formattedDate = today.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+		formattedDate = today.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 		
 		// Tách chuỗi để lấy ngày riêng biệt
 		String[] dateParts = formattedDate.split("-");
-		String day = dateParts[0];
-		String month = dateParts[1];
-		String year = dateParts[2];
+		day = dateParts[0];
+		month = dateParts[1];
+		year = dateParts[2];
 		
 		JLabel label_ToDate = new JLabel(dayOfWeek+","+day+"/"+month+"/"+year);
 		label_ToDate.setForeground(SystemColor.desktop);
@@ -710,14 +719,14 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		tab3.add(btn_PrintBill_1);
 		
 		int numberOfCustomerThisDay = new EmployeeBUS().getTotalCustomerThisDay(idEmp);
-		label_TotalCustomerThisDay = new JLabel("Hôm nay, bạn đã phục vụ: "+numberOfCustomerThisDay+" khách hàng");
+		lblBnPhc = new JLabel("Bạn đã phục vụ: "+numberOfCustomerThisDay+" khách hàng");
 
-		label_TotalCustomerThisDay.setForeground(SystemColor.desktop);
-		label_TotalCustomerThisDay.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		label_TotalCustomerThisDay.setBounds(10, 354, 291, 22);
-		tab3.add(label_TotalCustomerThisDay);
+		lblBnPhc.setForeground(SystemColor.desktop);
+		lblBnPhc.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		lblBnPhc.setBounds(10, 375, 291, 22);
+		tab3.add(lblBnPhc);
 		
-		JButton btn_CustomerChart = new JButton("XEM BIỂU ĐỒ");
+		btn_CustomerChart = new JButton("XEM BIỂU ĐỒ");
 		btn_CustomerChart.setIcon(null);
 		btn_CustomerChart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -730,9 +739,23 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		btn_CustomerChart.setFocusable(false);
 		btn_CustomerChart.setBorder(new LineBorder(new Color(17, 24, 39), 2));
 		btn_CustomerChart.setBackground(new Color(244, 245, 249));
-		btn_CustomerChart.setBounds(294, 353, 114, 30);
+		btn_CustomerChart.setBounds(294, 372, 114, 30);
 		tab3.add(btn_CustomerChart);
-
+		
+		lbl_datenow = new JLabel("Hôm nay, "+dayOfWeek+", ngày "+day+", tháng "+month+", năm "+year+":");
+		lbl_datenow.setForeground(SystemColor.desktop);
+		lbl_datenow.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		lbl_datenow.setBounds(10, 350, 347, 22);
+		tab3.add(lbl_datenow);
+		
+		int totalBookingNow = new BillBUS().getTotalBookingByDate(today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		
+		label_TotalBookingThisDate = new JLabel("Số lượt đặt phòng: "+totalBookingNow);
+		label_TotalBookingThisDate.setForeground(SystemColor.desktop);
+		label_TotalBookingThisDate.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		label_TotalBookingThisDate.setBounds(10, 408, 291, 22);
+		tab3.add(label_TotalBookingThisDate);
+		
 		JPanel tab4 = new JPanel();
 		tab4.setBackground(new Color(244, 245, 249));
 		tabbedPane.addTab("Tab4", null, tab4, null);
@@ -780,7 +803,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		displayMessArea.setEditable(false);
 		displayMessArea.setForeground(SystemColor.desktop);
 		displayMessArea.setFont(new Font("Segoe UI", Font.PLAIN, 17));
-		displayMessArea.setBorder(new LineBorder(new Color(17, 24, 39), 2));
+		displayMessArea.setBorder(null);
 		displayMessArea.setBounds(0, 0, 602, 364);
 
 //		panel_2.add(displayMessArea);
@@ -812,6 +835,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		panel_2.add(btnSendMessage);
 		
 		JScrollPane scrollPane_displayMess = new JScrollPane(displayMessArea);
+		scrollPane_displayMess.setBorder(new LineBorder(SystemColor.desktop, 2));
 		scrollPane_displayMess.setBackground(new Color(244, 245, 249));
 		scrollPane_displayMess.setBounds(0, 0, 600, 364);
 		panel_2.add(scrollPane_displayMess);
@@ -1288,6 +1312,14 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 	                    updateBillTable();
 	                    updateCustomerTable();
 	                    updateRoomTable();
+	                    try {
+							Thread.sleep(1500);
+						} catch (InterruptedException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+	            		int totalBookingByDate = new BillBUS().getTotalBookingByDate(today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+	            		label_TotalBookingThisDate.setText("Số lượt đặt phòng: "+totalBookingByDate);
 					}
 		            
 		            if (message.startsWith("ONLINE_USERS:")) {
@@ -1782,9 +1814,20 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		new EmployeeBUS().addCustomer(customer);
 		new BillBUS().addBill(bill);
 		setEmptyForm();
-		int numberOfCustomerThisDay = new EmployeeDAO().getTotalCustomerThisDay(idEmp);
-		label_TotalCustomerThisDay.setText("Hôm nay, bạn đã phục vụ: "+numberOfCustomerThisDay+" khách hàng");
+
 		writer.println("THÊM");
+		try {
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		int numberOfCustomerThisDay = new EmployeeDAO().getTotalCustomerThisDay(idEmp);
+		lblBnPhc.setText("Bạn đã phục vụ: "+numberOfCustomerThisDay+" khách hàng");
+		
+		int totalBookingByDate = new BillBUS().getTotalBookingByDate(today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		System.out.println("Đã thêm 1 khách hàng, số lượt đặt phòng hiện tại "+totalBookingByDate);
+		label_TotalBookingThisDate.setText("Số lượt đặt phòng: "+totalBookingByDate);
 	}
 
 	
@@ -1803,6 +1846,16 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		updateCustomerTable();
 		
 		writer.println("XÓA");
+		int numberOfCustomerThisDay = new EmployeeDAO().getTotalCustomerThisDay(idEmp);
+		lblBnPhc.setText("Bạn đã phục vụ: "+numberOfCustomerThisDay+" khách hàng");
+		try {
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		int totalBookingByDate = new BillBUS().getTotalBookingByDate(today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		label_TotalBookingThisDate.setText("Có "+totalBookingByDate+" lượt đặt phòng");
 	}
 
 	public void setForm() {
