@@ -72,5 +72,13 @@ public class BillBUS {
 		return new BillDAO().getYesterdayBillAbated();
 	}
 
+	public double[] getRevenueEachMonth() {
+		return new BillDAO().getRevenueEachMonth();
+	}
+
+	public double[] getBookingEachMonth() {
+		return new BillDAO().getBookingEachMonth();
+	}
+
 
 }

@@ -646,6 +646,17 @@ public class ManagerGUI extends JFrame {
 		label_compare_bill_abated.setBounds(10, 80, 209, 31);
 		roundedPanel_2.add(label_compare_bill_abated);
 		
+		yesterdayBillAbated = new BillBUS().getYesterdayBillAbated();
+		if (yesterdayBillAbated == 0) {
+			label_compare_bill_abated.setText("");
+		}else if(currentDayBillAbated >= yesterdayBillAbated) {
+			double percent = (currentDayBillAbated - yesterdayBillAbated)*100/ yesterdayBillAbated;
+			label_compare_bill_abated.setText("+"+df.format(percent)+"% since yesterday");
+		}else if(currentDayBillAbated < yesterdayBillAbated) {
+			double percent = (yesterdayBillAbated - currentDayBillAbated)*100/ yesterdayBillAbated;
+			label_compare_bill_abated.setText("-"+df.format(percent)+"% since yesterday");
+		}
+		
 		RoundedPanel roundedPanel_1_1 = new RoundedPanel(20, 5);
 		roundedPanel_1_1.setLayout(null);
 		roundedPanel_1_1.setBackground(new Color(17, 29, 34));
@@ -1061,17 +1072,7 @@ public class ManagerGUI extends JFrame {
 		scrollPane_3.setBounds(0, 0, 808, 477);
 		Tab2.add(scrollPane_3);
 		
-		yesterdayBillAbated = new BillBUS().getYesterdayBillAbated();
-		if (yesterdayBillAbated == 0) {
-			label_compare_bill_abated.setText("");
-		}else if(currentDayBillAbated >= yesterdayBillAbated) {
-			double percent = (currentDayBillAbated - yesterdayBillAbated)*100/ yesterdayBillAbated;
-			label_compare_bill_abated.setText("+"+df.format(percent)+"% since yesterday");
-		}else if(currentDayBillAbated < yesterdayBillAbated) {
-			double percent = (yesterdayBillAbated - currentDayBillAbated)*100/ yesterdayBillAbated;
-			label_compare_bill_abated.setText("-"+df.format(percent)+"% since yesterday");
-		}
-		
+		updateTableRevenueAndBooking();
 
 		datasetGioiTinh = createDatasetGioiTinh();
 
@@ -1645,8 +1646,40 @@ public class ManagerGUI extends JFrame {
 
 	}
 
-	protected void reloadDashBoard() {
+	private void updateTableRevenueAndBooking() {
+		double[] revenues = new BillBUS().getRevenueEachMonth();
+		double[] bookings = new BillBUS().getBookingEachMonth();
 		
+		label_REV_JAN.setText(df.format(revenues[0]/1000000));
+		label_REV_FEB.setText(df.format(revenues[1]/1000000));
+		label_REV_MAR.setText(df.format(revenues[2]/1000000));
+		label_REV_APR.setText(df.format(revenues[3]/1000000));
+		label_REV_MAY.setText(df.format(revenues[4]/1000000));
+		label_REV_JUN.setText(df.format(revenues[5]/1000000));
+		label_REV_JUL.setText(df.format(revenues[6]/1000000));
+		label_REV_AUG.setText(df.format(revenues[7]/1000000));
+		label_REV_SEP.setText(df.format(revenues[8]/1000000));
+		label_REV_OCT.setText(df.format(revenues[9]/1000000));
+		label_REV_NOV.setText(df.format(revenues[10]/1000000));
+		label_REV_DEC.setText(df.format(revenues[11]/1000000));
+		
+		
+		label_BOOK_JAN.setText(bookings[0]+"");
+		label_BOOK_FEB.setText(bookings[1]+"");
+		label_BOOK_MAR.setText(bookings[2]+"");
+		label_BOOK_APR.setText(bookings[3]+"");
+		label_BOOK_MAY.setText(bookings[4]+"");
+		label_BOOK_JUN.setText(bookings[5]+"");
+		label_BOOK_JUL.setText(bookings[6]+"");
+		label_BOOK_AUG.setText(bookings[7]+"");
+		label_BOOK_SEP.setText(bookings[8]+"");
+		label_BOOK_OCT.setText(bookings[9]+"");
+		label_BOOK_NOV.setText(bookings[10]+"");
+		label_BOOK_DEC.setText(bookings[11]+"");
+	}
+
+	protected void reloadDashBoard() {
+		// Reload 3 mục đầu tiên ở dashboard
 		currentDayMoney = new BillBUS().getCurrentRevenue();
 		currentDayMoney = currentDayMoney / 1000000;
 		label_TodayMoney.setText(currentDayMoney+"M");
@@ -1688,6 +1721,10 @@ public class ManagerGUI extends JFrame {
 			label_compare_bill_abated.setText("-"+df.format(percent)+"% since yesterday");
 		}
 		
+		// END reload 3 mục đầu tiên ở dashboard
+		
+		// Reload table doanh thu và lượt đặt phòng
+		updateTableRevenueAndBooking();
 	}
 
 	protected void showTableByTime() {

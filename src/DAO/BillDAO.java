@@ -381,6 +381,49 @@ public class BillDAO {
 			e.printStackTrace();
 		}
         return res;
+	}
+
+	public double[] getRevenueEachMonth() {
+		double[] revenues = new double[12];
+		
+		for (int i = 0; i < revenues.length; i++) {
+			String query = "SELECT SUM(price) FROM hotel.bill WHERE month(dateReturn) = '"+(i+1)+"'";
+			try {
+				ResultSet resultSet = new DBConn().queryDB(query);
+				if (resultSet.next()) {
+					revenues[i] = resultSet.getDouble("SUM(price)");
+				}else {
+					revenues[i] = 0;
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				revenues[i] = 0;
+			}
+		}
+		
+		return revenues;
+	}
+
+	public double[] getBookingEachMonth() {
+		double[] bookings = new double[12];
+		
+		for (int i = 0; i < bookings.length; i++) {
+			String query = "SELECT COUNT(*) FROM hotel.bill WHERE month(dateOrder) = '"+(i+1)+"'";
+			try {
+				ResultSet resultSet = new DBConn().queryDB(query);
+				if (resultSet.next()) {
+					bookings[i] = resultSet.getDouble("COUNT(*)");
+				}else {
+					bookings[i] = 0;
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				bookings[i] = 0;
+			}
+		}
+		return bookings;
 	}	
 	
 }
