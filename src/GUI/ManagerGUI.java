@@ -454,66 +454,72 @@ public class ManagerGUI extends JFrame {
 		Tab1.add(label_ToDate);
 
 		JPanel Tab2 = new JPanel();
-		Tab2.setBackground(new Color(17, 205, 239));
+		Tab2.setBackground(new Color(240, 240, 240));
 		tabbedPane.addTab("Tab2", null, Tab2, null);
 		Tab2.setLayout(null);
 		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(17, 205, 239));
+		panel_1.setBounds(0, 0, 808, 477);
+		
 		RoundedPanel roundedPanel = new RoundedPanel(20, 10);
-		roundedPanel.setBackground(Color.WHITE);
-		roundedPanel.setBounds(10, 11, 233, 149);
-		Tab2.add(roundedPanel);
+		roundedPanel.setBackground(SystemColor.window);
+		roundedPanel.setBounds(25, 11, 240, 150);
+		panel_1.add(roundedPanel);
 		roundedPanel.setLayout(null);
 		
 		JLabel lblNewLabel_6 = new JLabel("");
-		lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_6.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-revenue-60.png")));
-		lblNewLabel_6.setBackground(SystemColor.text);
-		lblNewLabel_6.setBounds(151, 5, 72, 67);
+		lblNewLabel_6.setBounds(160, 5, 67, 62);
 		roundedPanel.add(lblNewLabel_6);
 		
 		JLabel lblNewLabel_7 = new JLabel("TODAY'S MONEY");
 		lblNewLabel_7.setForeground(Color.DARK_GRAY);
-		lblNewLabel_7.setFont(new Font("Segoe UI", Font.BOLD, 17));
-		lblNewLabel_7.setBounds(5, 11, 145, 47);
+		lblNewLabel_7.setBackground(SystemColor.window);
+		lblNewLabel_7.setFont(new Font("Segoe UI", Font.BOLD, 18));
+		lblNewLabel_7.setBounds(5, 11, 150, 47);
 		roundedPanel.add(lblNewLabel_7);
 		
+		JScrollPane scrollPane_3 = new JScrollPane(panel_1);
+		panel_1.setLayout(null);
+		
 		RoundedPanel roundedPanel_1 = new RoundedPanel(20, 10);
-		roundedPanel_1.setBackground(Color.WHITE);
-		roundedPanel_1.setBounds(287, 11, 233, 149);
-		Tab2.add(roundedPanel_1);
+		roundedPanel_1.setBackground(SystemColor.window);
+		roundedPanel_1.setBounds(286, 11, 240, 150);
+		panel_1.add(roundedPanel_1);
 		roundedPanel_1.setLayout(null);
 		
 		JLabel lblNewLabel_6_1 = new JLabel("");
 		lblNewLabel_6_1.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-user-60.png")));
-		lblNewLabel_6_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_6_1.setBackground(SystemColor.text);
-		lblNewLabel_6_1.setBounds(155, 11, 68, 54);
+		lblNewLabel_6_1.setBounds(160, 5, 67, 62);
 		roundedPanel_1.add(lblNewLabel_6_1);
 		
 		JLabel lblNewLabel_7_1 = new JLabel("TODAY'S USERS");
 		lblNewLabel_7_1.setForeground(Color.DARK_GRAY);
-		lblNewLabel_7_1.setFont(new Font("Segoe UI", Font.BOLD, 17));
-		lblNewLabel_7_1.setBounds(10, 11, 145, 47);
+		lblNewLabel_7_1.setFont(new Font("Segoe UI", Font.BOLD, 18));
+		lblNewLabel_7_1.setBackground(SystemColor.window);
+		lblNewLabel_7_1.setBounds(5, 11, 150, 47);
 		roundedPanel_1.add(lblNewLabel_7_1);
 		
 		RoundedPanel roundedPanel_2 = new RoundedPanel(20, 10);
-		roundedPanel_2.setBackground(Color.WHITE);
-		roundedPanel_2.setBounds(565, 11, 233, 149);
-		Tab2.add(roundedPanel_2);
+		roundedPanel_2.setBackground(SystemColor.window);
+		roundedPanel_2.setBounds(550, 11, 240, 150);
+		panel_1.add(roundedPanel_2);
 		roundedPanel_2.setLayout(null);
 		
 		JLabel lblNewLabel_6_1_1 = new JLabel("");
 		lblNewLabel_6_1_1.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-bill-70.png")));
-		lblNewLabel_6_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_6_1_1.setBackground(SystemColor.text);
-		lblNewLabel_6_1_1.setBounds(144, 11, 68, 69);
+		lblNewLabel_6_1_1.setBounds(163, 5, 67, 62);
 		roundedPanel_2.add(lblNewLabel_6_1_1);
 		
 		JLabel lblNewLabel_7_1_1 = new JLabel("BILL ABATED");
 		lblNewLabel_7_1_1.setForeground(Color.DARK_GRAY);
-		lblNewLabel_7_1_1.setFont(new Font("Segoe UI", Font.BOLD, 17));
-		lblNewLabel_7_1_1.setBounds(10, 12, 145, 47);
+		lblNewLabel_7_1_1.setFont(new Font("Segoe UI", Font.BOLD, 18));
+		lblNewLabel_7_1_1.setBackground(SystemColor.window);
+		lblNewLabel_7_1_1.setBounds(5, 11, 150, 47);
 		roundedPanel_2.add(lblNewLabel_7_1_1);
+		scrollPane_3.setBounds(0, 0, 808, 477);
+		Tab2.add(scrollPane_3);
 
 		datasetGioiTinh = createDatasetGioiTinh();
 
