@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -481,7 +483,7 @@ public class ManagerGUI extends JFrame {
 		
 		RoundedPanel roundedPanel = new RoundedPanel(20, 10);
 		roundedPanel.setBackground(SystemColor.window);
-		roundedPanel.setBounds(25, 11, 240, 150);
+		roundedPanel.setBounds(25, 11, 240, 130);
 		panel_1.add(roundedPanel);
 		roundedPanel.setLayout(null);
 		
@@ -494,7 +496,7 @@ public class ManagerGUI extends JFrame {
 		lblNewLabel_7.setForeground(Color.DARK_GRAY);
 		lblNewLabel_7.setBackground(SystemColor.window);
 		lblNewLabel_7.setFont(new Font("Segoe UI", Font.BOLD, 18));
-		lblNewLabel_7.setBounds(10, 11, 150, 47);
+		lblNewLabel_7.setBounds(10, 5, 150, 30);
 		roundedPanel.add(lblNewLabel_7);
 		
 		currentDayMoney = new BillBUS().getCurrentRevenue();
@@ -505,14 +507,14 @@ public class ManagerGUI extends JFrame {
 		label_TodayMoney.setText(currentDayMoney+"M");
 		label_TodayMoney.setForeground(new Color(17, 24, 39));
 		label_TodayMoney.setBackground(new Color(17, 24, 39));
-		label_TodayMoney.setFont(new Font("Segoe UI", Font.BOLD, 25));
-		label_TodayMoney.setBounds(10, 55, 145, 40);
+		label_TodayMoney.setFont(new Font("Segoe UI", Font.BOLD, 22));
+		label_TodayMoney.setBounds(10, 50, 145, 30);
 		roundedPanel.add(label_TodayMoney);
 		
 		label_compare_money = new JLabel("");
 		label_compare_money.setForeground(new Color(128, 0, 0));
 		label_compare_money.setFont(new Font("Segoe UI", Font.BOLD, 18));
-		label_compare_money.setBounds(10, 100, 209, 31);
+		label_compare_money.setBounds(10, 80, 209, 31);
 		roundedPanel.add(label_compare_money);
 		
 		yesterdayMoney = new BillBUS().getYesterdayRevenue();
@@ -542,13 +544,13 @@ public class ManagerGUI extends JFrame {
 		
 		RoundedPanel roundedPanel_1 = new RoundedPanel(20, 10);
 		roundedPanel_1.setBackground(SystemColor.window);
-		roundedPanel_1.setBounds(286, 11, 240, 150);
+		roundedPanel_1.setBounds(286, 11, 240, 130);
 		panel_1.add(roundedPanel_1);
 		roundedPanel_1.setLayout(null);
 		
 		JLabel lblNewLabel_6_1 = new JLabel("");
 		lblNewLabel_6_1.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-user-60.png")));
-		lblNewLabel_6_1.setBounds(167, 5, 60, 62);
+		lblNewLabel_6_1.setBounds(167, 0, 60, 62);
 		roundedPanel_1.add(lblNewLabel_6_1);
 		
 		currentDayUsers = new BillBUS().getNumberOfCurrentUsers();
@@ -558,21 +560,21 @@ public class ManagerGUI extends JFrame {
 		lblNewLabel_7_1.setForeground(Color.DARK_GRAY);
 		lblNewLabel_7_1.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		lblNewLabel_7_1.setBackground(SystemColor.window);
-		lblNewLabel_7_1.setBounds(10, 11, 150, 47);
+		lblNewLabel_7_1.setBounds(10, 10, 150, 30);
 		roundedPanel_1.add(lblNewLabel_7_1);
 		
 		label_TodayUsers = new JLabel(currentDayUsers+" USERS");
 		label_TodayUsers.setText(currentDayUsers+" USERS");
 		label_TodayUsers.setForeground(new Color(17, 24, 39));
-		label_TodayUsers.setFont(new Font("Segoe UI", Font.BOLD, 25));
+		label_TodayUsers.setFont(new Font("Segoe UI", Font.BOLD, 22));
 		label_TodayUsers.setBackground(SystemColor.window);
-		label_TodayUsers.setBounds(10, 55, 145, 40);
+		label_TodayUsers.setBounds(10, 50, 145, 30);
 		roundedPanel_1.add(label_TodayUsers);
 		
 		label_compare_users = new JLabel("");
 		label_compare_users.setForeground(new Color(128, 0, 0));
 		label_compare_users.setFont(new Font("Segoe UI", Font.BOLD, 18));
-		label_compare_users.setBounds(10, 100, 209, 31);
+		label_compare_users.setBounds(10, 80, 209, 31);
 		roundedPanel_1.add(label_compare_users);
 		
 		yesterdayUsers = new BillBUS().getTotalUserYesterday();
@@ -588,7 +590,7 @@ public class ManagerGUI extends JFrame {
 		
 		RoundedPanel roundedPanel_2 = new RoundedPanel(20, 10);
 		roundedPanel_2.setBackground(SystemColor.window);
-		roundedPanel_2.setBounds(550, 11, 240, 150);
+		roundedPanel_2.setBounds(550, 11, 240, 130);
 		panel_1.add(roundedPanel_2);
 		roundedPanel_2.setLayout(null);
 		
@@ -601,7 +603,7 @@ public class ManagerGUI extends JFrame {
 		lblNewLabel_7_1_1.setForeground(Color.DARK_GRAY);
 		lblNewLabel_7_1_1.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		lblNewLabel_7_1_1.setBackground(SystemColor.window);
-		lblNewLabel_7_1_1.setBounds(10, 11, 127, 47);
+		lblNewLabel_7_1_1.setBounds(10, 10, 127, 30);
 		roundedPanel_2.add(lblNewLabel_7_1_1);
 		
 		currentDayBillAbated = new BillBUS().getCurrentNumberOfBillAbated();
@@ -609,26 +611,22 @@ public class ManagerGUI extends JFrame {
 		label_TodayBillAbated = new JLabel(currentDayBillAbated+" BILLS");
 		label_TodayBillAbated.setText(currentDayBillAbated+" BILLS");
 		label_TodayBillAbated.setForeground(new Color(17, 24, 39));
-		label_TodayBillAbated.setFont(new Font("Segoe UI", Font.BOLD, 25));
+		label_TodayBillAbated.setFont(new Font("Segoe UI", Font.BOLD, 22));
 		label_TodayBillAbated.setBackground(new Color(17, 24, 39));
-		label_TodayBillAbated.setBounds(10, 55, 145, 40);
+		label_TodayBillAbated.setBounds(10, 45, 145, 37);
 		roundedPanel_2.add(label_TodayBillAbated);
 		
 		label_compare_bill_abated = new JLabel("");
 		label_compare_bill_abated.setForeground(new Color(128, 0, 0));
 		label_compare_bill_abated.setFont(new Font("Segoe UI", Font.BOLD, 18));
-		label_compare_bill_abated.setBounds(10, 100, 209, 31);
+		label_compare_bill_abated.setBounds(10, 80, 209, 31);
 		roundedPanel_2.add(label_compare_bill_abated);
 		
 		RoundedPanel roundedPanel_1_1 = new RoundedPanel(20, 5);
 		roundedPanel_1_1.setLayout(null);
-		roundedPanel_1_1.setBackground(SystemColor.window);
-		roundedPanel_1_1.setBounds(681, 172, 109, 55);
+		roundedPanel_1_1.setBackground(new Color(17, 29, 34));
+		roundedPanel_1_1.setBounds(681, 150, 109, 55);
 		panel_1.add(roundedPanel_1_1);
-		
-		JLabel lblNewLabel_6_1_2 = new JLabel("");
-		lblNewLabel_6_1_2.setBounds(167, 5, 60, 62);
-		roundedPanel_1_1.add(lblNewLabel_6_1_2);
 		
 		JButton btnNewButton_2 = new JButton("RELOAD");
 		btnNewButton_2.addActionListener(new ActionListener() {
@@ -636,14 +634,31 @@ public class ManagerGUI extends JFrame {
 				reloadDashBoard();
 			}
 		});
-		btnNewButton_2.setForeground(new Color(17, 24, 39));
+
+		btnNewButton_2.setForeground(new Color(244, 245, 249));
 		btnNewButton_2.setFont(new Font("Segoe UI", Font.BOLD | Font.ITALIC, 16));
 		btnNewButton_2.setFocusable(false);
 		btnNewButton_2.setFocusPainted(false);
 		btnNewButton_2.setBorder(null);
-		btnNewButton_2.setBackground(Color.WHITE);
+		btnNewButton_2.setBackground(new Color(17, 29, 34));
 		btnNewButton_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnNewButton_2.setBounds(5, 3, 89, 39);
+		btnNewButton_2.setBounds(5, 3, 94, 45);
+		btnNewButton_2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                roundedPanel_1_1.setBackground(SystemColor.window);
+                btnNewButton_2.setBackground(Color.WHITE);
+                btnNewButton_2.setForeground(new Color(17, 24, 39));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                roundedPanel_1_1.setBackground(new Color(17, 29, 34));
+                btnNewButton_2.setBackground(new Color(17, 29, 34));
+                btnNewButton_2.setForeground(new Color(244, 245, 249));
+            }
+        });
+
 		roundedPanel_1_1.add(btnNewButton_2);
 		scrollPane_3.setBounds(0, 0, 808, 477);
 		Tab2.add(scrollPane_3);
