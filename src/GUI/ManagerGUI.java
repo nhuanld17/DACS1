@@ -13,6 +13,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.RoundingMode;
 import java.security.SecureRandom;
@@ -52,6 +53,11 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -698,7 +704,7 @@ public class ManagerGUI extends JFrame {
 		
 		RoundedPanel roundedPanel_3 = new RoundedPanel(0,0);
 		roundedPanel_3.setBackground(SystemColor.window);
-		roundedPanel_3.setBounds(5, 197, 798, 158);
+		roundedPanel_3.setBounds(4, 218, 798, 158);
 		panel_1.add(roundedPanel_3);
 		roundedPanel_3.setLayout(null);
 		
@@ -1067,8 +1073,30 @@ public class ManagerGUI extends JFrame {
 		JLabel lblNewLabel_12 = new JLabel("REVENUE(M) & BOOKING THIS YEAR");
 		lblNewLabel_12.setForeground(new Color(17, 24, 39));
 		lblNewLabel_12.setFont(new Font("Segoe UI", Font.BOLD | Font.ITALIC, 18));
-		lblNewLabel_12.setBounds(10, 145, 387, 45);
+		lblNewLabel_12.setBounds(4, 166, 387, 45);
 		panel_1.add(lblNewLabel_12);
+		
+		RoundedPanel roundedPanel_1_1_1 = new RoundedPanel(20, 5);
+		roundedPanel_1_1_1.setLayout(null);
+		roundedPanel_1_1_1.setBackground(new Color(17, 29, 34));
+		roundedPanel_1_1_1.setBounds(705, 386, 97, 44);
+		panel_1.add(roundedPanel_1_1_1);
+		
+		JButton btnNewButton_2_1 = new JButton("TO EXCEL");
+		btnNewButton_2_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				toExcel();
+			}
+		});
+		btnNewButton_2_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnNewButton_2_1.setForeground(new Color(244, 245, 249));
+		btnNewButton_2_1.setFont(new Font("Segoe UI", Font.BOLD | Font.ITALIC, 16));
+		btnNewButton_2_1.setFocusable(false);
+		btnNewButton_2_1.setFocusPainted(false);
+		btnNewButton_2_1.setBorder(null);
+		btnNewButton_2_1.setBackground(new Color(17, 29, 34));
+		btnNewButton_2_1.setBounds(5, 3, 83, 33);
+		roundedPanel_1_1_1.add(btnNewButton_2_1);
 		scrollPane_3.setBounds(0, 0, 808, 477);
 		Tab2.add(scrollPane_3);
 		
@@ -1296,6 +1324,7 @@ public class ManagerGUI extends JFrame {
 		btnNewButton_1_1.setBackground(new Color(254, 245, 249));
 		btnNewButton_1_1.setBounds(700, 307, 98, 35);
 		tab3.add(btnNewButton_1_1);
+		
 		btnNewButton_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) salaryTable.getModel();
@@ -1315,6 +1344,20 @@ public class ManagerGUI extends JFrame {
 				new SalaryGUI(month, name, id, position, numberCustomer).setVisible(true);;
 			}
 		});
+		
+		JButton btnNewButton_1_1_1 = new JButton("TẢI LẠI");
+		btnNewButton_1_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				updateTableSalary();
+			}
+		});
+		btnNewButton_1_1_1.setForeground(new Color(17, 24, 39));
+		btnNewButton_1_1_1.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		btnNewButton_1_1_1.setFocusable(false);
+		btnNewButton_1_1_1.setBorder(new LineBorder(new Color(17, 24, 39), 2));
+		btnNewButton_1_1_1.setBackground(new Color(254, 245, 249));
+		btnNewButton_1_1_1.setBounds(700, 351, 98, 35);
+		tab3.add(btnNewButton_1_1_1);
 
 		JPanel Tab4 = new JPanel();
 		tabbedPane.addTab("Tab4", null, Tab4, null);
@@ -1644,6 +1687,114 @@ public class ManagerGUI extends JFrame {
 		});
 		/*----------------- END ACTION LISTENER FOR SIDE BAR BUTTON ---------------*/
 
+	}
+
+	protected void toExcel() {
+		JFileChooser fileChooser = new JFileChooser();
+		int option = fileChooser.showSaveDialog(ManagerGUI.this);
+		
+		if (option == fileChooser.APPROVE_OPTION) {
+			String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+			
+			if (!filePath.toLowerCase().endsWith(".xlsx")) {
+				filePath += ".xlsx";
+			}
+			
+			Workbook workbook = new XSSFWorkbook();
+			Sheet sheet = workbook.createSheet("Bill List");
+			
+			Row headRow = sheet.createRow(0);
+			Cell cell = headRow.createCell(0);
+			cell.setCellValue("");
+			cell = headRow.createCell(1);
+			cell.setCellValue("JAN");
+			cell = headRow.createCell(2);
+			cell.setCellValue("FEB");
+			cell = headRow.createCell(3);
+			cell.setCellValue("MAR");
+			cell = headRow.createCell(4);
+			cell.setCellValue("APR");
+			cell = headRow.createCell(5);
+			cell.setCellValue("MAY");
+			cell = headRow.createCell(6);
+			cell.setCellValue("JUN");
+			cell = headRow.createCell(7);
+			cell.setCellValue("JUL");
+			cell = headRow.createCell(8);
+			cell.setCellValue("AUG");
+			cell = headRow.createCell(9);
+			cell.setCellValue("SEP");
+			cell = headRow.createCell(10);
+			cell.setCellValue("OTC");
+			cell = headRow.createCell(11);
+			cell.setCellValue("NOV");
+			cell = headRow.createCell(12);
+			cell.setCellValue("DEC");
+			
+			Row revenue = sheet.createRow(1);
+			cell = revenue.createCell(0);
+			cell.setCellValue("Revenue");
+			cell = revenue.createCell(1);
+			cell.setCellValue(label_REV_JAN.getText());
+			cell = revenue.createCell(2);
+			cell.setCellValue(label_REV_FEB.getText());
+			cell = revenue.createCell(3);
+			cell.setCellValue(label_REV_MAR.getText());
+			cell = revenue.createCell(4);
+			cell.setCellValue(label_REV_APR.getText());
+			cell = revenue.createCell(5);
+			cell.setCellValue(label_REV_MAY.getText());
+			cell = revenue.createCell(6);
+			cell.setCellValue(label_REV_JUN.getText());
+			cell = revenue.createCell(7);
+			cell.setCellValue(label_REV_JUL.getText());
+			cell = revenue.createCell(8);
+			cell.setCellValue(label_REV_AUG.getText());
+			cell = revenue.createCell(9);
+			cell.setCellValue(label_REV_SEP.getText());
+			cell = revenue.createCell(10);
+			cell.setCellValue(label_REV_OCT.getText());
+			cell = revenue.createCell(11);
+			cell.setCellValue(label_REV_NOV.getText());
+			cell = revenue.createCell(12);
+			cell.setCellValue(label_REV_DEC.getText());
+			
+			Row booking = sheet.createRow(2);
+			cell = booking.createCell(0);
+			cell.setCellValue("Booking");
+			cell = booking.createCell(1);
+			cell.setCellValue(label_BOOK_JAN.getText());
+			cell = booking.createCell(2);
+			cell.setCellValue(label_BOOK_FEB.getText());
+			cell = booking.createCell(3);
+			cell.setCellValue(label_BOOK_MAR.getText());
+			cell = booking.createCell(4);
+			cell.setCellValue(label_BOOK_APR.getText());
+			cell = booking.createCell(5);
+			cell.setCellValue(label_BOOK_MAY.getText());
+			cell = booking.createCell(6);
+			cell.setCellValue(label_BOOK_JUN.getText());
+			cell = booking.createCell(7);
+			cell.setCellValue(label_BOOK_JUL.getText());
+			cell = booking.createCell(8);
+			cell.setCellValue(label_BOOK_AUG.getText());
+			cell = booking.createCell(9);
+			cell.setCellValue(label_BOOK_SEP.getText());
+			cell = booking.createCell(10);
+			cell.setCellValue(label_BOOK_OCT.getText());
+			cell = booking.createCell(11);
+			cell.setCellValue(label_BOOK_NOV.getText());
+			cell = booking.createCell(12);
+			cell.setCellValue(label_BOOK_DEC.getText());
+			
+			try {
+				FileOutputStream fileOutputStream = new FileOutputStream(filePath);
+				workbook.write(fileOutputStream);
+				workbook.close();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
 	}
 
 	private void updateTableRevenueAndBooking() {
