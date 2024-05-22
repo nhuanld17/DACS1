@@ -318,6 +318,69 @@ public class BillDAO {
 			e.printStackTrace();
 		}
 		return res;
+	}
+
+	public double getYesterdayRevenue() {
+		double res = 0;
+		LocalDate today = LocalDate.now();
+		// Lấy ngày hôm qua
+        LocalDate yesterday = today.minusDays(1);
+        String formatedDate = yesterday.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        
+        String query = "SELECT SUM(price) FROM hotel.bill WHERE date(dateReturn) = '"+formatedDate+"'";
+        try {
+			ResultSet resultSet = new DBConn().queryDB(query);
+			while (resultSet.next()) {
+				res = resultSet.getDouble("SUM(price)");
+			}
+			return res;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return res;
+	}
+
+	public int getTotalUserYesterday() {
+		int res = 0;
+		LocalDate today = LocalDate.now();
+		// Lấy ngày hôm qua
+        LocalDate yesterday = today.minusDays(1);
+        String formatedDate = yesterday.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        
+        String query = "SELECT COUNT(*) FROM hotel.bill WHERE date(dateOrder) = '"+formatedDate+"'";
+        try {
+			ResultSet resultSet = new DBConn().queryDB(query);
+			while (resultSet.next()) {
+				res = resultSet.getInt("COUNT(*)");
+			}
+			return res;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return res;
+	}
+
+	public int getYesterdayBillAbated() {
+		int res = 0;
+		LocalDate today = LocalDate.now();
+		// Lấy ngày hôm qua
+        LocalDate yesterday = today.minusDays(1);
+        String formatedDate = yesterday.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        
+        String query = "SELECT COUNT(*) FROM hotel.bill WHERE date(dateReturn) = '"+formatedDate+"'";
+        try {
+			ResultSet resultSet = new DBConn().queryDB(query);
+			while (resultSet.next()) {
+				res = resultSet.getInt("COUNT(*)");
+			}
+			return res;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return res;
 	}	
 	
 }

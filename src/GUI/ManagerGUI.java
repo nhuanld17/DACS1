@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.math.RoundingMode;
 import java.security.SecureRandom;
 import java.sql.Date;
 import java.text.DecimalFormat;
@@ -61,6 +62,7 @@ import BUS.ManagerBUS;
 import CONTROLLER.ManagerController;
 import DTO.Employee;
 import SENDMAIL.SendMail;
+import java.awt.Cursor;
 
 public class ManagerGUI extends JFrame {
 
@@ -121,6 +123,16 @@ public class ManagerGUI extends JFrame {
 	private double currentDayMoney;
 	private int currentDayUsers;
 	private int currentDayBillAbated;
+	private JLabel label_compare_money;
+	private JLabel label_compare_users;
+	private JLabel label_compare_bill_abated;
+	private double yesterdayMoney;
+	private DecimalFormat df = new DecimalFormat("#.##");
+	private int yesterdayUsers;
+	private int yesterdayBillAbated;
+	private JLabel label_TodayMoney;
+	private JLabel label_TodayBillAbated;
+	private JLabel label_TodayUsers;
 
 	/**
 	 * Launch the application.
@@ -149,6 +161,7 @@ public class ManagerGUI extends JFrame {
 //		} catch (IllegalAccessException e) {
 //		} catch (UnsupportedLookAndFeelException e) {
 //		}
+		df.setRoundingMode(RoundingMode.HALF_UP);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 980, 520);
 		contentPane = new JPanel();
@@ -486,13 +499,43 @@ public class ManagerGUI extends JFrame {
 		
 		currentDayMoney = new BillBUS().getCurrentRevenue();
 		currentDayMoney = currentDayMoney / 1000000;
+
 		
-		JLabel label_TodayMoney = new JLabel(currentDayMoney+"M");
+		label_TodayMoney = new JLabel(currentDayMoney+"M");
+		label_TodayMoney.setText(currentDayMoney+"M");
 		label_TodayMoney.setForeground(new Color(17, 24, 39));
 		label_TodayMoney.setBackground(new Color(17, 24, 39));
 		label_TodayMoney.setFont(new Font("Segoe UI", Font.BOLD, 25));
 		label_TodayMoney.setBounds(10, 55, 145, 40);
 		roundedPanel.add(label_TodayMoney);
+		
+		label_compare_money = new JLabel("");
+		label_compare_money.setForeground(new Color(128, 0, 0));
+		label_compare_money.setFont(new Font("Segoe UI", Font.BOLD, 18));
+		label_compare_money.setBounds(10, 100, 209, 31);
+		roundedPanel.add(label_compare_money);
+		
+		yesterdayMoney = new BillBUS().getYesterdayRevenue();
+		yesterdayMoney = yesterdayMoney / 1000000;
+//		if (currentDayMoney >= yesterdayMoney) {
+//			double percent = ((currentDayMoney - yesterdayMoney) / yesterdayMoney)*100;
+//			label_compare_money.setText("+"+percent+"% since yesterday");
+//		}else {
+//			
+//		}
+		
+		if (yesterdayMoney == 0) {
+			label_compare_money.setText("");
+		}else if (currentDayMoney >= yesterdayMoney) {
+			double percent = ((currentDayMoney - yesterdayMoney) / yesterdayMoney)*100;
+			label_compare_money.setText("+"+df.format(percent)+"% since yesterday");
+		}else if (currentDayMoney < yesterdayMoney) {
+			double percent = ((yesterdayMoney - currentDayMoney) / yesterdayMoney)*100;
+			label_compare_money.setText("-"+df.format(percent)+"% since yesterday");
+		}
+		
+//		System.out.println("Current: "+currentDayMoney);
+//		System.out.println("Yester: "+yesterdayMoney);
 		
 		JScrollPane scrollPane_3 = new JScrollPane(panel_1);
 		panel_1.setLayout(null);
@@ -509,6 +552,7 @@ public class ManagerGUI extends JFrame {
 		roundedPanel_1.add(lblNewLabel_6_1);
 		
 		currentDayUsers = new BillBUS().getNumberOfCurrentUsers();
+
 		
 		JLabel lblNewLabel_7_1 = new JLabel("TODAY'S USERS");
 		lblNewLabel_7_1.setForeground(Color.DARK_GRAY);
@@ -517,12 +561,30 @@ public class ManagerGUI extends JFrame {
 		lblNewLabel_7_1.setBounds(10, 11, 150, 47);
 		roundedPanel_1.add(lblNewLabel_7_1);
 		
-		JLabel label_TodayUsers = new JLabel(currentDayUsers+" USERS");
+		label_TodayUsers = new JLabel(currentDayUsers+" USERS");
+		label_TodayUsers.setText(currentDayUsers+" USERS");
 		label_TodayUsers.setForeground(new Color(17, 24, 39));
 		label_TodayUsers.setFont(new Font("Segoe UI", Font.BOLD, 25));
 		label_TodayUsers.setBackground(SystemColor.window);
 		label_TodayUsers.setBounds(10, 55, 145, 40);
 		roundedPanel_1.add(label_TodayUsers);
+		
+		label_compare_users = new JLabel("");
+		label_compare_users.setForeground(new Color(128, 0, 0));
+		label_compare_users.setFont(new Font("Segoe UI", Font.BOLD, 18));
+		label_compare_users.setBounds(10, 100, 209, 31);
+		roundedPanel_1.add(label_compare_users);
+		
+		yesterdayUsers = new BillBUS().getTotalUserYesterday();
+		if (yesterdayUsers == 0) {
+			label_compare_users.setText("");
+		}else if(currentDayUsers >= yesterdayUsers) {
+			double percent = (currentDayUsers - yesterdayUsers)*100/yesterdayUsers;
+			label_compare_users.setText("+"+df.format(percent)+"% since yesterday");
+		}else if (currentDayUsers < yesterdayUsers) {
+			double percent = (yesterdayUsers - currentDayUsers)*100/yesterdayUsers;
+			label_compare_users.setText("-"+df.format(percent)+"% since yesterday");
+		}
 		
 		RoundedPanel roundedPanel_2 = new RoundedPanel(20, 10);
 		roundedPanel_2.setBackground(SystemColor.window);
@@ -544,14 +606,59 @@ public class ManagerGUI extends JFrame {
 		
 		currentDayBillAbated = new BillBUS().getCurrentNumberOfBillAbated();
 		
-		JLabel label_TodayBillAbated = new JLabel(currentDayBillAbated+" BILLS");
+		label_TodayBillAbated = new JLabel(currentDayBillAbated+" BILLS");
+		label_TodayBillAbated.setText(currentDayBillAbated+" BILLS");
 		label_TodayBillAbated.setForeground(new Color(17, 24, 39));
 		label_TodayBillAbated.setFont(new Font("Segoe UI", Font.BOLD, 25));
 		label_TodayBillAbated.setBackground(new Color(17, 24, 39));
 		label_TodayBillAbated.setBounds(10, 55, 145, 40);
 		roundedPanel_2.add(label_TodayBillAbated);
+		
+		label_compare_bill_abated = new JLabel("");
+		label_compare_bill_abated.setForeground(new Color(128, 0, 0));
+		label_compare_bill_abated.setFont(new Font("Segoe UI", Font.BOLD, 18));
+		label_compare_bill_abated.setBounds(10, 100, 209, 31);
+		roundedPanel_2.add(label_compare_bill_abated);
+		
+		RoundedPanel roundedPanel_1_1 = new RoundedPanel(20, 5);
+		roundedPanel_1_1.setLayout(null);
+		roundedPanel_1_1.setBackground(SystemColor.window);
+		roundedPanel_1_1.setBounds(681, 172, 109, 55);
+		panel_1.add(roundedPanel_1_1);
+		
+		JLabel lblNewLabel_6_1_2 = new JLabel("");
+		lblNewLabel_6_1_2.setBounds(167, 5, 60, 62);
+		roundedPanel_1_1.add(lblNewLabel_6_1_2);
+		
+		JButton btnNewButton_2 = new JButton("RELOAD");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				reloadDashBoard();
+			}
+		});
+		btnNewButton_2.setForeground(new Color(17, 24, 39));
+		btnNewButton_2.setFont(new Font("Segoe UI", Font.BOLD | Font.ITALIC, 16));
+		btnNewButton_2.setFocusable(false);
+		btnNewButton_2.setFocusPainted(false);
+		btnNewButton_2.setBorder(null);
+		btnNewButton_2.setBackground(Color.WHITE);
+		btnNewButton_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnNewButton_2.setBounds(5, 3, 89, 39);
+		roundedPanel_1_1.add(btnNewButton_2);
 		scrollPane_3.setBounds(0, 0, 808, 477);
 		Tab2.add(scrollPane_3);
+		
+		yesterdayBillAbated = new BillBUS().getYesterdayBillAbated();
+		if (yesterdayBillAbated == 0) {
+			label_compare_bill_abated.setText("");
+		}else if(currentDayBillAbated >= yesterdayBillAbated) {
+			double percent = (currentDayBillAbated - yesterdayBillAbated)*100/ yesterdayBillAbated;
+			label_compare_bill_abated.setText("+"+df.format(percent)+"% since yesterday");
+		}else if(currentDayBillAbated < yesterdayBillAbated) {
+			double percent = (yesterdayBillAbated - currentDayBillAbated)*100/ yesterdayBillAbated;
+			label_compare_bill_abated.setText("-"+df.format(percent)+"% since yesterday");
+		}
+		
 
 		datasetGioiTinh = createDatasetGioiTinh();
 
@@ -1123,6 +1230,51 @@ public class ManagerGUI extends JFrame {
 		});
 		/*----------------- END ACTION LISTENER FOR SIDE BAR BUTTON ---------------*/
 
+	}
+
+	protected void reloadDashBoard() {
+		
+		currentDayMoney = new BillBUS().getCurrentRevenue();
+		currentDayMoney = currentDayMoney / 1000000;
+		label_TodayMoney.setText(currentDayMoney+"M");
+		yesterdayMoney = new BillBUS().getYesterdayRevenue();
+		yesterdayMoney = yesterdayMoney / 1000000;
+		if (yesterdayMoney == 0) {
+			label_compare_money.setText("");
+		}else if (currentDayMoney >= yesterdayMoney) {
+			double percent = ((currentDayMoney - yesterdayMoney) / yesterdayMoney)*100;
+			label_compare_money.setText("+"+df.format(percent)+"% since yesterday");
+		}else if (currentDayMoney < yesterdayMoney) {
+			double percent = ((yesterdayMoney - currentDayMoney) / yesterdayMoney)*100;
+			label_compare_money.setText("-"+df.format(percent)+"% since yesterday");
+		}
+		
+		currentDayUsers = new BillBUS().getNumberOfCurrentUsers();
+		label_TodayUsers.setText(currentDayUsers+" USERS");
+		yesterdayUsers = new BillBUS().getTotalUserYesterday();
+		if (yesterdayUsers == 0) {
+			label_compare_users.setText("");
+		}else if(currentDayUsers >= yesterdayUsers) {
+			double percent = (currentDayUsers - yesterdayUsers)*100/yesterdayUsers;
+			label_compare_users.setText("+"+df.format(percent)+"% since yesterday");
+		}else if (currentDayUsers < yesterdayUsers) {
+			double percent = (yesterdayUsers - currentDayUsers)*100/yesterdayUsers;
+			label_compare_users.setText("-"+df.format(percent)+"% since yesterday");
+		}
+		
+		currentDayBillAbated = new BillBUS().getCurrentNumberOfBillAbated();
+		label_TodayBillAbated.setText(currentDayBillAbated+" BILLS");
+		yesterdayBillAbated = new BillBUS().getYesterdayBillAbated();
+		if (yesterdayBillAbated == 0) {
+			label_compare_bill_abated.setText("");
+		}else if(currentDayBillAbated >= yesterdayBillAbated) {
+			double percent = (currentDayBillAbated - yesterdayBillAbated)*100/ yesterdayBillAbated;
+			label_compare_bill_abated.setText("+"+df.format(percent)+"% since yesterday");
+		}else if(currentDayBillAbated < yesterdayBillAbated) {
+			double percent = (yesterdayBillAbated - currentDayBillAbated)*100/ yesterdayBillAbated;
+			label_compare_bill_abated.setText("-"+df.format(percent)+"% since yesterday");
+		}
+		
 	}
 
 	protected void showTableByTime() {

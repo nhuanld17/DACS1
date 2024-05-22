@@ -60,4 +60,17 @@ public class BillBUS {
 		return new BillDAO().getCurrentNumberOfBillAbated();
 	}
 
+	public double getYesterdayRevenue() {
+		return new BillDAO().getYesterdayRevenue();
+	}
+
+	public int getTotalUserYesterday() {
+		return new BillDAO().getTotalUserYesterday();
+	}
+
+	public int getYesterdayBillAbated() {
+		return new BillDAO().getYesterdayBillAbated();
+	}
+
+
 }
