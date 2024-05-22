@@ -56,6 +56,7 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.general.DefaultPieDataset;
 
+import BUS.BillBUS;
 import BUS.ManagerBUS;
 import CONTROLLER.ManagerController;
 import DTO.Employee;
@@ -117,6 +118,9 @@ public class ManagerGUI extends JFrame {
 	private Month currentMonth;
 	private int currentMonthValue;
 	private JButton btnNewButton_1;
+	private double currentDayMoney;
+	private int currentDayUsers;
+	private int currentDayBillAbated;
 
 	/**
 	 * Launch the application.
@@ -470,15 +474,25 @@ public class ManagerGUI extends JFrame {
 		
 		JLabel lblNewLabel_6 = new JLabel("");
 		lblNewLabel_6.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-revenue-60.png")));
-		lblNewLabel_6.setBounds(160, 5, 67, 62);
+		lblNewLabel_6.setBounds(165, 5, 65, 62);
 		roundedPanel.add(lblNewLabel_6);
 		
 		JLabel lblNewLabel_7 = new JLabel("TODAY'S MONEY");
 		lblNewLabel_7.setForeground(Color.DARK_GRAY);
 		lblNewLabel_7.setBackground(SystemColor.window);
 		lblNewLabel_7.setFont(new Font("Segoe UI", Font.BOLD, 18));
-		lblNewLabel_7.setBounds(5, 11, 150, 47);
+		lblNewLabel_7.setBounds(10, 11, 150, 47);
 		roundedPanel.add(lblNewLabel_7);
+		
+		currentDayMoney = new BillBUS().getCurrentRevenue();
+		currentDayMoney = currentDayMoney / 1000000;
+		
+		JLabel label_TodayMoney = new JLabel(currentDayMoney+"M");
+		label_TodayMoney.setForeground(new Color(17, 24, 39));
+		label_TodayMoney.setBackground(new Color(17, 24, 39));
+		label_TodayMoney.setFont(new Font("Segoe UI", Font.BOLD, 25));
+		label_TodayMoney.setBounds(10, 55, 145, 40);
+		roundedPanel.add(label_TodayMoney);
 		
 		JScrollPane scrollPane_3 = new JScrollPane(panel_1);
 		panel_1.setLayout(null);
@@ -491,15 +505,24 @@ public class ManagerGUI extends JFrame {
 		
 		JLabel lblNewLabel_6_1 = new JLabel("");
 		lblNewLabel_6_1.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-user-60.png")));
-		lblNewLabel_6_1.setBounds(160, 5, 67, 62);
+		lblNewLabel_6_1.setBounds(167, 5, 60, 62);
 		roundedPanel_1.add(lblNewLabel_6_1);
+		
+		currentDayUsers = new BillBUS().getNumberOfCurrentUsers();
 		
 		JLabel lblNewLabel_7_1 = new JLabel("TODAY'S USERS");
 		lblNewLabel_7_1.setForeground(Color.DARK_GRAY);
 		lblNewLabel_7_1.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		lblNewLabel_7_1.setBackground(SystemColor.window);
-		lblNewLabel_7_1.setBounds(5, 11, 150, 47);
+		lblNewLabel_7_1.setBounds(10, 11, 150, 47);
 		roundedPanel_1.add(lblNewLabel_7_1);
+		
+		JLabel label_TodayUsers = new JLabel(currentDayUsers+" USERS");
+		label_TodayUsers.setForeground(new Color(17, 24, 39));
+		label_TodayUsers.setFont(new Font("Segoe UI", Font.BOLD, 25));
+		label_TodayUsers.setBackground(SystemColor.window);
+		label_TodayUsers.setBounds(10, 55, 145, 40);
+		roundedPanel_1.add(label_TodayUsers);
 		
 		RoundedPanel roundedPanel_2 = new RoundedPanel(20, 10);
 		roundedPanel_2.setBackground(SystemColor.window);
@@ -509,15 +532,24 @@ public class ManagerGUI extends JFrame {
 		
 		JLabel lblNewLabel_6_1_1 = new JLabel("");
 		lblNewLabel_6_1_1.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-bill-70.png")));
-		lblNewLabel_6_1_1.setBounds(163, 5, 67, 62);
+		lblNewLabel_6_1_1.setBounds(147, 11, 67, 62);
 		roundedPanel_2.add(lblNewLabel_6_1_1);
 		
 		JLabel lblNewLabel_7_1_1 = new JLabel("BILL ABATED");
 		lblNewLabel_7_1_1.setForeground(Color.DARK_GRAY);
 		lblNewLabel_7_1_1.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		lblNewLabel_7_1_1.setBackground(SystemColor.window);
-		lblNewLabel_7_1_1.setBounds(5, 11, 150, 47);
+		lblNewLabel_7_1_1.setBounds(10, 11, 127, 47);
 		roundedPanel_2.add(lblNewLabel_7_1_1);
+		
+		currentDayBillAbated = new BillBUS().getCurrentNumberOfBillAbated();
+		
+		JLabel label_TodayBillAbated = new JLabel(currentDayBillAbated+" BILLS");
+		label_TodayBillAbated.setForeground(new Color(17, 24, 39));
+		label_TodayBillAbated.setFont(new Font("Segoe UI", Font.BOLD, 25));
+		label_TodayBillAbated.setBackground(new Color(17, 24, 39));
+		label_TodayBillAbated.setBounds(10, 55, 145, 40);
+		roundedPanel_2.add(label_TodayBillAbated);
 		scrollPane_3.setBounds(0, 0, 808, 477);
 		Tab2.add(scrollPane_3);
 

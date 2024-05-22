@@ -48,4 +48,16 @@ public class BillBUS {
 		return new BillDAO().getTotalBookingByDate(formattedDate);
 	}
 
+	public double getCurrentRevenue() {
+		return new BillDAO().getCurrentRevenue();
+	}
+
+	public int getNumberOfCurrentUsers() {
+		return new BillDAO().getNumberOfCurrentUsers();
+	}
+
+	public int getCurrentNumberOfBillAbated() {
+		return new BillDAO().getCurrentNumberOfBillAbated();
+	}
+
 }

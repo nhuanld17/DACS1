@@ -263,6 +263,61 @@ public class BillDAO {
 		}
 		
 		return list;
+	}
+
+	public double getCurrentRevenue() {
+		LocalDate today = LocalDate.now();
+		double result = 0;
+		String formatedDate = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		String query = "SELECT SUM(price) FROM hotel.bill WHERE date(dateReturn) = '"+formatedDate+"'";
+		try {
+			ResultSet resultSet = new DBConn().queryDB(query);
+			while (resultSet.next()) {
+				result = resultSet.getDouble("SUM(price)");
+			}
+			return result;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public int getNumberOfCurrentUsers() {
+		int res = 0;
+		LocalDate today = LocalDate.now();
+		String formatedDate = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		String query = "SELECT COUNT(*) FROM hotel.bill WHERE date(dateOrder) = '"+formatedDate+"'";
+		try {
+			ResultSet resultSet = new DBConn().queryDB(query);
+			while (resultSet.next()) {
+				res = resultSet.getInt("COUNT(*)");
+			}
+			return res;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public int getCurrentNumberOfBillAbated() {
+		int res = 0;
+		LocalDate today = LocalDate.now();
+		String formatedDate = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		
+		String query = "SELECT COUNT(*) FROM hotel.bill WHERE date(dateReturn) = '"+formatedDate+"'";
+		try {
+			ResultSet resultSet = new DBConn().queryDB(query);
+			while (resultSet.next()) {
+				res = resultSet.getInt("COUNT(*)");
+			}
+			return res;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
 	}	
 	
 }
