@@ -704,7 +704,7 @@ public class ManagerGUI extends JFrame {
 		
 		RoundedPanel roundedPanel_3 = new RoundedPanel(0,0);
 		roundedPanel_3.setBackground(SystemColor.window);
-		roundedPanel_3.setBounds(4, 218, 798, 158);
+		roundedPanel_3.setBounds(4, 234, 798, 158);
 		panel_1.add(roundedPanel_3);
 		roundedPanel_3.setLayout(null);
 		
@@ -1073,13 +1073,13 @@ public class ManagerGUI extends JFrame {
 		JLabel lblNewLabel_12 = new JLabel("REVENUE(M) & BOOKING THIS YEAR");
 		lblNewLabel_12.setForeground(new Color(17, 24, 39));
 		lblNewLabel_12.setFont(new Font("Segoe UI", Font.BOLD | Font.ITALIC, 18));
-		lblNewLabel_12.setBounds(4, 166, 387, 45);
+		lblNewLabel_12.setBounds(17, 187, 387, 45);
 		panel_1.add(lblNewLabel_12);
 		
 		RoundedPanel roundedPanel_1_1_1 = new RoundedPanel(20, 5);
 		roundedPanel_1_1_1.setLayout(null);
 		roundedPanel_1_1_1.setBackground(new Color(17, 29, 34));
-		roundedPanel_1_1_1.setBounds(705, 386, 97, 44);
+		roundedPanel_1_1_1.setBounds(704, 407, 97, 44);
 		panel_1.add(roundedPanel_1_1_1);
 		
 		JButton btnNewButton_2_1 = new JButton("TO EXCEL");
@@ -1097,10 +1097,33 @@ public class ManagerGUI extends JFrame {
 		btnNewButton_2_1.setBackground(new Color(17, 29, 34));
 		btnNewButton_2_1.setBounds(5, 3, 83, 33);
 		roundedPanel_1_1_1.add(btnNewButton_2_1);
+		
+		RoundedPanel roundedPanel_1_1_1_1 = new RoundedPanel(20, 5);
+		roundedPanel_1_1_1_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		roundedPanel_1_1_1_1.setLayout(null);
+		roundedPanel_1_1_1_1.setBackground(new Color(17, 29, 34));
+		roundedPanel_1_1_1_1.setBounds(598, 408, 97, 44);
+		panel_1.add(roundedPanel_1_1_1_1);
+		
+		JButton btnNewButton_2_1_1 = new JButton("");
+		btnNewButton_2_1_1.setVerticalAlignment(SwingConstants.TOP);
+		btnNewButton_2_1_1.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-chart-30.png")));
+		btnNewButton_2_1_1.setForeground(new Color(244, 245, 249));
+		btnNewButton_2_1_1.setFont(new Font("Segoe UI", Font.BOLD | Font.ITALIC, 16));
+		btnNewButton_2_1_1.setFocusable(false);
+		btnNewButton_2_1_1.setFocusPainted(false);
+		btnNewButton_2_1_1.setBorder(null);
+		btnNewButton_2_1_1.setBackground(new Color(17, 29, 34));
+		btnNewButton_2_1_1.setBounds(5, 1, 83, 35);
+		roundedPanel_1_1_1_1.add(btnNewButton_2_1_1);
+
+		
 		scrollPane_3.setBounds(0, 0, 808, 477);
 		Tab2.add(scrollPane_3);
 		
 		updateTableRevenueAndBooking();
+		
+
 
 		datasetGioiTinh = createDatasetGioiTinh();
 

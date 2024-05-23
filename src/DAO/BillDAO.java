@@ -385,9 +385,10 @@ public class BillDAO {
 
 	public double[] getRevenueEachMonth() {
 		double[] revenues = new double[12];
-		
+		LocalDate today = LocalDate.now();
+		int year = today.getYear();
 		for (int i = 0; i < revenues.length; i++) {
-			String query = "SELECT SUM(price) FROM hotel.bill WHERE month(dateReturn) = '"+(i+1)+"'";
+			String query = "SELECT SUM(price) FROM hotel.bill WHERE month(dateReturn) = '"+(i+1)+"' AND year(dateReturn) = '"+year+"'";
 			try {
 				ResultSet resultSet = new DBConn().queryDB(query);
 				if (resultSet.next()) {
