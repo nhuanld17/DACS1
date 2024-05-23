@@ -70,6 +70,8 @@ import BUS.ManagerBUS;
 import CONTROLLER.ManagerController;
 import DTO.Employee;
 import SENDMAIL.SendMail;
+import TEST.HotelRevenueAndBookingsChart;
+
 import java.awt.Cursor;
 
 public class ManagerGUI extends JFrame {
@@ -1106,6 +1108,11 @@ public class ManagerGUI extends JFrame {
 		panel_1.add(roundedPanel_1_1_1_1);
 		
 		JButton btnNewButton_2_1_1 = new JButton("");
+		btnNewButton_2_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new GUI.HotelRevenueAndBookingsChart().setVisible(true);;
+			}
+		});
 		btnNewButton_2_1_1.setVerticalAlignment(SwingConstants.TOP);
 		btnNewButton_2_1_1.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-chart-30.png")));
 		btnNewButton_2_1_1.setForeground(new Color(244, 245, 249));
