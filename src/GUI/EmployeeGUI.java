@@ -853,6 +853,8 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		scrollPane_displayMess.setBorder(new LineBorder(SystemColor.desktop, 2));
 		scrollPane_displayMess.setBackground(new Color(244, 245, 249));
 		scrollPane_displayMess.setBounds(0, 0, 600, 364);
+		scrollPane_displayMess.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scrollPane_displayMess.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		panel_2.add(scrollPane_displayMess);
 		
 		tab5 = new JPanel();
