@@ -12,14 +12,21 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.math.RoundingMode;
+import java.net.Socket;
 import java.security.SecureRandom;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.Normalizer;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
@@ -27,6 +34,7 @@ import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.mail.MessagingException;
 import javax.swing.ButtonGroup;
@@ -48,6 +56,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
@@ -75,8 +84,11 @@ import TEST.HotelRevenueAndBookingsChart;
 import java.awt.Cursor;
 
 public class ManagerGUI extends JFrame {
-
+	
 	private static final long serialVersionUID = 1L;
+	private Socket socket;
+	private BufferedReader reader;
+	private PrintWriter writer;
 	private JPanel contentPane;
 	private JTextField textFieldName;
 	private JTextField textField_BirthDate;
@@ -175,7 +187,7 @@ public class ManagerGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ManagerGUI frame = new ManagerGUI();
+					ManagerGUI frame = new ManagerGUI(null, null, null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -186,8 +198,11 @@ public class ManagerGUI extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param writer 
+	 * @param reader 
+	 * @param socket 
 	 */
-	public ManagerGUI() {
+	public ManagerGUI(Socket socket, BufferedReader reader, PrintWriter writer) {
 //		try {
 //			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 //		} catch (ClassNotFoundException e) {
@@ -195,6 +210,9 @@ public class ManagerGUI extends JFrame {
 //		} catch (IllegalAccessException e) {
 //		} catch (UnsupportedLookAndFeelException e) {
 //		}
+		this.socket = socket;
+		this.reader = reader;
+		this.writer = writer;
 		df.setRoundingMode(RoundingMode.HALF_UP);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 980, 520);
@@ -334,6 +352,7 @@ public class ManagerGUI extends JFrame {
 		Tab1.add(separator);
 
 		table_Employee = new JTable();
+		table_Employee.setSelectionBackground(new Color(198, 198, 198));
 		table_Employee.setFillsViewportHeight(true);
 		table_Employee.setModel(new DefaultTableModel(new Object[][] {},
 				new String[] { "ID", "Họ và tên", "Ngày sinh", "Email", "Giới tính", "Vị trí" }));
@@ -1716,7 +1735,38 @@ public class ManagerGUI extends JFrame {
 			}
 		});
 		/*----------------- END ACTION LISTENER FOR SIDE BAR BUTTON ---------------*/
+		
+		
+		/*----------------- Thread for socket--------------------------------------*/
+		AtomicBoolean running = new AtomicBoolean(true);
+		Thread listen = new Thread(() -> {
+			try {
+		        while (running.get() && !Thread.currentThread().isInterrupted()) {
+		            String message = this.reader.readLine();
+		            if (message == null) break; // Dừng nếu đầu vào đã kết thúc.
+		            
+		            if (message.equals("SYSTEM_ADD_A_CUSTOMER") || message.equals("SYSTEM_DELETE_A_CUSTOMER")
+		             || message.equals("SYSTEM_UPDATE_A_CUSTOMER") || message.equals("SYSTEM_ABATE_A_BILL")) {
 
+	                    try {
+							Thread.sleep(1500);
+						} catch (InterruptedException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+	            		int totalBookingByDate = new BillBUS().getTotalBookingByDate(today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+					}
+		            
+		        }
+		    } catch (IOException e) {
+		        if (!running.get()) {
+		            System.out.println("Thread is stopping because the flag was set to false.");
+		        } else {
+		            e.printStackTrace();
+		            System.out.println("IO Exception: " + e.getMessage());
+		        }
+		    }
+		});
 	}
 
 	protected void toExcel() {

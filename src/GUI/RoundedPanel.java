@@ -69,11 +69,11 @@ public class RoundedPanel extends JPanel {
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(300, 200);
+        frame.setSize(300, 300);
         frame.setLayout(null);
 
-        RoundedPanel panel_1 = new RoundedPanel(20, 10);
-        panel_1.setBounds(10, 11, 233, 149);
+        RoundedPanel panel_1 = new RoundedPanel(150,0);
+        panel_1.setBounds(10, 11, 150, 150);
         panel_1.setBackground(Color.BLUE);
 
         frame.add(panel_1);
