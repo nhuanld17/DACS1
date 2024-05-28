@@ -72,7 +72,7 @@ public class RoundedPanel extends JPanel {
         frame.setSize(300, 300);
         frame.setLayout(null);
 
-        RoundedPanel panel_1 = new RoundedPanel(150,0);
+        RoundedPanel panel_1 = new RoundedPanel(150,10);
         panel_1.setBounds(10, 11, 150, 150);
         panel_1.setBackground(Color.BLUE);
 

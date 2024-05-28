@@ -39,53 +39,88 @@ public class ClientHandler extends Thread{
 					throw new IOException("Client disconnected");
 				}
 				
-
+//				switch (message) {
+//				case "THÊM":
+//					Server.broadCastAction("SYSTEM_ADD_A_CUSTOMER", this);
+//					break;
+//				case "XÓA":
+//					Server.broadCastAction("SYSTEM_DELETE_A_CUSTOMER", this);
+//					break;
+//				case "CẬP NHẬT":
+//					Server.broadCastAction("SYSTEM_UPDATE_A_CUSTOMER", this);
+//					break;
+//				case "THANH TOÁN":
+//					Server.broadCastAction("SYSTEM_ABATE_A_BILL", this);
+//					break;
+//				case "GỬI":
+//					Timestamp time = Timestamp.valueOf(reader.readLine());
+//					String textChat = reader.readLine();
+//					
+//					new HistoryBUS().addToHistory(this.username, time, textChat);
+//					String name = new HistoryBUS().getNameByUserName(this.username);
+//					
+//					String mess = time + "\n" + username + ": "+textChat;
+//					System.out.println(mess);
+//					Server.broadCastMessage(time, textChat, username, this);
+//					break;
+//				case "UPDATE_EMP_INFO":
+//					String newUserName = reader.readLine();
+//					String oldUserName = this.username;
+//					
+//					if (this.clients.containsKey(oldUserName)) {
+//						ClientHandler clientHandler = this.clients.get(oldUserName);
+//						this.clients.remove(oldUserName);
+//						Server.clients.remove(oldUserName);
+//						this.username = newUserName;
+//						System.out.println("Đã đổi từ "+oldUserName +" thành "+newUserName);
+//						this.clients.put(this.username, clientHandler);
+//						Server.clients.put(this.username, clientHandler);
+//					}
+//					
+//					Server.updateUserList();
+//					break;
+//				default:
+//					break;
+//				}
 				
-				switch (message) {
-				case "THÊM":
-					Server.broadCastAction("SYSTEM_ADD_A_CUSTOMER", this);
-					break;
-				case "XÓA":
-					Server.broadCastAction("SYSTEM_DELETE_A_CUSTOMER", this);
-					break;
-				case "CẬP NHẬT":
-					Server.broadCastAction("SYSTEM_UPDATE_A_CUSTOMER", this);
-					break;
-				case "THANH TOÁN":
-					Server.broadCastAction("SYSTEM_ABATE_A_BILL", this);
-					break;
-				case "GỬI":
-					Timestamp time = Timestamp.valueOf(reader.readLine());
-					String textChat = reader.readLine();
-					
-					new HistoryBUS().addToHistory(this.username, time, textChat);
-					String name = new HistoryBUS().getNameByUserName(this.username);
-					
-					String mess = time + "\n" + username + ": "+textChat;
-					System.out.println(mess);
-					Server.broadCastMessage(time, textChat, username, this);
-					break;
-				case "UPDATE_EMP_INFO":
-					String newUserName = reader.readLine();
-					String oldUserName = this.username;
-					
-					if (this.clients.containsKey(oldUserName)) {
-						ClientHandler clientHandler = this.clients.get(oldUserName);
-						this.clients.remove(oldUserName);
-						Server.clients.remove(oldUserName);
-						this.username = newUserName;
-						System.out.println("Đã đổi từ "+oldUserName +" thành "+newUserName);
-						this.clients.put(this.username, clientHandler);
-						Server.clients.put(this.username, clientHandler);
-					}
-					
-					Server.updateUserList();
-					break;
-				default:
-					break;
+				if ("THÊM".equals(message)) {
+				    Server.broadCastAction("SYSTEM_ADD_A_CUSTOMER", this);
+				} else if ("XÓA".equals(message)) {
+				    Server.broadCastAction("SYSTEM_DELETE_A_CUSTOMER", this);
+				} else if ("CẬP NHẬT".equals(message)) {
+				    Server.broadCastAction("SYSTEM_UPDATE_A_CUSTOMER", this);
+				} else if ("THANH TOÁN".equals(message)) {
+				    Server.broadCastAction("SYSTEM_ABATE_A_BILL", this);
+				} else if ("GỬI".equals(message)) {
+				    Timestamp time = Timestamp.valueOf(reader.readLine());
+				    String textChat = reader.readLine();
+
+				    new HistoryBUS().addToHistory(this.username, time, textChat);
+				    String name = new HistoryBUS().getNameByUserName(this.username);
+
+				    String mess = time + "\n" + username + ": " + textChat;
+				    System.out.println(mess);
+				    Server.broadCastMessage(time, textChat, username, this);
+				} else if ("UPDATE_EMP_INFO".equals(message)) {
+				    String newUserName = reader.readLine();
+				    String oldUserName = this.username;
+
+				    if (this.clients.containsKey(oldUserName)) {
+				        ClientHandler clientHandler = this.clients.get(oldUserName);
+				        this.clients.remove(oldUserName);
+				        Server.clients.remove(oldUserName);
+				        this.username = newUserName;
+				        System.out.println("Đã đổi từ " + oldUserName + " thành " + newUserName);
+				        this.clients.put(this.username, clientHandler);
+				        Server.clients.put(this.username, clientHandler);
+				    }
+
+				    Server.updateUserList();
+				} else if (message.startsWith("DELETE_EMP_")) {
+					int id = Integer.valueOf(message.substring(11));
+					Server.broadCastAction("SYSTEM_DELETE_EMP_"+id, this);
 				}
 				
-//				new HistoryBUS().addToHistory(this.username, time, message);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

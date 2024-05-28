@@ -84,7 +84,7 @@ import TEST.HotelRevenueAndBookingsChart;
 import java.awt.Cursor;
 
 public class ManagerGUI extends JFrame {
-	
+
 	private static final long serialVersionUID = 1L;
 	private Socket socket;
 	private BufferedReader reader;
@@ -179,6 +179,7 @@ public class ManagerGUI extends JFrame {
 	private JLabel label_BOOK_OCT;
 	private JLabel label_BOOK_NOV;
 	private JLabel label_BOOK_DEC;
+	private AtomicBoolean running;
 
 	/**
 	 * Launch the application.
@@ -198,9 +199,10 @@ public class ManagerGUI extends JFrame {
 
 	/**
 	 * Create the frame.
-	 * @param writer 
-	 * @param reader 
-	 * @param socket 
+	 * 
+	 * @param writer
+	 * @param reader
+	 * @param socket
 	 */
 	public ManagerGUI(Socket socket, BufferedReader reader, PrintWriter writer) {
 //		try {
@@ -527,47 +529,46 @@ public class ManagerGUI extends JFrame {
 		Tab2.setBackground(new Color(240, 240, 240));
 		tabbedPane.addTab("Tab2", null, Tab2, null);
 		Tab2.setLayout(null);
-		
+
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(17, 205, 239));
 		panel_1.setBounds(0, 0, 808, 477);
-		
+
 		RoundedPanel roundedPanel = new RoundedPanel(20, 10);
 		roundedPanel.setBackground(SystemColor.window);
 		roundedPanel.setBounds(15, 11, 240, 130);
 		panel_1.add(roundedPanel);
 		roundedPanel.setLayout(null);
-		
+
 		JLabel lblNewLabel_6 = new JLabel("");
 		lblNewLabel_6.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-revenue-60.png")));
 		lblNewLabel_6.setBounds(165, 5, 65, 62);
 		roundedPanel.add(lblNewLabel_6);
-		
+
 		JLabel lblNewLabel_7 = new JLabel("TODAY'S MONEY");
 		lblNewLabel_7.setForeground(Color.DARK_GRAY);
 		lblNewLabel_7.setBackground(SystemColor.window);
 		lblNewLabel_7.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		lblNewLabel_7.setBounds(10, 15, 150, 30);
 		roundedPanel.add(lblNewLabel_7);
-		
+
 		currentDayMoney = new BillBUS().getCurrentRevenue();
 		currentDayMoney = currentDayMoney / 1000000;
 
-		
-		label_TodayMoney = new JLabel(currentDayMoney+"M");
-		label_TodayMoney.setText(currentDayMoney+"M");
+		label_TodayMoney = new JLabel(currentDayMoney + "M");
+		label_TodayMoney.setText(currentDayMoney + "M");
 		label_TodayMoney.setForeground(new Color(17, 24, 39));
 		label_TodayMoney.setBackground(new Color(17, 24, 39));
 		label_TodayMoney.setFont(new Font("Segoe UI", Font.BOLD, 22));
 		label_TodayMoney.setBounds(10, 50, 145, 30);
 		roundedPanel.add(label_TodayMoney);
-		
+
 		label_compare_money = new JLabel("");
 		label_compare_money.setForeground(new Color(128, 0, 0));
 		label_compare_money.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		label_compare_money.setBounds(10, 80, 209, 31);
 		roundedPanel.add(label_compare_money);
-		
+
 		yesterdayMoney = new BillBUS().getYesterdayRevenue();
 		yesterdayMoney = yesterdayMoney / 1000000;
 //		if (currentDayMoney >= yesterdayMoney) {
@@ -576,120 +577,119 @@ public class ManagerGUI extends JFrame {
 //		}else {
 //			
 //		}
-		
+
 		if (yesterdayMoney == 0) {
 			label_compare_money.setText("");
-		}else if (currentDayMoney >= yesterdayMoney) {
-			double percent = ((currentDayMoney - yesterdayMoney) / yesterdayMoney)*100;
-			label_compare_money.setText("+"+df.format(percent)+"% since yesterday");
-		}else if (currentDayMoney < yesterdayMoney) {
-			double percent = ((yesterdayMoney - currentDayMoney) / yesterdayMoney)*100;
-			label_compare_money.setText("-"+df.format(percent)+"% since yesterday");
+		} else if (currentDayMoney >= yesterdayMoney) {
+			double percent = ((currentDayMoney - yesterdayMoney) / yesterdayMoney) * 100;
+			label_compare_money.setText("+" + df.format(percent) + "% since yesterday");
+		} else if (currentDayMoney < yesterdayMoney) {
+			double percent = ((yesterdayMoney - currentDayMoney) / yesterdayMoney) * 100;
+			label_compare_money.setText("-" + df.format(percent) + "% since yesterday");
 		}
-		
+
 //		System.out.println("Current: "+currentDayMoney);
 //		System.out.println("Yester: "+yesterdayMoney);
-		
+
 		JScrollPane scrollPane_3 = new JScrollPane(panel_1);
 		panel_1.setLayout(null);
-		
+
 		RoundedPanel roundedPanel_1 = new RoundedPanel(20, 10);
 		roundedPanel_1.setBackground(SystemColor.window);
 		roundedPanel_1.setBounds(280, 11, 240, 130);
 		panel_1.add(roundedPanel_1);
 		roundedPanel_1.setLayout(null);
-		
+
 		JLabel lblNewLabel_6_1 = new JLabel("");
 		lblNewLabel_6_1.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-user-60.png")));
 		lblNewLabel_6_1.setBounds(167, 0, 60, 62);
 		roundedPanel_1.add(lblNewLabel_6_1);
-		
+
 		currentDayUsers = new BillBUS().getNumberOfCurrentUsers();
 
-		
 		JLabel lblNewLabel_7_1 = new JLabel("TODAY'S USERS");
 		lblNewLabel_7_1.setForeground(Color.DARK_GRAY);
 		lblNewLabel_7_1.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		lblNewLabel_7_1.setBackground(SystemColor.window);
 		lblNewLabel_7_1.setBounds(10, 15, 150, 30);
 		roundedPanel_1.add(lblNewLabel_7_1);
-		
-		label_TodayUsers = new JLabel(currentDayUsers+" USERS");
-		label_TodayUsers.setText(currentDayUsers+" USERS");
+
+		label_TodayUsers = new JLabel(currentDayUsers + " USERS");
+		label_TodayUsers.setText(currentDayUsers + " USERS");
 		label_TodayUsers.setForeground(new Color(17, 24, 39));
 		label_TodayUsers.setFont(new Font("Segoe UI", Font.BOLD, 22));
 		label_TodayUsers.setBackground(SystemColor.window);
 		label_TodayUsers.setBounds(10, 50, 145, 30);
 		roundedPanel_1.add(label_TodayUsers);
-		
+
 		label_compare_users = new JLabel("");
 		label_compare_users.setForeground(new Color(128, 0, 0));
 		label_compare_users.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		label_compare_users.setBounds(10, 80, 209, 31);
 		roundedPanel_1.add(label_compare_users);
-		
+
 		yesterdayUsers = new BillBUS().getTotalUserYesterday();
 		if (yesterdayUsers == 0) {
 			label_compare_users.setText("");
-		}else if(currentDayUsers >= yesterdayUsers) {
-			double percent = (currentDayUsers - yesterdayUsers)*100/yesterdayUsers;
-			label_compare_users.setText("+"+df.format(percent)+"% since yesterday");
-		}else if (currentDayUsers < yesterdayUsers) {
-			double percent = (yesterdayUsers - currentDayUsers)*100/yesterdayUsers;
-			label_compare_users.setText("-"+df.format(percent)+"% since yesterday");
+		} else if (currentDayUsers >= yesterdayUsers) {
+			double percent = (currentDayUsers - yesterdayUsers) * 100 / yesterdayUsers;
+			label_compare_users.setText("+" + df.format(percent) + "% since yesterday");
+		} else if (currentDayUsers < yesterdayUsers) {
+			double percent = (yesterdayUsers - currentDayUsers) * 100 / yesterdayUsers;
+			label_compare_users.setText("-" + df.format(percent) + "% since yesterday");
 		}
-		
+
 		RoundedPanel roundedPanel_2 = new RoundedPanel(20, 10);
 		roundedPanel_2.setBackground(SystemColor.window);
 		roundedPanel_2.setBounds(550, 11, 240, 130);
 		panel_1.add(roundedPanel_2);
 		roundedPanel_2.setLayout(null);
-		
+
 		JLabel lblNewLabel_6_1_1 = new JLabel("");
 		lblNewLabel_6_1_1.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-bill-70.png")));
 		lblNewLabel_6_1_1.setBounds(147, 11, 67, 62);
 		roundedPanel_2.add(lblNewLabel_6_1_1);
-		
+
 		JLabel lblNewLabel_7_1_1 = new JLabel("BILL ABATED");
 		lblNewLabel_7_1_1.setForeground(Color.DARK_GRAY);
 		lblNewLabel_7_1_1.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		lblNewLabel_7_1_1.setBackground(SystemColor.window);
 		lblNewLabel_7_1_1.setBounds(10, 15, 127, 30);
 		roundedPanel_2.add(lblNewLabel_7_1_1);
-		
+
 		currentDayBillAbated = new BillBUS().getCurrentNumberOfBillAbated();
-		
-		label_TodayBillAbated = new JLabel(currentDayBillAbated+" BILLS");
-		label_TodayBillAbated.setText(currentDayBillAbated+" BILLS");
+
+		label_TodayBillAbated = new JLabel(currentDayBillAbated + " BILLS");
+		label_TodayBillAbated.setText(currentDayBillAbated + " BILLS");
 		label_TodayBillAbated.setForeground(new Color(17, 24, 39));
 		label_TodayBillAbated.setFont(new Font("Segoe UI", Font.BOLD, 22));
 		label_TodayBillAbated.setBackground(new Color(17, 24, 39));
 		label_TodayBillAbated.setBounds(10, 45, 145, 37);
 		roundedPanel_2.add(label_TodayBillAbated);
-		
+
 		label_compare_bill_abated = new JLabel("");
 		label_compare_bill_abated.setForeground(new Color(128, 0, 0));
 		label_compare_bill_abated.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		label_compare_bill_abated.setBounds(10, 80, 209, 31);
 		roundedPanel_2.add(label_compare_bill_abated);
-		
+
 		yesterdayBillAbated = new BillBUS().getYesterdayBillAbated();
 		if (yesterdayBillAbated == 0) {
 			label_compare_bill_abated.setText("");
-		}else if(currentDayBillAbated >= yesterdayBillAbated) {
-			double percent = (currentDayBillAbated - yesterdayBillAbated)*100/ yesterdayBillAbated;
-			label_compare_bill_abated.setText("+"+df.format(percent)+"% since yesterday");
-		}else if(currentDayBillAbated < yesterdayBillAbated) {
-			double percent = (yesterdayBillAbated - currentDayBillAbated)*100/ yesterdayBillAbated;
-			label_compare_bill_abated.setText("-"+df.format(percent)+"% since yesterday");
+		} else if (currentDayBillAbated >= yesterdayBillAbated) {
+			double percent = (currentDayBillAbated - yesterdayBillAbated) * 100 / yesterdayBillAbated;
+			label_compare_bill_abated.setText("+" + df.format(percent) + "% since yesterday");
+		} else if (currentDayBillAbated < yesterdayBillAbated) {
+			double percent = (yesterdayBillAbated - currentDayBillAbated) * 100 / yesterdayBillAbated;
+			label_compare_bill_abated.setText("-" + df.format(percent) + "% since yesterday");
 		}
-		
+
 		RoundedPanel roundedPanel_1_1 = new RoundedPanel(20, 5);
 		roundedPanel_1_1.setLayout(null);
 		roundedPanel_1_1.setBackground(new Color(17, 29, 34));
 		roundedPanel_1_1.setBounds(693, 145, 97, 44);
 		panel_1.add(roundedPanel_1_1);
-		
+
 		JButton btnNewButton_2 = new JButton("RELOAD");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -706,403 +706,403 @@ public class ManagerGUI extends JFrame {
 		btnNewButton_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnNewButton_2.setBounds(5, 3, 83, 33);
 		btnNewButton_2.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                roundedPanel_1_1.setBackground(SystemColor.window);
-                btnNewButton_2.setBackground(Color.WHITE);
-                btnNewButton_2.setForeground(new Color(17, 24, 39));
-            }
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				roundedPanel_1_1.setBackground(SystemColor.window);
+				btnNewButton_2.setBackground(Color.WHITE);
+				btnNewButton_2.setForeground(new Color(17, 24, 39));
+			}
 
-            @Override
-            public void mouseExited(MouseEvent e) {
-                roundedPanel_1_1.setBackground(new Color(17, 29, 34));
-                btnNewButton_2.setBackground(new Color(17, 29, 34));
-                btnNewButton_2.setForeground(new Color(244, 245, 249));
-            }
-        });
+			@Override
+			public void mouseExited(MouseEvent e) {
+				roundedPanel_1_1.setBackground(new Color(17, 29, 34));
+				btnNewButton_2.setBackground(new Color(17, 29, 34));
+				btnNewButton_2.setForeground(new Color(244, 245, 249));
+			}
+		});
 
 		roundedPanel_1_1.add(btnNewButton_2);
-		
-		RoundedPanel roundedPanel_3 = new RoundedPanel(0,0);
+
+		RoundedPanel roundedPanel_3 = new RoundedPanel(0, 0);
 		roundedPanel_3.setBackground(SystemColor.window);
 		roundedPanel_3.setBounds(4, 234, 798, 158);
 		panel_1.add(roundedPanel_3);
 		roundedPanel_3.setLayout(null);
-		
+
 		JSeparator separator_4 = new JSeparator();
 		separator_4.setBounds(0, 52, 798, 2);
 		separator_4.setForeground(new Color(128, 128, 128));
 		separator_4.setBackground(new Color(128, 128, 128));
 		roundedPanel_3.add(separator_4);
-		
+
 		JSeparator separator_5 = new JSeparator();
 		separator_5.setForeground(new Color(128, 128, 128));
 		separator_5.setBackground(new Color(128, 128, 128));
 		separator_5.setOrientation(SwingConstants.VERTICAL);
 		separator_5.setBounds(58, 11, 2, 142);
 		roundedPanel_3.add(separator_5);
-		
+
 		JSeparator separator_5_1 = new JSeparator();
 		separator_5_1.setOrientation(SwingConstants.VERTICAL);
 		separator_5_1.setForeground(new Color(128, 128, 128));
 		separator_5_1.setBackground(new Color(128, 128, 128));
 		separator_5_1.setBounds(116, 11, 2, 142);
 		roundedPanel_3.add(separator_5_1);
-		
+
 		JSeparator separator_5_2 = new JSeparator();
 		separator_5_2.setOrientation(SwingConstants.VERTICAL);
 		separator_5_2.setForeground(new Color(128, 128, 128));
 		separator_5_2.setBackground(new Color(128, 128, 128));
 		separator_5_2.setBounds(178, 11, 2, 142);
 		roundedPanel_3.add(separator_5_2);
-		
+
 		JSeparator separator_5_3 = new JSeparator();
 		separator_5_3.setOrientation(SwingConstants.VERTICAL);
 		separator_5_3.setForeground(new Color(128, 128, 128));
 		separator_5_3.setBackground(new Color(128, 128, 128));
 		separator_5_3.setBounds(240, 11, 2, 142);
 		roundedPanel_3.add(separator_5_3);
-		
+
 		JSeparator separator_5_3_1 = new JSeparator();
 		separator_5_3_1.setOrientation(SwingConstants.VERTICAL);
 		separator_5_3_1.setForeground(new Color(128, 128, 128));
 		separator_5_3_1.setBackground(new Color(128, 128, 128));
 		separator_5_3_1.setBounds(302, 11, 2, 142);
 		roundedPanel_3.add(separator_5_3_1);
-		
+
 		JSeparator separator_5_3_2 = new JSeparator();
 		separator_5_3_2.setOrientation(SwingConstants.VERTICAL);
 		separator_5_3_2.setForeground(new Color(128, 128, 128));
 		separator_5_3_2.setBackground(new Color(128, 128, 128));
 		separator_5_3_2.setBounds(364, 11, 2, 142);
 		roundedPanel_3.add(separator_5_3_2);
-		
+
 		JSeparator separator_5_3_3 = new JSeparator();
 		separator_5_3_3.setOrientation(SwingConstants.VERTICAL);
 		separator_5_3_3.setForeground(new Color(128, 128, 128));
 		separator_5_3_3.setBackground(new Color(128, 128, 128));
 		separator_5_3_3.setBounds(426, 11, 2, 142);
 		roundedPanel_3.add(separator_5_3_3);
-		
+
 		JSeparator separator_5_3_4 = new JSeparator();
 		separator_5_3_4.setOrientation(SwingConstants.VERTICAL);
 		separator_5_3_4.setForeground(new Color(128, 128, 128));
 		separator_5_3_4.setBackground(new Color(128, 128, 128));
 		separator_5_3_4.setBounds(488, 11, 2, 142);
 		roundedPanel_3.add(separator_5_3_4);
-		
+
 		JSeparator separator_5_3_4_1 = new JSeparator();
 		separator_5_3_4_1.setOrientation(SwingConstants.VERTICAL);
 		separator_5_3_4_1.setForeground(Color.GRAY);
 		separator_5_3_4_1.setBackground(Color.GRAY);
 		separator_5_3_4_1.setBounds(550, 11, 2, 142);
 		roundedPanel_3.add(separator_5_3_4_1);
-		
+
 		JSeparator separator_5_3_4_2 = new JSeparator();
 		separator_5_3_4_2.setOrientation(SwingConstants.VERTICAL);
 		separator_5_3_4_2.setForeground(Color.GRAY);
 		separator_5_3_4_2.setBackground(Color.GRAY);
 		separator_5_3_4_2.setBounds(612, 11, 2, 142);
 		roundedPanel_3.add(separator_5_3_4_2);
-		
+
 		JSeparator separator_5_3_4_3 = new JSeparator();
 		separator_5_3_4_3.setOrientation(SwingConstants.VERTICAL);
 		separator_5_3_4_3.setForeground(Color.GRAY);
 		separator_5_3_4_3.setBackground(Color.GRAY);
 		separator_5_3_4_3.setBounds(674, 11, 2, 142);
 		roundedPanel_3.add(separator_5_3_4_3);
-		
+
 		JLabel lblNewLabel_10 = new JLabel("JAN");
 		lblNewLabel_10.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_10.setForeground(new Color(131, 98, 12));
 		lblNewLabel_10.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		lblNewLabel_10.setBounds(57, 11, 58, 39);
 		roundedPanel_3.add(lblNewLabel_10);
-		
+
 		JLabel lblNewLabel_10_1 = new JLabel("FEB");
 		lblNewLabel_10_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_10_1.setForeground(new Color(131, 98, 12));
 		lblNewLabel_10_1.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		lblNewLabel_10_1.setBounds(119, 11, 58, 39);
 		roundedPanel_3.add(lblNewLabel_10_1);
-		
+
 		JLabel lblNewLabel_10_2 = new JLabel("MAR");
 		lblNewLabel_10_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_10_2.setForeground(new Color(131, 98, 12));
 		lblNewLabel_10_2.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		lblNewLabel_10_2.setBounds(181, 11, 58, 39);
 		roundedPanel_3.add(lblNewLabel_10_2);
-		
+
 		JLabel lblNewLabel_10_3 = new JLabel("APR");
 		lblNewLabel_10_3.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_10_3.setForeground(new Color(131, 98, 12));
 		lblNewLabel_10_3.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		lblNewLabel_10_3.setBounds(243, 11, 58, 39);
 		roundedPanel_3.add(lblNewLabel_10_3);
-		
+
 		JLabel lblNewLabel_10_4 = new JLabel("MAY");
 		lblNewLabel_10_4.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_10_4.setForeground(new Color(131, 98, 12));
 		lblNewLabel_10_4.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		lblNewLabel_10_4.setBounds(305, 11, 58, 39);
 		roundedPanel_3.add(lblNewLabel_10_4);
-		
+
 		JLabel lblNewLabel_10_5 = new JLabel("JUN");
 		lblNewLabel_10_5.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_10_5.setForeground(new Color(131, 98, 12));
 		lblNewLabel_10_5.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		lblNewLabel_10_5.setBounds(367, 11, 58, 39);
 		roundedPanel_3.add(lblNewLabel_10_5);
-		
+
 		JLabel lblNewLabel_10_6 = new JLabel("JUL");
 		lblNewLabel_10_6.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_10_6.setForeground(new Color(131, 98, 12));
 		lblNewLabel_10_6.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		lblNewLabel_10_6.setBounds(430, 11, 58, 39);
 		roundedPanel_3.add(lblNewLabel_10_6);
-		
+
 		JLabel lblNewLabel_10_7 = new JLabel("AUG");
 		lblNewLabel_10_7.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_10_7.setForeground(new Color(131, 98, 12));
 		lblNewLabel_10_7.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		lblNewLabel_10_7.setBounds(491, 11, 58, 39);
 		roundedPanel_3.add(lblNewLabel_10_7);
-		
+
 		JLabel lblNewLabel_10_8 = new JLabel("SEP");
 		lblNewLabel_10_8.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_10_8.setForeground(new Color(131, 98, 12));
 		lblNewLabel_10_8.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		lblNewLabel_10_8.setBounds(554, 11, 58, 39);
 		roundedPanel_3.add(lblNewLabel_10_8);
-		
+
 		JLabel lblNewLabel_10_9 = new JLabel("OCT");
 		lblNewLabel_10_9.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_10_9.setForeground(new Color(131, 98, 12));
 		lblNewLabel_10_9.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		lblNewLabel_10_9.setBounds(615, 11, 58, 39);
 		roundedPanel_3.add(lblNewLabel_10_9);
-		
+
 		JLabel lblNewLabel_10_10 = new JLabel("NOV");
 		lblNewLabel_10_10.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_10_10.setForeground(new Color(131, 98, 12));
 		lblNewLabel_10_10.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		lblNewLabel_10_10.setBounds(678, 11, 58, 39);
 		roundedPanel_3.add(lblNewLabel_10_10);
-		
+
 		JSeparator separator_5_3_4_3_1 = new JSeparator();
 		separator_5_3_4_3_1.setOrientation(SwingConstants.VERTICAL);
 		separator_5_3_4_3_1.setForeground(Color.GRAY);
 		separator_5_3_4_3_1.setBackground(Color.GRAY);
 		separator_5_3_4_3_1.setBounds(735, 11, 2, 142);
 		roundedPanel_3.add(separator_5_3_4_3_1);
-		
+
 		JLabel lblNewLabel_10_10_1 = new JLabel("DEC");
 		lblNewLabel_10_10_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_10_10_1.setForeground(new Color(131, 98, 12));
 		lblNewLabel_10_10_1.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		lblNewLabel_10_10_1.setBounds(738, 11, 58, 39);
 		roundedPanel_3.add(lblNewLabel_10_10_1);
-		
+
 		JLabel lblNewLabel_10_11 = new JLabel("REVENUE");
 		lblNewLabel_10_11.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_10_11.setForeground(new Color(17, 24, 39));
 		lblNewLabel_10_11.setFont(new Font("Segoe UI", Font.BOLD, 12));
 		lblNewLabel_10_11.setBounds(0, 60, 58, 39);
 		roundedPanel_3.add(lblNewLabel_10_11);
-		
+
 		JSeparator separator_4_1 = new JSeparator();
 		separator_4_1.setForeground(Color.GRAY);
 		separator_4_1.setBackground(Color.GRAY);
 		separator_4_1.setBounds(-2, 103, 798, 2);
 		roundedPanel_3.add(separator_4_1);
-		
+
 		JLabel lblNewLabel_10_11_1 = new JLabel("BOOKING");
 		lblNewLabel_10_11_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_10_11_1.setForeground(new Color(17, 24, 39));
 		lblNewLabel_10_11_1.setFont(new Font("Segoe UI", Font.BOLD, 12));
 		lblNewLabel_10_11_1.setBounds(0, 108, 58, 39);
 		roundedPanel_3.add(lblNewLabel_10_11_1);
-		
+
 		label_REV_JAN = new JLabel("0");
 		label_REV_JAN.setHorizontalAlignment(SwingConstants.CENTER);
 		label_REV_JAN.setForeground(new Color(17, 24, 39));
 		label_REV_JAN.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		label_REV_JAN.setBounds(61, 56, 53, 45);
 		roundedPanel_3.add(label_REV_JAN);
-		
+
 		label_REV_FEB = new JLabel("0");
 		label_REV_FEB.setHorizontalAlignment(SwingConstants.CENTER);
 		label_REV_FEB.setForeground(new Color(17, 24, 39));
 		label_REV_FEB.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		label_REV_FEB.setBounds(121, 55, 53, 45);
 		roundedPanel_3.add(label_REV_FEB);
-		
+
 		label_REV_MAR = new JLabel("0");
 		label_REV_MAR.setHorizontalAlignment(SwingConstants.CENTER);
 		label_REV_MAR.setForeground(new Color(17, 24, 39));
 		label_REV_MAR.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		label_REV_MAR.setBounds(184, 57, 53, 45);
 		roundedPanel_3.add(label_REV_MAR);
-		
+
 		label_REV_APR = new JLabel("0");
 		label_REV_APR.setHorizontalAlignment(SwingConstants.CENTER);
 		label_REV_APR.setForeground(new Color(17, 24, 39));
 		label_REV_APR.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		label_REV_APR.setBounds(246, 56, 53, 45);
 		roundedPanel_3.add(label_REV_APR);
-		
+
 		label_REV_MAY = new JLabel("0");
 		label_REV_MAY.setHorizontalAlignment(SwingConstants.CENTER);
 		label_REV_MAY.setForeground(new Color(17, 24, 39));
 		label_REV_MAY.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		label_REV_MAY.setBounds(307, 56, 53, 45);
 		roundedPanel_3.add(label_REV_MAY);
-		
+
 		label_REV_JUN = new JLabel("0");
 		label_REV_JUN.setHorizontalAlignment(SwingConstants.CENTER);
 		label_REV_JUN.setForeground(new Color(17, 24, 39));
 		label_REV_JUN.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		label_REV_JUN.setBounds(370, 55, 53, 45);
 		roundedPanel_3.add(label_REV_JUN);
-		
+
 		label_REV_JUL = new JLabel("0");
 		label_REV_JUL.setHorizontalAlignment(SwingConstants.CENTER);
 		label_REV_JUL.setForeground(new Color(17, 24, 39));
 		label_REV_JUL.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		label_REV_JUL.setBounds(432, 56, 53, 45);
 		roundedPanel_3.add(label_REV_JUL);
-		
+
 		label_REV_AUG = new JLabel("0");
 		label_REV_AUG.setHorizontalAlignment(SwingConstants.CENTER);
 		label_REV_AUG.setForeground(new Color(17, 24, 39));
 		label_REV_AUG.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		label_REV_AUG.setBounds(494, 55, 53, 45);
 		roundedPanel_3.add(label_REV_AUG);
-		
+
 		label_REV_SEP = new JLabel("0");
 		label_REV_SEP.setHorizontalAlignment(SwingConstants.CENTER);
 		label_REV_SEP.setForeground(new Color(17, 24, 39));
 		label_REV_SEP.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		label_REV_SEP.setBounds(556, 56, 53, 45);
 		roundedPanel_3.add(label_REV_SEP);
-		
+
 		label_REV_OCT = new JLabel("0");
 		label_REV_OCT.setHorizontalAlignment(SwingConstants.CENTER);
 		label_REV_OCT.setForeground(new Color(17, 24, 39));
 		label_REV_OCT.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		label_REV_OCT.setBounds(618, 56, 53, 45);
 		roundedPanel_3.add(label_REV_OCT);
-		
+
 		label_REV_NOV = new JLabel("0");
 		label_REV_NOV.setHorizontalAlignment(SwingConstants.CENTER);
 		label_REV_NOV.setForeground(new Color(17, 24, 39));
 		label_REV_NOV.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		label_REV_NOV.setBounds(680, 56, 53, 45);
 		roundedPanel_3.add(label_REV_NOV);
-		
+
 		label_REV_DEC = new JLabel("0");
 		label_REV_DEC.setHorizontalAlignment(SwingConstants.CENTER);
 		label_REV_DEC.setForeground(new Color(17, 24, 39));
 		label_REV_DEC.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		label_REV_DEC.setBounds(741, 56, 53, 45);
 		roundedPanel_3.add(label_REV_DEC);
-		
+
 		label_BOOK_JAN = new JLabel("0");
 		label_BOOK_JAN.setHorizontalAlignment(SwingConstants.CENTER);
 		label_BOOK_JAN.setForeground(new Color(17, 24, 39));
 		label_BOOK_JAN.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		label_BOOK_JAN.setBounds(61, 107, 53, 45);
 		roundedPanel_3.add(label_BOOK_JAN);
-		
+
 		label_BOOK_FEB = new JLabel("0");
 		label_BOOK_FEB.setHorizontalAlignment(SwingConstants.CENTER);
 		label_BOOK_FEB.setForeground(new Color(17, 24, 39));
 		label_BOOK_FEB.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		label_BOOK_FEB.setBounds(121, 106, 53, 45);
 		roundedPanel_3.add(label_BOOK_FEB);
-		
+
 		label_BOOK_MAR = new JLabel("0");
 		label_BOOK_MAR.setHorizontalAlignment(SwingConstants.CENTER);
 		label_BOOK_MAR.setForeground(new Color(17, 24, 39));
 		label_BOOK_MAR.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		label_BOOK_MAR.setBounds(184, 108, 53, 45);
 		roundedPanel_3.add(label_BOOK_MAR);
-		
+
 		label_BOOK_APR = new JLabel("0");
 		label_BOOK_APR.setHorizontalAlignment(SwingConstants.CENTER);
 		label_BOOK_APR.setForeground(new Color(17, 24, 39));
 		label_BOOK_APR.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		label_BOOK_APR.setBounds(246, 107, 53, 45);
 		roundedPanel_3.add(label_BOOK_APR);
-		
+
 		label_BOOK_MAY = new JLabel("0");
 		label_BOOK_MAY.setHorizontalAlignment(SwingConstants.CENTER);
 		label_BOOK_MAY.setForeground(new Color(17, 24, 39));
 		label_BOOK_MAY.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		label_BOOK_MAY.setBounds(307, 107, 53, 45);
 		roundedPanel_3.add(label_BOOK_MAY);
-		
+
 		label_BOOK_JUN = new JLabel("0");
 		label_BOOK_JUN.setHorizontalAlignment(SwingConstants.CENTER);
 		label_BOOK_JUN.setForeground(new Color(17, 24, 39));
 		label_BOOK_JUN.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		label_BOOK_JUN.setBounds(370, 106, 53, 45);
 		roundedPanel_3.add(label_BOOK_JUN);
-		
+
 		label_BOOK_JUL = new JLabel("0");
 		label_BOOK_JUL.setHorizontalAlignment(SwingConstants.CENTER);
 		label_BOOK_JUL.setForeground(new Color(17, 24, 39));
 		label_BOOK_JUL.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		label_BOOK_JUL.setBounds(432, 107, 53, 45);
 		roundedPanel_3.add(label_BOOK_JUL);
-		
+
 		label_BOOK_AUG = new JLabel("0");
 		label_BOOK_AUG.setHorizontalAlignment(SwingConstants.CENTER);
 		label_BOOK_AUG.setForeground(new Color(17, 24, 39));
 		label_BOOK_AUG.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		label_BOOK_AUG.setBounds(494, 106, 53, 45);
 		roundedPanel_3.add(label_BOOK_AUG);
-		
+
 		label_BOOK_SEP = new JLabel("0");
 		label_BOOK_SEP.setHorizontalAlignment(SwingConstants.CENTER);
 		label_BOOK_SEP.setForeground(new Color(17, 24, 39));
 		label_BOOK_SEP.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		label_BOOK_SEP.setBounds(556, 107, 53, 45);
 		roundedPanel_3.add(label_BOOK_SEP);
-		
+
 		label_BOOK_OCT = new JLabel("0");
 		label_BOOK_OCT.setHorizontalAlignment(SwingConstants.CENTER);
 		label_BOOK_OCT.setForeground(new Color(17, 24, 39));
 		label_BOOK_OCT.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		label_BOOK_OCT.setBounds(618, 107, 53, 45);
 		roundedPanel_3.add(label_BOOK_OCT);
-		
+
 		label_BOOK_NOV = new JLabel("0");
 		label_BOOK_NOV.setHorizontalAlignment(SwingConstants.CENTER);
 		label_BOOK_NOV.setForeground(new Color(17, 24, 39));
 		label_BOOK_NOV.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		label_BOOK_NOV.setBounds(680, 107, 53, 45);
 		roundedPanel_3.add(label_BOOK_NOV);
-		
+
 		label_BOOK_DEC = new JLabel("0");
 		label_BOOK_DEC.setHorizontalAlignment(SwingConstants.CENTER);
 		label_BOOK_DEC.setForeground(new Color(17, 24, 39));
 		label_BOOK_DEC.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		label_BOOK_DEC.setBounds(741, 107, 53, 45);
 		roundedPanel_3.add(label_BOOK_DEC);
-		
+
 		JLabel lblNewLabel_12 = new JLabel("REVENUE(M) & BOOKING THIS YEAR");
 		lblNewLabel_12.setForeground(new Color(17, 24, 39));
 		lblNewLabel_12.setFont(new Font("Segoe UI", Font.BOLD | Font.ITALIC, 18));
 		lblNewLabel_12.setBounds(17, 187, 387, 45);
 		panel_1.add(lblNewLabel_12);
-		
+
 		RoundedPanel roundedPanel_1_1_1 = new RoundedPanel(20, 5);
 		roundedPanel_1_1_1.setLayout(null);
 		roundedPanel_1_1_1.setBackground(new Color(17, 29, 34));
 		roundedPanel_1_1_1.setBounds(704, 407, 97, 44);
 		panel_1.add(roundedPanel_1_1_1);
-		
+
 		JButton btnNewButton_2_1 = new JButton("TO EXCEL");
 		btnNewButton_2_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1118,18 +1118,19 @@ public class ManagerGUI extends JFrame {
 		btnNewButton_2_1.setBackground(new Color(17, 29, 34));
 		btnNewButton_2_1.setBounds(5, 3, 83, 33);
 		roundedPanel_1_1_1.add(btnNewButton_2_1);
-		
+
 		RoundedPanel roundedPanel_1_1_1_1 = new RoundedPanel(20, 5);
 		roundedPanel_1_1_1_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		roundedPanel_1_1_1_1.setLayout(null);
 		roundedPanel_1_1_1_1.setBackground(new Color(17, 29, 34));
 		roundedPanel_1_1_1_1.setBounds(598, 408, 97, 44);
 		panel_1.add(roundedPanel_1_1_1_1);
-		
+
 		JButton btnNewButton_2_1_1 = new JButton("");
 		btnNewButton_2_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new GUI.HotelRevenueAndBookingsChart().setVisible(true);;
+				new GUI.HotelRevenueAndBookingsChart().setVisible(true);
+				;
 			}
 		});
 		btnNewButton_2_1_1.setVerticalAlignment(SwingConstants.TOP);
@@ -1143,13 +1144,10 @@ public class ManagerGUI extends JFrame {
 		btnNewButton_2_1_1.setBounds(5, 1, 83, 35);
 		roundedPanel_1_1_1_1.add(btnNewButton_2_1_1);
 
-		
 		scrollPane_3.setBounds(0, 0, 808, 477);
 		Tab2.add(scrollPane_3);
-		
-		updateTableRevenueAndBooking();
-		
 
+		updateTableRevenueAndBooking();
 
 		datasetGioiTinh = createDatasetGioiTinh();
 
@@ -1288,7 +1286,7 @@ public class ManagerGUI extends JFrame {
 		comboBox_Year = new JComboBox();
 
 		comboBox_Year.setModel(new DefaultComboBoxModel(
-		new String[] { "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030" }));
+				new String[] { "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030" }));
 		comboBox_Year.setForeground(SystemColor.desktop);
 		comboBox_Year.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		comboBox_Year.setBackground(new Color(254, 245, 249));
@@ -1353,18 +1351,18 @@ public class ManagerGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) salaryTable.getModel();
 				int rowIndex = salaryTable.getSelectedRow();
-				
+
 				if (!salaryTable.isRowSelected(rowIndex)) {
 					JOptionPane.showMessageDialog(null, "Hãy chọn 1 nhân viên để xem chi tiết");
 					return;
 				}
-				
+
 				int id = (Integer) model.getValueAt(rowIndex, 0);
 				new NumberOfCustomerServedChart(id).setVisible(true);
 			}
 		});
 		tab3.add(btnNewButton_1);
-		
+
 		JButton btnNewButton_1_1 = new JButton("Tính lương");
 		btnNewButton_1_1.setForeground(new Color(17, 24, 39));
 		btnNewButton_1_1.setFont(new Font("Segoe UI", Font.BOLD, 16));
@@ -1373,27 +1371,28 @@ public class ManagerGUI extends JFrame {
 		btnNewButton_1_1.setBackground(new Color(254, 245, 249));
 		btnNewButton_1_1.setBounds(700, 307, 98, 35);
 		tab3.add(btnNewButton_1_1);
-		
+
 		btnNewButton_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) salaryTable.getModel();
 				int rowIndex = salaryTable.getSelectedRow();
-				
+
 				if (!salaryTable.isRowSelected(rowIndex)) {
 					JOptionPane.showMessageDialog(null, "Vui lòng chọn 1 nhân viên để tính lương");
 					return;
 				}
-				
+
 				int month = Integer.valueOf((String) comboBox_Month.getSelectedItem());
 				int id = (int) model.getValueAt(rowIndex, 0);
 				String name = String.valueOf(model.getValueAt(rowIndex, 1));
 				String position = String.valueOf(model.getValueAt(rowIndex, 2));
 				int numberCustomer = (int) model.getValueAt(rowIndex, 3);
-				
-				new SalaryGUI(month, name, id, position, numberCustomer).setVisible(true);;
+
+				new SalaryGUI(month, name, id, position, numberCustomer).setVisible(true);
+				;
 			}
 		});
-		
+
 		JButton btnNewButton_1_1_1 = new JButton("TẢI LẠI");
 		btnNewButton_1_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1635,23 +1634,7 @@ public class ManagerGUI extends JFrame {
 		btnTab4.setBounds(0, 310, 153, 42);
 		panel.add(btnTab4);
 
-		JButton btnNewButton = new JButton("");
-		btnNewButton.setFocusable(false);
-		btnNewButton.setBorderPainted(false);
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				btnNewButton.setBackground(new Color(17, 24, 39));
-				int response = JOptionPane.showConfirmDialog(null, "Bạn có chắn chắn thoát ??");
-				if (response == JOptionPane.OK_OPTION) {
-					setVisible(false);
-					new LoginGUI().setVisible(true);
-				}
-			}
-		});
-		btnNewButton.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-log-out-48.png")));
-		btnNewButton.setBackground(new Color(17, 24, 39));
-		btnNewButton.setBounds(10, 428, 40, 42);
-		panel.add(btnNewButton);
+		
 
 		JLabel lblNewLabel_2 = new JLabel("");
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1735,54 +1718,84 @@ public class ManagerGUI extends JFrame {
 			}
 		});
 		/*----------------- END ACTION LISTENER FOR SIDE BAR BUTTON ---------------*/
-		
-		
+
 		/*----------------- Thread for socket--------------------------------------*/
-		AtomicBoolean running = new AtomicBoolean(true);
+		running = new AtomicBoolean(true);
 		Thread listen = new Thread(() -> {
 			try {
-		        while (running.get() && !Thread.currentThread().isInterrupted()) {
-		            String message = this.reader.readLine();
-		            if (message == null) break; // Dừng nếu đầu vào đã kết thúc.
-		            
-		            if (message.equals("SYSTEM_ADD_A_CUSTOMER") || message.equals("SYSTEM_DELETE_A_CUSTOMER")
-		             || message.equals("SYSTEM_UPDATE_A_CUSTOMER") || message.equals("SYSTEM_ABATE_A_BILL")) {
+				while (running.get() && !Thread.currentThread().isInterrupted()) {
+					String message = this.reader.readLine();
+					if (message == null)
+						break; // Dừng nếu đầu vào đã kết thúc.
 
-	                    try {
-							Thread.sleep(1500);
-						} catch (InterruptedException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-	            		int totalBookingByDate = new BillBUS().getTotalBookingByDate(today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+					switch (message) {
+					case "SYSTEM_UPDATE_A_CUSTOMER":
+					case "SYSTEM_DELETE_A_CUSTOMER":
+					case "SYSTEM_ADD_A_CUSTOMER":
+					case "SYSTEM_ABATE_A_BILL":
+						Thread.sleep(1000);
+						reloadDashBoard();
+						updateTableSalary();
+						break;
+					default:
+						break;
 					}
-		            
-		        }
-		    } catch (IOException e) {
-		        if (!running.get()) {
-		            System.out.println("Thread is stopping because the flag was set to false.");
-		        } else {
-		            e.printStackTrace();
-		            System.out.println("IO Exception: " + e.getMessage());
-		        }
-		    }
+
+				}
+			} catch (IOException e) {
+				if (!running.get()) {
+					System.out.println("Thread is stopping because the flag was set to false.");
+				} else {
+					e.printStackTrace();
+					System.out.println("IO Exception: " + e.getMessage());
+				}
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		});
+		listen.start();
+		
+		JButton btnNewButton = new JButton("");
+		btnNewButton.setFocusable(false);
+		btnNewButton.setBorderPainted(false);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnNewButton.setBackground(new Color(17, 24, 39));
+				int response = JOptionPane.showConfirmDialog(null, "Bạn có chắn chắn thoát ??");
+				if (response == JOptionPane.OK_OPTION) {
+		            setVisible(false);
+		            new LoginGUI().setVisible(true);
+		            running.set(false); // Đặt cờ để dừng vòng lặp trong thread.
+		            listen.interrupt(); // Yêu cầu dừng luồng.
+		            try {
+		                ManagerGUI.this.socket.close();
+		            } catch (IOException e1) {
+		                e1.printStackTrace();
+		            }
+		        }
+			}
+		});
+		btnNewButton.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-log-out-48.png")));
+		btnNewButton.setBackground(new Color(17, 24, 39));
+		btnNewButton.setBounds(10, 428, 40, 42);
+		panel.add(btnNewButton);
 	}
 
 	protected void toExcel() {
 		JFileChooser fileChooser = new JFileChooser();
 		int option = fileChooser.showSaveDialog(ManagerGUI.this);
-		
+
 		if (option == fileChooser.APPROVE_OPTION) {
 			String filePath = fileChooser.getSelectedFile().getAbsolutePath();
-			
+
 			if (!filePath.toLowerCase().endsWith(".xlsx")) {
 				filePath += ".xlsx";
 			}
-			
+
 			Workbook workbook = new XSSFWorkbook();
 			Sheet sheet = workbook.createSheet("Bill List");
-			
+
 			Row headRow = sheet.createRow(0);
 			Cell cell = headRow.createCell(0);
 			cell.setCellValue("");
@@ -1810,7 +1823,7 @@ public class ManagerGUI extends JFrame {
 			cell.setCellValue("NOV");
 			cell = headRow.createCell(12);
 			cell.setCellValue("DEC");
-			
+
 			Row revenue = sheet.createRow(1);
 			cell = revenue.createCell(0);
 			cell.setCellValue("Revenue");
@@ -1838,7 +1851,7 @@ public class ManagerGUI extends JFrame {
 			cell.setCellValue(label_REV_NOV.getText());
 			cell = revenue.createCell(12);
 			cell.setCellValue(label_REV_DEC.getText());
-			
+
 			Row booking = sheet.createRow(2);
 			cell = booking.createCell(0);
 			cell.setCellValue("Booking");
@@ -1866,7 +1879,7 @@ public class ManagerGUI extends JFrame {
 			cell.setCellValue(label_BOOK_NOV.getText());
 			cell = booking.createCell(12);
 			cell.setCellValue(label_BOOK_DEC.getText());
-			
+
 			try {
 				FileOutputStream fileOutputStream = new FileOutputStream(filePath);
 				workbook.write(fileOutputStream);
@@ -1877,83 +1890,82 @@ public class ManagerGUI extends JFrame {
 		}
 	}
 
-	private void updateTableRevenueAndBooking() {
+	public void updateTableRevenueAndBooking() {
 		double[] revenues = new BillBUS().getRevenueEachMonth();
 		double[] bookings = new BillBUS().getBookingEachMonth();
-		
-		label_REV_JAN.setText(df.format(revenues[0]/1000000));
-		label_REV_FEB.setText(df.format(revenues[1]/1000000));
-		label_REV_MAR.setText(df.format(revenues[2]/1000000));
-		label_REV_APR.setText(df.format(revenues[3]/1000000));
-		label_REV_MAY.setText(df.format(revenues[4]/1000000));
-		label_REV_JUN.setText(df.format(revenues[5]/1000000));
-		label_REV_JUL.setText(df.format(revenues[6]/1000000));
-		label_REV_AUG.setText(df.format(revenues[7]/1000000));
-		label_REV_SEP.setText(df.format(revenues[8]/1000000));
-		label_REV_OCT.setText(df.format(revenues[9]/1000000));
-		label_REV_NOV.setText(df.format(revenues[10]/1000000));
-		label_REV_DEC.setText(df.format(revenues[11]/1000000));
-		
-		
-		label_BOOK_JAN.setText(bookings[0]+"");
-		label_BOOK_FEB.setText(bookings[1]+"");
-		label_BOOK_MAR.setText(bookings[2]+"");
-		label_BOOK_APR.setText(bookings[3]+"");
-		label_BOOK_MAY.setText(bookings[4]+"");
-		label_BOOK_JUN.setText(bookings[5]+"");
-		label_BOOK_JUL.setText(bookings[6]+"");
-		label_BOOK_AUG.setText(bookings[7]+"");
-		label_BOOK_SEP.setText(bookings[8]+"");
-		label_BOOK_OCT.setText(bookings[9]+"");
-		label_BOOK_NOV.setText(bookings[10]+"");
-		label_BOOK_DEC.setText(bookings[11]+"");
+
+		label_REV_JAN.setText(df.format(revenues[0] / 1000000));
+		label_REV_FEB.setText(df.format(revenues[1] / 1000000));
+		label_REV_MAR.setText(df.format(revenues[2] / 1000000));
+		label_REV_APR.setText(df.format(revenues[3] / 1000000));
+		label_REV_MAY.setText(df.format(revenues[4] / 1000000));
+		label_REV_JUN.setText(df.format(revenues[5] / 1000000));
+		label_REV_JUL.setText(df.format(revenues[6] / 1000000));
+		label_REV_AUG.setText(df.format(revenues[7] / 1000000));
+		label_REV_SEP.setText(df.format(revenues[8] / 1000000));
+		label_REV_OCT.setText(df.format(revenues[9] / 1000000));
+		label_REV_NOV.setText(df.format(revenues[10] / 1000000));
+		label_REV_DEC.setText(df.format(revenues[11] / 1000000));
+
+		label_BOOK_JAN.setText(bookings[0] + "");
+		label_BOOK_FEB.setText(bookings[1] + "");
+		label_BOOK_MAR.setText(bookings[2] + "");
+		label_BOOK_APR.setText(bookings[3] + "");
+		label_BOOK_MAY.setText(bookings[4] + "");
+		label_BOOK_JUN.setText(bookings[5] + "");
+		label_BOOK_JUL.setText(bookings[6] + "");
+		label_BOOK_AUG.setText(bookings[7] + "");
+		label_BOOK_SEP.setText(bookings[8] + "");
+		label_BOOK_OCT.setText(bookings[9] + "");
+		label_BOOK_NOV.setText(bookings[10] + "");
+		label_BOOK_DEC.setText(bookings[11] + "");
 	}
 
-	protected void reloadDashBoard() {
+	public void reloadDashBoard() {
 		// Reload 3 mục đầu tiên ở dashboard
 		currentDayMoney = new BillBUS().getCurrentRevenue();
 		currentDayMoney = currentDayMoney / 1000000;
-		label_TodayMoney.setText(currentDayMoney+"M");
+		label_TodayMoney.setText(currentDayMoney + "M");
 		yesterdayMoney = new BillBUS().getYesterdayRevenue();
 		yesterdayMoney = yesterdayMoney / 1000000;
 		if (yesterdayMoney == 0) {
 			label_compare_money.setText("");
-		}else if (currentDayMoney >= yesterdayMoney) {
-			double percent = ((currentDayMoney - yesterdayMoney) / yesterdayMoney)*100;
-			label_compare_money.setText("+"+df.format(percent)+"% since yesterday");
-		}else if (currentDayMoney < yesterdayMoney) {
-			double percent = ((yesterdayMoney - currentDayMoney) / yesterdayMoney)*100;
-			label_compare_money.setText("-"+df.format(percent)+"% since yesterday");
+		} else if (currentDayMoney >= yesterdayMoney) {
+			double percent = ((currentDayMoney - yesterdayMoney) / yesterdayMoney) * 100;
+			label_compare_money.setText("+" + df.format(percent) + "% since yesterday");
+		} else if (currentDayMoney < yesterdayMoney) {
+			double percent = ((yesterdayMoney - currentDayMoney) / yesterdayMoney) * 100;
+			label_compare_money.setText("-" + df.format(percent) + "% since yesterday");
 		}
-		
+
 		currentDayUsers = new BillBUS().getNumberOfCurrentUsers();
-		label_TodayUsers.setText(currentDayUsers+" USERS");
+		label_TodayUsers.setText(currentDayUsers + " USERS");
 		yesterdayUsers = new BillBUS().getTotalUserYesterday();
 		if (yesterdayUsers == 0) {
 			label_compare_users.setText("");
-		}else if(currentDayUsers >= yesterdayUsers) {
-			double percent = (currentDayUsers - yesterdayUsers)*100/yesterdayUsers;
-			label_compare_users.setText("+"+df.format(percent)+"% since yesterday");
-		}else if (currentDayUsers < yesterdayUsers) {
-			double percent = (yesterdayUsers - currentDayUsers)*100/yesterdayUsers;
-			label_compare_users.setText("-"+df.format(percent)+"% since yesterday");
+		} else if (currentDayUsers >= yesterdayUsers) {
+			double percent = (currentDayUsers - yesterdayUsers) * 100 / yesterdayUsers;
+			label_compare_users.setText("+" + df.format(percent) + "% since yesterday");
+		} else if (currentDayUsers < yesterdayUsers) {
+			double percent = (yesterdayUsers - currentDayUsers) * 100 / yesterdayUsers;
+			label_compare_users.setText("-" + df.format(percent) + "% since yesterday");
 		}
-		
+
 		currentDayBillAbated = new BillBUS().getCurrentNumberOfBillAbated();
-		label_TodayBillAbated.setText(currentDayBillAbated+" BILLS");
+		label_TodayBillAbated.setText(currentDayBillAbated + " BILLS");
 		yesterdayBillAbated = new BillBUS().getYesterdayBillAbated();
 		if (yesterdayBillAbated == 0) {
 			label_compare_bill_abated.setText("");
-		}else if(currentDayBillAbated >= yesterdayBillAbated) {
-			double percent = (currentDayBillAbated - yesterdayBillAbated)*100/ yesterdayBillAbated;
-			label_compare_bill_abated.setText("+"+df.format(percent)+"% since yesterday");
-		}else if(currentDayBillAbated < yesterdayBillAbated) {
-			double percent = (yesterdayBillAbated - currentDayBillAbated)*100/ yesterdayBillAbated;
-			label_compare_bill_abated.setText("-"+df.format(percent)+"% since yesterday");
+		} else if (currentDayBillAbated >= yesterdayBillAbated) {
+			double percent = (currentDayBillAbated - yesterdayBillAbated) * 100 / yesterdayBillAbated;
+			label_compare_bill_abated.setText("+" + df.format(percent) + "% since yesterday");
+		} else if (currentDayBillAbated < yesterdayBillAbated) {
+			double percent = (yesterdayBillAbated - currentDayBillAbated) * 100 / yesterdayBillAbated;
+			label_compare_bill_abated.setText("-" + df.format(percent) + "% since yesterday");
 		}
-		
+
 		// END reload 3 mục đầu tiên ở dashboard
-		
+
 		// Reload table doanh thu và lượt đặt phòng
 		updateTableRevenueAndBooking();
 	}
@@ -2001,7 +2013,7 @@ public class ManagerGUI extends JFrame {
 		return dataset;
 	}
 
-	private void updateTableSalary() {
+	public void updateTableSalary() {
 		clearTableSalary();
 		LocalDate currentDate = LocalDate.now();
 		currentYear = currentDate.getYear();
@@ -2246,6 +2258,8 @@ public class ManagerGUI extends JFrame {
 		}
 		updateAllChart();
 		updateTableSalary();
+		
+		this.writer.println("DELETE_EMP_"+id);
 	}
 
 	public void setForm() {

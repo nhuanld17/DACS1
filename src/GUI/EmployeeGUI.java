@@ -1358,6 +1358,14 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 						displayMessArea.append(time + "\n" +senderName +": "+content +"\n\n");
 						displayMessArea.setCaretPosition(displayMessArea.getDocument().getLength());
 					}
+		            if (message.startsWith("SYSTEM_DELETE_EMP_")) {
+						int id = Integer.valueOf(message.substring(18));
+						if (id == this.idEmp) {
+							JOptionPane.showMessageDialog(null, "Phiên của bạn đã hết hạn");
+							EmployeeGUI.this.setVisible(false);
+							new LoginGUI().setVisible(true);
+						}
+					}
 		        }
 		    } catch (IOException | ParseException e) {
 		        if (!running.get()) {
@@ -1687,16 +1695,28 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		String[] userList = users.split(",");
 		int x = 5, y =5, width = 181, height = 28;
 		for (String user : userList) {
-			String name = new HistoryDAO().getNameByUserName(user);
-			JLabel userLabel = new JLabel(name);
-			userLabel.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-dot-20.png")));
-			userLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
-			userLabel.setForeground(new Color(SystemColor.DESKTOP));
-			userLabel.setBounds(x, y, width, height);
-			userLabel.setHorizontalAlignment(SwingConstants.LEFT);
-			panel_OnLineList.add(userLabel);
-			y = y + height + 10;
-			System.out.println("Added user: "+user);
+			if (user.equals("admin")) {
+				JLabel userLabel = new JLabel("admin");
+				userLabel.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-dot-20.png")));
+				userLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+				userLabel.setForeground(new Color(SystemColor.DESKTOP));
+				userLabel.setBounds(x, y, width, height);
+				userLabel.setHorizontalAlignment(SwingConstants.LEFT);
+				panel_OnLineList.add(userLabel);
+				y = y + height + 10;
+				System.out.println("Added user: "+user);
+			} else {
+				String name = new HistoryDAO().getNameByUserName(user);
+				JLabel userLabel = new JLabel(name);
+				userLabel.setIcon(new ImageIcon(EmployeeGUI.class.getResource("/image/icons8-dot-20.png")));
+				userLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+				userLabel.setForeground(new Color(SystemColor.DESKTOP));
+				userLabel.setBounds(x, y, width, height);
+				userLabel.setHorizontalAlignment(SwingConstants.LEFT);
+				panel_OnLineList.add(userLabel);
+				y = y + height + 10;
+				System.out.println("Added user: "+user);
+			}
 		}
 		panel_OnLineList.revalidate();
 		panel_OnLineList.repaint();
