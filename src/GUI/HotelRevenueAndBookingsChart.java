@@ -1,8 +1,11 @@
 package GUI;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Rectangle;
+import java.awt.geom.Ellipse2D;
 import java.text.SimpleDateFormat;
 
 import javax.swing.JFrame;
@@ -58,6 +61,9 @@ public class HotelRevenueAndBookingsChart extends JFrame {
 
         renderer.setSeriesPaint(0, Color.RED);
         renderer.setSeriesPaint(1, Color.BLUE);
+        renderer.setSeriesStroke(0, new BasicStroke(2.0f));
+        renderer.setSeriesStroke(1, new BasicStroke(2.0f));
+
 
         // Enable tooltips
         renderer.setSeriesToolTipGenerator(0, new StandardXYToolTipGenerator(
@@ -73,6 +79,9 @@ public class HotelRevenueAndBookingsChart extends JFrame {
         ));
 
         plot.setRenderer(renderer);
+        
+        plot.setDomainGridlinesVisible(true);
+        plot.setDomainGridlinePaint(Color.GRAY);
 
         // Set the date axis format
         DateAxis dateAxis = new DateAxis("Date");
