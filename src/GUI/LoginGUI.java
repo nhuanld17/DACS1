@@ -249,7 +249,6 @@ public class LoginGUI extends JFrame implements ActionListener {
 		btnNewButton_1.setBackground(new Color(17, 24, 39));
 		btnNewButton_1.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		btnNewButton_1.setBounds(48, 365, 280, 40);
-//		btnNewButton_1.setBorderPainted(false);
 		btnNewButton_1.setBorder(new LineBorder(new Color(17, 24, 39), 2));
 		btnNewButton_1.addActionListener(this);
 		btnNewButton_1.addMouseListener(new MouseAdapter() {

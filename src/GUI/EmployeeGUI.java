@@ -437,7 +437,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		month = dateParts[1];
 		year = dateParts[2];
 		
-		JLabel label_ToDate = new JLabel(dayOfWeek+","+day+"/"+month+"/"+year);
+		JLabel label_ToDate = new JLabel(dayOfWeek+", "+day+"/"+month+"/"+year);
 		label_ToDate.setForeground(SystemColor.desktop);
 		label_ToDate.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		label_ToDate.setBounds(605, 0, 192, 28);
@@ -722,8 +722,8 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		lblBnPhc = new JLabel("Bạn đã phục vụ: "+numberOfCustomerThisDay+" khách hàng");
 
 		lblBnPhc.setForeground(SystemColor.desktop);
-		lblBnPhc.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		lblBnPhc.setBounds(10, 375, 291, 22);
+		lblBnPhc.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		lblBnPhc.setBounds(10, 381, 256, 22);
 		tab3.add(lblBnPhc);
 		
 		btn_CustomerChart = new JButton("XEM BIỂU ĐỒ");
@@ -740,21 +740,21 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		btn_CustomerChart.setFocusable(false);
 		btn_CustomerChart.setBorder(new LineBorder(new Color(17, 24, 39), 2));
 		btn_CustomerChart.setBackground(new Color(244, 245, 249));
-		btn_CustomerChart.setBounds(270, 372, 114, 30);
+		btn_CustomerChart.setBounds(270, 378, 114, 30);
 		tab3.add(btn_CustomerChart);
 		
 		lbl_datenow = new JLabel("Hôm nay, "+dayOfWeek+", ngày "+day+", tháng "+month+", năm "+year+":");
 		lbl_datenow.setForeground(SystemColor.desktop);
-		lbl_datenow.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		lbl_datenow.setBounds(10, 350, 347, 22);
+		lbl_datenow.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		lbl_datenow.setBounds(10, 350, 382, 22);
 		tab3.add(lbl_datenow);
 		
 		int totalBookingNow = new BillBUS().getTotalBookingByDate(today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		
 		label_TotalBookingThisDate = new JLabel("Số lượt đặt phòng: "+totalBookingNow);
 		label_TotalBookingThisDate.setForeground(SystemColor.desktop);
-		label_TotalBookingThisDate.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		label_TotalBookingThisDate.setBounds(10, 408, 163, 22);
+		label_TotalBookingThisDate.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		label_TotalBookingThisDate.setBounds(10, 419, 163, 22);
 		tab3.add(label_TotalBookingThisDate);
 		
 		JButton btn_TotalBookingChart = new JButton("XEM BIỂU ĐỒ");
@@ -765,7 +765,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		btn_TotalBookingChart.setContentAreaFilled(false);
 		btn_TotalBookingChart.setBorder(new LineBorder(new Color(17, 24, 39), 2));
 		btn_TotalBookingChart.setBackground(new Color(244, 245, 249));
-		btn_TotalBookingChart.setBounds(175, 406, 114, 30);
+		btn_TotalBookingChart.setBounds(270, 416, 114, 30);
 		btn_TotalBookingChart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new TotalBookingEveryDateByChart().setVisible(true);;

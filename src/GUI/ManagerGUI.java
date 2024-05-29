@@ -723,7 +723,7 @@ public class ManagerGUI extends JFrame {
 
 		roundedPanel_1_1.add(btnNewButton_2);
 
-		RoundedPanel roundedPanel_3 = new RoundedPanel(0, 0);
+		RoundedPanel roundedPanel_3 = new RoundedPanel(12, 0);
 		roundedPanel_3.setBackground(SystemColor.window);
 		roundedPanel_3.setBounds(4, 234, 798, 158);
 		panel_1.add(roundedPanel_3);

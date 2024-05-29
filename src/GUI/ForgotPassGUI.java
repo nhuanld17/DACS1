@@ -19,9 +19,12 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Random;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
+import java.awt.Cursor;
 
 public class ForgotPassGUI extends JFrame {
 
@@ -142,9 +145,10 @@ public class ForgotPassGUI extends JFrame {
 		textField_NewPass.show(false);
 		
 		JButton btn_SendOTP = new JButton("SEND OTP CODE");
+		btn_SendOTP.setBorder(new LineBorder(new Color(17, 29, 34), 2));
+		btn_SendOTP.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btn_SendOTP.setFocusable(false);
 		btn_SendOTP.setBackground(new Color(17, 24, 39));
-		btn_SendOTP.setBorderPainted(false);
 		btn_SendOTP.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (textField_ID.getText().isBlank() || textFieldEmail.getText().isBlank()) {
@@ -171,16 +175,31 @@ public class ForgotPassGUI extends JFrame {
 				new SendMailOTP(email, OTP);
 			}
 		});
+		btn_SendOTP.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btn_SendOTP.setBackground(new Color(244, 245, 249));
+				btn_SendOTP.setForeground(new Color(17, 24, 39));
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btn_SendOTP.setBackground(new Color(17, 24, 39)); // Màu gốc
+				btn_SendOTP.setForeground(new Color(244, 245, 249));
+			}
+		});
 		btn_SendOTP.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		btn_SendOTP.setForeground(new Color(244, 245, 249));
-		btn_SendOTP.setBounds(23, 161, 214, 35);
+		btn_SendOTP.setBounds(23, 161, 160, 35);
 		panel.add(btn_SendOTP);
 		
 
 		
 		btn_CheckOTP = new JButton("CHECK OTP");
+		btn_CheckOTP.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btn_CheckOTP.setFocusable(false);
 		btn_CheckOTP.setBackground(new Color(17, 24, 39));
+		btn_CheckOTP.setBorder(new LineBorder(new Color(17, 29, 34), 2));
 		btn_CheckOTP.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -201,18 +220,32 @@ public class ForgotPassGUI extends JFrame {
 				btn_CheckOTP.show(false);
 			}
 		});
+		btn_CheckOTP.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btn_CheckOTP.setBackground(new Color(244, 245, 249));
+				btn_CheckOTP.setForeground(new Color(17, 24, 39));
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btn_CheckOTP.setBackground(new Color(17, 24, 39)); // Màu gốc
+				btn_CheckOTP.setForeground(new Color(244, 245, 249));
+			}
+		});
 		btn_CheckOTP.setForeground(new Color(244, 245, 249));
 		btn_CheckOTP.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		btn_CheckOTP.setBounds(23, 219, 214, 35);
+		btn_CheckOTP.setBounds(23, 219, 160, 35);
 		panel.add(btn_CheckOTP);
 		btn_CheckOTP.show(false);
 		
 		btnNewPassword = new JButton("UPDATE");
+		btnNewPassword.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnNewPassword.setFocusable(false);
 		btnNewPassword.setBackground(new Color(17, 24, 39));
 		btnNewPassword.setForeground(new Color(244, 245, 249));
 		btnNewPassword.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		btnNewPassword.setBounds(23, 289, 214, 35);
+		btnNewPassword.setBounds(23, 289, 160, 35);
 		btnNewPassword.addActionListener(new ActionListener() {
 			
 			@Override
