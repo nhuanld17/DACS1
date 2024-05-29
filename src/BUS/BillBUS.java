@@ -80,5 +80,13 @@ public class BillBUS {
 		return new BillDAO().getBookingEachMonth();
 	}
 
+	public long getTotalRevenueThisYear() {
+		return new BillDAO().getTotalRevenueThisYear();
+	}
+
+	public int getTotalBookingThisYear() {
+		return new BillDAO().getTotalBookingThisYear();
+	}
+
 
 }

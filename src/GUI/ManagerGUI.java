@@ -180,6 +180,9 @@ public class ManagerGUI extends JFrame {
 	private JLabel label_BOOK_NOV;
 	private JLabel label_BOOK_DEC;
 	private AtomicBoolean running;
+	private JLabel label_totalRevenue;
+	private long totalRevenueThisYear;
+	private JLabel label_totalBookingThisYear;
 
 	/**
 	 * Launch the application.
@@ -1143,6 +1146,23 @@ public class ManagerGUI extends JFrame {
 		btnNewButton_2_1_1.setBackground(new Color(17, 29, 34));
 		btnNewButton_2_1_1.setBounds(5, 1, 83, 35);
 		roundedPanel_1_1_1_1.add(btnNewButton_2_1_1);
+		
+		totalRevenueThisYear = new BillBUS().getTotalRevenueThisYear();
+		int totalBooingThisYear = new BillBUS().getTotalBookingThisYear();
+		
+		label_totalRevenue = new JLabel("TOTAL REVENUE THIS YEAR: ");
+		label_totalRevenue.setText("TOTAL REVENUE THIS YEAR: "+totalRevenueThisYear+" VNĐ");
+		label_totalRevenue.setForeground(new Color(17, 24, 39));
+		label_totalRevenue.setFont(new Font("Segoe UI", Font.BOLD | Font.ITALIC, 18));
+		label_totalRevenue.setBounds(4, 393, 400, 37);
+		panel_1.add(label_totalRevenue);
+		
+		label_totalBookingThisYear = new JLabel("TOTAL BOOKINGS THIS YEAR: ");
+		label_totalBookingThisYear.setText("TOTAL BOOKINGS THIS YEAR: "+totalBooingThisYear);
+		label_totalBookingThisYear.setForeground(new Color(17, 24, 39));
+		label_totalBookingThisYear.setFont(new Font("Segoe UI", Font.BOLD | Font.ITALIC, 18));
+		label_totalBookingThisYear.setBounds(4, 430, 400, 34);
+		panel_1.add(label_totalBookingThisYear);
 
 		scrollPane_3.setBounds(0, 0, 808, 477);
 		Tab2.add(scrollPane_3);

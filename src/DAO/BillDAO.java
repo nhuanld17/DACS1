@@ -425,6 +425,43 @@ public class BillDAO {
 			}
 		}
 		return bookings;
+	}
+
+	public long getTotalRevenueThisYear() {
+		LocalDate currentDate = LocalDate.now();
+		int currentYear = currentDate.getYear();
+		long res = 0;
+		
+		String query = "SELECT SUM(price) FROM hotel.bill WHERE year(dateReturn) = '"+currentYear+"';";
+		try {
+			ResultSet resultSet = new DBConn().queryDB(query);
+			while (resultSet.next()) {
+				res = resultSet.getLong("SUM(price)");
+			}
+			return res;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public int getTotalBookingThisYear() {
+		LocalDate currentDate = LocalDate.now();
+		int currentYear = currentDate.getYear();
+		int res = 0;
+		String query = "SELECT COUNT(*) FROM hotel.bill WHERE year(dateReturn) = '"+currentYear+"'";
+		try {
+			ResultSet resultSet = new DBConn().queryDB(query);
+			while (resultSet.next()) {
+				res = resultSet.getInt("COUNT(*)");
+			}
+			return res;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
 	}	
 	
 }
