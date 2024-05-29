@@ -64,7 +64,6 @@ public class HotelRevenueAndBookingsChart extends JFrame {
         renderer.setSeriesStroke(0, new BasicStroke(2.0f));
         renderer.setSeriesStroke(1, new BasicStroke(2.0f));
 
-
         // Enable tooltips
         renderer.setSeriesToolTipGenerator(0, new StandardXYToolTipGenerator(
                 StandardXYToolTipGenerator.DEFAULT_TOOL_TIP_FORMAT,

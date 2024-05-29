@@ -71,6 +71,7 @@ public class NumberOfCustomerServedChart extends JFrame {
 		panel.add(chartPanel);
 
 		
+		
 		panel.setLayout(null);
 		chartPanel = new ChartPanel(chart);
 		chartPanel.setBounds(0, 11, 762, 383);

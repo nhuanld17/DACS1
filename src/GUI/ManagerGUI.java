@@ -1343,10 +1343,23 @@ public class ManagerGUI extends JFrame {
 		btnNewButton_1 = new JButton("Chi tiết");
 		btnNewButton_1.setFocusable(false);
 		btnNewButton_1.setBorder(new LineBorder(new Color(17, 24, 39), 2));
+		btnNewButton_1.setBackground(new Color(244,245,249));
 		btnNewButton_1.setForeground(new Color(17, 24, 39));
-		btnNewButton_1.setBackground(new Color(254, 245, 249));
 		btnNewButton_1.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		btnNewButton_1.setBounds(700, 261, 98, 35);
+		btnNewButton_1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            	btnNewButton_1.setBackground(new Color(17, 24, 39));
+            	btnNewButton_1.setForeground(new Color(244,245,249));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            	btnNewButton_1.setBackground(new Color(244,245,249));
+            	btnNewButton_1.setForeground(new Color(17, 24, 39));
+            }
+		});
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) salaryTable.getModel();
@@ -1368,8 +1381,21 @@ public class ManagerGUI extends JFrame {
 		btnNewButton_1_1.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		btnNewButton_1_1.setFocusable(false);
 		btnNewButton_1_1.setBorder(new LineBorder(new Color(17, 24, 39), 2));
-		btnNewButton_1_1.setBackground(new Color(254, 245, 249));
+		btnNewButton_1_1.setBackground(new Color(244, 245, 249));
 		btnNewButton_1_1.setBounds(700, 307, 98, 35);
+		btnNewButton_1_1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            	btnNewButton_1_1.setBackground(new Color(17, 24, 39));
+            	btnNewButton_1_1.setForeground(new Color(244,245,249));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            	btnNewButton_1_1.setBackground(new Color(244,245,249));
+            	btnNewButton_1_1.setForeground(new Color(17, 24, 39));
+            }
+		});
 		tab3.add(btnNewButton_1_1);
 
 		btnNewButton_1_1.addActionListener(new ActionListener() {
@@ -1393,7 +1419,7 @@ public class ManagerGUI extends JFrame {
 			}
 		});
 
-		JButton btnNewButton_1_1_1 = new JButton("TẢI LẠI");
+		JButton btnNewButton_1_1_1 = new JButton("Tải lại");
 		btnNewButton_1_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				updateTableSalary();
@@ -1403,8 +1429,21 @@ public class ManagerGUI extends JFrame {
 		btnNewButton_1_1_1.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		btnNewButton_1_1_1.setFocusable(false);
 		btnNewButton_1_1_1.setBorder(new LineBorder(new Color(17, 24, 39), 2));
-		btnNewButton_1_1_1.setBackground(new Color(254, 245, 249));
+		btnNewButton_1_1_1.setBackground(new Color(244, 245, 249));
 		btnNewButton_1_1_1.setBounds(700, 351, 98, 35);
+		btnNewButton_1_1_1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            	btnNewButton_1_1_1.setBackground(new Color(17, 24, 39));
+            	btnNewButton_1_1_1.setForeground(new Color(244,245,249));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            	btnNewButton_1_1_1.setBackground(new Color(244,245,249));
+            	btnNewButton_1_1_1.setForeground(new Color(17, 24, 39));
+            }
+		});
 		tab3.add(btnNewButton_1_1_1);
 
 		JPanel Tab4 = new JPanel();

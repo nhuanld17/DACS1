@@ -754,7 +754,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		label_TotalBookingThisDate = new JLabel("Số lượt đặt phòng: "+totalBookingNow);
 		label_TotalBookingThisDate.setForeground(SystemColor.desktop);
 		label_TotalBookingThisDate.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		label_TotalBookingThisDate.setBounds(10, 419, 163, 22);
+		label_TotalBookingThisDate.setBounds(10, 419, 248, 22);
 		tab3.add(label_TotalBookingThisDate);
 		
 		JButton btn_TotalBookingChart = new JButton("XEM BIỂU ĐỒ");
@@ -979,7 +979,7 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		btnSendMail.setBorder(new LineBorder(new Color(17, 24, 39), 2));
 		btnSendMail.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		btnSendMail.setForeground(new Color(254, 245, 249));
-		btnSendMail.setBounds(40, 441, 102, 30);
+		btnSendMail.setBounds(40, 436, 102, 35);
 		tab5.add(btnSendMail);
 		btnSendMail.addMouseListener(new MouseAdapter() {
             @Override
@@ -1540,6 +1540,19 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		btnEditEmpInfo.setForeground(new Color(17, 24, 39));
 		btnEditEmpInfo.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		btnEditEmpInfo.setBounds(449, 392, 89, 35);
+		btnEditEmpInfo.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            	btnEditEmpInfo.setBackground(new Color(17, 24, 39));
+            	btnEditEmpInfo.setForeground(new Color(244,245,249));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            	btnEditEmpInfo.setBackground(new Color(244,245,249));
+            	btnEditEmpInfo.setForeground(new Color(17, 24, 39));
+            }
+		});
 		tab6.add(btnEditEmpInfo);
 		
 		JButton btnUpdateEmpInfo = new JButton("SAVE");
@@ -1549,6 +1562,19 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		btnUpdateEmpInfo.setBorder(new LineBorder(new Color(17, 24, 39), 2));
 		btnUpdateEmpInfo.setBackground(new Color(244, 245, 249));
 		btnUpdateEmpInfo.setBounds(562, 392, 89, 35);
+		btnUpdateEmpInfo.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            	btnUpdateEmpInfo.setBackground(new Color(17, 24, 39));
+            	btnUpdateEmpInfo.setForeground(new Color(244,245,249));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            	btnUpdateEmpInfo.setBackground(new Color(244,245,249));
+            	btnUpdateEmpInfo.setForeground(new Color(17, 24, 39));
+            }
+		});
 		tab6.add(btnUpdateEmpInfo);
 		
 		JRadioButton rdbtn_Man = new JRadioButton("Nam");
