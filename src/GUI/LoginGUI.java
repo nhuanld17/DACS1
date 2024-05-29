@@ -32,6 +32,7 @@ import javax.swing.border.LineBorder;
 import DAO.LoginDao;
 import DTO.Account;
 import DTO.Manager;
+import java.awt.Cursor;
 
 public class LoginGUI extends JFrame implements ActionListener {
 
@@ -158,6 +159,7 @@ public class LoginGUI extends JFrame implements ActionListener {
 		panel.add(lblNewLabel_5);
 
 		JButton btnNewButton = new JButton("Manager Login");
+		btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnNewButton.setFocusable(false);
 //		btnNewButton.setBorderPainted(false);
 		btnNewButton.setForeground(new Color(244, 245, 249));
@@ -241,6 +243,7 @@ public class LoginGUI extends JFrame implements ActionListener {
 		panel.add(btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("Employee Login");
+		btnNewButton_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnNewButton_1.setFocusable(false);
 		btnNewButton_1.setForeground(new Color(244, 245, 249));
 		btnNewButton_1.setBackground(new Color(17, 24, 39));
@@ -265,6 +268,7 @@ public class LoginGUI extends JFrame implements ActionListener {
 		panel.add(btnNewButton_1);
 
 		JButton btnForgotPass = new JButton("Forgot password ??");
+		btnForgotPass.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnForgotPass.setFocusable(false);
 		btnForgotPass.setBorderPainted(false);
 		btnForgotPass.addActionListener(new ActionListener() {
@@ -274,7 +278,7 @@ public class LoginGUI extends JFrame implements ActionListener {
 			}
 		});
 		btnForgotPass.setBackground(new Color(244, 245, 249));
-		btnForgotPass.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btnForgotPass.setFont(new Font("Segoe UI", Font.BOLD, 15));
 		btnForgotPass.setForeground(Color.BLUE);
 		btnForgotPass.setBounds(48, 425, 280, 23);
 		panel.add(btnForgotPass);
