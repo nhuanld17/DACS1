@@ -184,18 +184,18 @@ public class ManagerGUI extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ManagerGUI frame = new ManagerGUI(null, null, null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					ManagerGUI frame = new ManagerGUI(null, null, null);
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -1736,6 +1736,10 @@ public class ManagerGUI extends JFrame {
 						Thread.sleep(1000);
 						reloadDashBoard();
 						updateTableSalary();
+						break;
+					case "UPDATE_EMP_INFO":
+						Thread.sleep(1000);
+						updateEmployeeTable();
 						break;
 					default:
 						break;

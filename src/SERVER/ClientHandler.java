@@ -114,7 +114,7 @@ public class ClientHandler extends Thread{
 				        this.clients.put(this.username, clientHandler);
 				        Server.clients.put(this.username, clientHandler);
 				    }
-
+				    Server.broadCastAction("UPDATE_EMP_INFO", this);
 				    Server.updateUserList();
 				} else if (message.startsWith("DELETE_EMP_")) {
 					int id = Integer.valueOf(message.substring(11));
