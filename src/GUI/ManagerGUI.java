@@ -183,6 +183,7 @@ public class ManagerGUI extends JFrame {
 	private JLabel label_totalRevenue;
 	private long totalRevenueThisYear;
 	private JLabel label_totalBookingThisYear;
+	private int totalBooingThisYear;
 
 	/**
 	 * Launch the application.
@@ -1137,18 +1138,21 @@ public class ManagerGUI extends JFrame {
 			}
 		});
 		btnNewButton_2_1_1.setVerticalAlignment(SwingConstants.TOP);
-		btnNewButton_2_1_1.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-chart-30.png")));
+		btnNewButton_2_1_1.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-chart-35.png")));
 		btnNewButton_2_1_1.setForeground(new Color(244, 245, 249));
 		btnNewButton_2_1_1.setFont(new Font("Segoe UI", Font.BOLD | Font.ITALIC, 16));
 		btnNewButton_2_1_1.setFocusable(false);
 		btnNewButton_2_1_1.setFocusPainted(false);
 		btnNewButton_2_1_1.setBorder(null);
 		btnNewButton_2_1_1.setBackground(new Color(17, 29, 34));
-		btnNewButton_2_1_1.setBounds(5, 1, 83, 35);
+		btnNewButton_2_1_1.setBounds(5, 1, 83, 37);
 		roundedPanel_1_1_1_1.add(btnNewButton_2_1_1);
 		
 		totalRevenueThisYear = new BillBUS().getTotalRevenueThisYear();
-		int totalBooingThisYear = new BillBUS().getTotalBookingThisYear();
+		totalBooingThisYear = new BillBUS().getTotalBookingThisYear();
+		
+		System.out.println("total revenue: "+totalRevenueThisYear);
+		System.out.println("total booking: "+totalBooingThisYear);
 		
 		label_totalRevenue = new JLabel("TOTAL REVENUE THIS YEAR: ");
 		label_totalRevenue.setText("TOTAL REVENUE THIS YEAR: "+totalRevenueThisYear+" VNĐ");
@@ -2039,6 +2043,11 @@ public class ManagerGUI extends JFrame {
 
 		// Reload table doanh thu và lượt đặt phòng
 		updateTableRevenueAndBooking();
+		
+		long totalRevenueThisYear = new BillBUS().getTotalRevenueThisYear();
+		int totalBooingThisYear = new BillBUS().getTotalBookingThisYear();
+		label_totalRevenue.setText("TOTAL REVENUE THIS YEAR: "+totalRevenueThisYear+" VNĐ");
+		label_totalBookingThisYear.setText("TOTAL BOOKINGS THIS YEAR: "+totalBooingThisYear);
 	}
 
 	protected void showTableByTime() {

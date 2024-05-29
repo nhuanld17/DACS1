@@ -450,7 +450,7 @@ public class BillDAO {
 		LocalDate currentDate = LocalDate.now();
 		int currentYear = currentDate.getYear();
 		int res = 0;
-		String query = "SELECT COUNT(*) FROM hotel.bill WHERE year(dateReturn) = '"+currentYear+"'";
+		String query = "SELECT COUNT(*) FROM hotel.bill WHERE year(dateOrder) = '"+currentYear+"'";
 		try {
 			ResultSet resultSet = new DBConn().queryDB(query);
 			while (resultSet.next()) {
