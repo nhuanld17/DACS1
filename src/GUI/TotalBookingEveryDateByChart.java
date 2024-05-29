@@ -22,7 +22,10 @@ import javax.swing.border.LineBorder;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
@@ -137,7 +140,7 @@ public class TotalBookingEveryDateByChart extends JFrame {
 	}
 
 	private JFreeChart createBarChart(CategoryDataset dataset2) {
-	    return ChartFactory.createBarChart(
+	    JFreeChart chart =  ChartFactory.createBarChart(
 		        "Số lượt đặt phòng hằng ngày",
 		        "Ngày",
 		        "Số lượt",
@@ -147,6 +150,16 @@ public class TotalBookingEveryDateByChart extends JFrame {
 		        true,
 		        false
 		    );
+        CategoryPlot plot = chart.getCategoryPlot();
+        plot.setBackgroundPaint(Color.WHITE); // Set background color to white
+        plot.setDomainGridlinePaint(Color.GRAY); // Optional: Set gridline color
+        plot.setRangeGridlinePaint(Color.GRAY); // Optional: Set gridline color
+        
+        BarRenderer renderer = (BarRenderer) plot.getRenderer();
+        renderer.setSeriesPaint(0, Color.red); // Set color for the first series
+        renderer.setBarPainter(new StandardBarPainter()); // Disable gradient effect
+        
+        return chart;
 	}
 
 	private CategoryDataset createDataSet() {
