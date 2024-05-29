@@ -816,6 +816,8 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		
 		displayMessArea = new JTextArea();
 		displayMessArea.setEditable(false);
+		displayMessArea.setLineWrap(true); // Bật tính năng tự động xuống dòng
+		displayMessArea.setWrapStyleWord(true); // Tự động xuống dòng theo từ
 		displayMessArea.setForeground(SystemColor.desktop);
 		displayMessArea.setFont(new Font("Segoe UI", Font.PLAIN, 17));
 		displayMessArea.setBorder(null);
@@ -827,6 +829,8 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		typeArea.setFont(new Font("Segoe UI", Font.PLAIN, 17));
 		typeArea.setForeground(SystemColor.desktop);
 		typeArea.setBorder(new LineBorder(new Color(17, 24, 39), 2));
+		typeArea.setLineWrap(true); // Bật tính năng tự động xuống dòng
+		typeArea.setWrapStyleWord(true); // Tự động xuống dòng theo từ
 		typeArea.setBounds(0, 372, 521, 91);
 		
 		JScrollPane scrollPane_typeArea = new JScrollPane(typeArea);
@@ -929,6 +933,8 @@ public class EmployeeGUI extends JFrame implements ActionListener {
 		JTextArea textArea_Email_Content = new JTextArea();
 		textArea_Email_Content.setForeground(SystemColor.desktop);
 		textArea_Email_Content.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		textArea_Email_Content.setLineWrap(true); // Bật tính năng tự động xuống dòng
+		textArea_Email_Content.setWrapStyleWord(true); // Tự động xuống dòng theo từ
 		textArea_Email_Content.setBounds(40, 267, 553, 131);
 		
 		JScrollPane scrollPane_1 = new JScrollPane(textArea_Email_Content);

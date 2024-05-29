@@ -1202,7 +1202,7 @@ public class ManagerGUI extends JFrame {
 		currentMonthValue = currentDate.getMonthValue();
 
 		JPanel tab3 = new JPanel();
-		tab3.setBackground(new Color(254, 245, 249));
+		tab3.setBackground(new Color(244, 245, 249));
 		tabbedPane.addTab("Tab3", null, tab3, null);
 		tab3.setLayout(null);
 
@@ -1300,65 +1300,25 @@ public class ManagerGUI extends JFrame {
 
 		tab3.add(comboBox_Year);
 
-		lbl_Rate_Nam = new JLabel("Nam: " + decimalFormat.format(maleRate * 100) + "%");
-		lbl_Rate_Nam.setBounds(336, 46, 90, 28);
-		tab3.add(lbl_Rate_Nam);
-		lbl_Rate_Nam.setForeground(Color.BLACK);
-		lbl_Rate_Nam.setFont(new Font("Segoe UI", Font.BOLD, 14));
-
-		label_Rate_Nu = new JLabel("Nữ: " + decimalFormat.format(femaleRate * 100) + "%");
-		label_Rate_Nu.setBounds(336, 75, 90, 28);
-		tab3.add(label_Rate_Nu);
-		label_Rate_Nu.setForeground(Color.BLACK);
-		label_Rate_Nu.setFont(new Font("Segoe UI", Font.BOLD, 14));
-
-		JSeparator separator_3 = new JSeparator();
-		separator_3.setForeground(SystemColor.desktop);
-		separator_3.setBackground(SystemColor.desktop);
-		separator_3.setBounds(323, 111, 128, 2);
-		tab3.add(separator_3);
-
-		labl_Rate_Tiep_Tan = new JLabel("Tiếp tân:");
-		labl_Rate_Tiep_Tan.setBounds(336, 113, 115, 28);
-		tab3.add(labl_Rate_Tiep_Tan);
-		labl_Rate_Tiep_Tan.setForeground(Color.BLACK);
-		labl_Rate_Tiep_Tan.setFont(new Font("Segoe UI", Font.BOLD, 14));
-
-		labl_Rate_Tiep_Tan.setText("Tiếp tân: " + decimalFormat.format(tiepTanRate * 100) + "%");
-
-		labl_Rate_Bao_Ve = new JLabel("Bảo vệ:");
-		labl_Rate_Bao_Ve.setBounds(336, 140, 115, 28);
-		tab3.add(labl_Rate_Bao_Ve);
-		labl_Rate_Bao_Ve.setForeground(Color.BLACK);
-		labl_Rate_Bao_Ve.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		labl_Rate_Bao_Ve.setText("Bảo vệ: " + decimalFormat.format(baoVeRate * 100) + "%");
-
-		labl_Rate_Lao_Cong = new JLabel("Lao công:");
-		labl_Rate_Lao_Cong.setBounds(336, 170, 115, 28);
-		tab3.add(labl_Rate_Lao_Cong);
-		labl_Rate_Lao_Cong.setForeground(Color.BLACK);
-		labl_Rate_Lao_Cong.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		labl_Rate_Lao_Cong.setText("Lao công:" + decimalFormat.format(laoCongRate * 100) + "%");
-
 		btnNewButton_1 = new JButton("Chi tiết");
 		btnNewButton_1.setFocusable(false);
 		btnNewButton_1.setBorder(new LineBorder(new Color(17, 24, 39), 2));
-		btnNewButton_1.setBackground(new Color(244,245,249));
+		btnNewButton_1.setBackground(new Color(244, 245, 249));
 		btnNewButton_1.setForeground(new Color(17, 24, 39));
 		btnNewButton_1.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		btnNewButton_1.setBounds(700, 261, 98, 35);
 		btnNewButton_1.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            	btnNewButton_1.setBackground(new Color(17, 24, 39));
-            	btnNewButton_1.setForeground(new Color(244,245,249));
-            }
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnNewButton_1.setBackground(new Color(17, 24, 39));
+				btnNewButton_1.setForeground(new Color(244, 245, 249));
+			}
 
-            @Override
-            public void mouseExited(MouseEvent e) {
-            	btnNewButton_1.setBackground(new Color(244,245,249));
-            	btnNewButton_1.setForeground(new Color(17, 24, 39));
-            }
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnNewButton_1.setBackground(new Color(244, 245, 249));
+				btnNewButton_1.setForeground(new Color(17, 24, 39));
+			}
 		});
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1384,17 +1344,17 @@ public class ManagerGUI extends JFrame {
 		btnNewButton_1_1.setBackground(new Color(244, 245, 249));
 		btnNewButton_1_1.setBounds(700, 307, 98, 35);
 		btnNewButton_1_1.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            	btnNewButton_1_1.setBackground(new Color(17, 24, 39));
-            	btnNewButton_1_1.setForeground(new Color(244,245,249));
-            }
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnNewButton_1_1.setBackground(new Color(17, 24, 39));
+				btnNewButton_1_1.setForeground(new Color(244, 245, 249));
+			}
 
-            @Override
-            public void mouseExited(MouseEvent e) {
-            	btnNewButton_1_1.setBackground(new Color(244,245,249));
-            	btnNewButton_1_1.setForeground(new Color(17, 24, 39));
-            }
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnNewButton_1_1.setBackground(new Color(244, 245, 249));
+				btnNewButton_1_1.setForeground(new Color(17, 24, 39));
+			}
 		});
 		tab3.add(btnNewButton_1_1);
 
@@ -1432,19 +1392,67 @@ public class ManagerGUI extends JFrame {
 		btnNewButton_1_1_1.setBackground(new Color(244, 245, 249));
 		btnNewButton_1_1_1.setBounds(700, 351, 98, 35);
 		btnNewButton_1_1_1.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            	btnNewButton_1_1_1.setBackground(new Color(17, 24, 39));
-            	btnNewButton_1_1_1.setForeground(new Color(244,245,249));
-            }
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnNewButton_1_1_1.setBackground(new Color(17, 24, 39));
+				btnNewButton_1_1_1.setForeground(new Color(244, 245, 249));
+			}
 
-            @Override
-            public void mouseExited(MouseEvent e) {
-            	btnNewButton_1_1_1.setBackground(new Color(244,245,249));
-            	btnNewButton_1_1_1.setForeground(new Color(17, 24, 39));
-            }
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnNewButton_1_1_1.setBackground(new Color(244, 245, 249));
+				btnNewButton_1_1_1.setForeground(new Color(17, 24, 39));
+			}
 		});
 		tab3.add(btnNewButton_1_1_1);
+
+		RoundedPanel roundedPanel_4 = new RoundedPanel(20, 5);
+		roundedPanel_4.setLayout(null);
+//		roundedPanel_4.setBackground(new Color(255, 255, 128));
+		roundedPanel_4.setBackground(new Color(144, 238, 144));
+
+		roundedPanel_4.setBounds(316, 23, 142, 96);
+		tab3.add(roundedPanel_4);
+
+		lbl_Rate_Nam = new JLabel("Nam: " + decimalFormat.format(maleRate * 100) + "%");
+		lbl_Rate_Nam.setBounds(5, 20, 126, 28);
+		roundedPanel_4.add(lbl_Rate_Nam);
+		lbl_Rate_Nam.setForeground(Color.BLACK);
+		lbl_Rate_Nam.setFont(new Font("Segoe UI", Font.BOLD, 16));
+
+		label_Rate_Nu = new JLabel("Nữ: " + decimalFormat.format(femaleRate * 100) + "%");
+		label_Rate_Nu.setBounds(6, 49, 125, 28);
+		roundedPanel_4.add(label_Rate_Nu);
+		label_Rate_Nu.setForeground(Color.BLACK);
+		label_Rate_Nu.setFont(new Font("Segoe UI", Font.BOLD, 16));
+
+		RoundedPanel roundedPanel_4_1 = new RoundedPanel(20, 5);
+		roundedPanel_4_1.setLayout(null);
+		roundedPanel_4_1.setBackground(new Color(144, 238, 144));
+		roundedPanel_4_1.setBounds(316, 123, 142, 96);
+		tab3.add(roundedPanel_4_1);
+
+		labl_Rate_Tiep_Tan = new JLabel("Tiếp tân:");
+		labl_Rate_Tiep_Tan.setBounds(3, 6, 133, 28);
+		roundedPanel_4_1.add(labl_Rate_Tiep_Tan);
+		labl_Rate_Tiep_Tan.setForeground(Color.BLACK);
+		labl_Rate_Tiep_Tan.setFont(new Font("Segoe UI", Font.BOLD, 16));
+
+		labl_Rate_Tiep_Tan.setText("Tiếp tân: " + decimalFormat.format(tiepTanRate * 100) + "%");
+
+		labl_Rate_Bao_Ve = new JLabel("Bảo vệ:");
+		labl_Rate_Bao_Ve.setBounds(4, 33, 132, 28);
+		roundedPanel_4_1.add(labl_Rate_Bao_Ve);
+		labl_Rate_Bao_Ve.setForeground(Color.BLACK);
+		labl_Rate_Bao_Ve.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		labl_Rate_Bao_Ve.setText("Bảo vệ: " + decimalFormat.format(baoVeRate * 100) + "%");
+
+		labl_Rate_Lao_Cong = new JLabel("Lao công: ");
+		labl_Rate_Lao_Cong.setBounds(4, 59, 132, 28);
+		roundedPanel_4_1.add(labl_Rate_Lao_Cong);
+		labl_Rate_Lao_Cong.setForeground(Color.BLACK);
+		labl_Rate_Lao_Cong.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		labl_Rate_Lao_Cong.setText("Lao công :" + decimalFormat.format(laoCongRate * 100) + "%");
 
 		JPanel Tab4 = new JPanel();
 		tabbedPane.addTab("Tab4", null, Tab4, null);
@@ -1520,6 +1528,8 @@ public class ManagerGUI extends JFrame {
 		Tab4.add(lblNewLabel_9_2_1_1);
 
 		JTextArea textArea_Email_Content = new JTextArea();
+		textArea_Email_Content.setLineWrap(true);
+		textArea_Email_Content.setWrapStyleWord(true);
 		textArea_Email_Content.setForeground(SystemColor.desktop);
 		textArea_Email_Content.setFont(new Font("Segoe UI", Font.PLAIN, 18));
 		textArea_Email_Content.setBounds(46, 254, 551, 129);
@@ -1673,8 +1683,6 @@ public class ManagerGUI extends JFrame {
 		btnTab4.setBounds(0, 310, 153, 42);
 		panel.add(btnTab4);
 
-		
-
 		JLabel lblNewLabel_2 = new JLabel("");
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-admin-80.png")));
@@ -1798,7 +1806,7 @@ public class ManagerGUI extends JFrame {
 			}
 		});
 		listen.start();
-		
+
 		JButton btnNewButton = new JButton("");
 		btnNewButton.setFocusable(false);
 		btnNewButton.setBorderPainted(false);
@@ -1807,16 +1815,16 @@ public class ManagerGUI extends JFrame {
 				btnNewButton.setBackground(new Color(17, 24, 39));
 				int response = JOptionPane.showConfirmDialog(null, "Bạn có chắn chắn thoát ??");
 				if (response == JOptionPane.OK_OPTION) {
-		            setVisible(false);
-		            new LoginGUI().setVisible(true);
-		            running.set(false); // Đặt cờ để dừng vòng lặp trong thread.
-		            listen.interrupt(); // Yêu cầu dừng luồng.
-		            try {
-		                ManagerGUI.this.socket.close();
-		            } catch (IOException e1) {
-		                e1.printStackTrace();
-		            }
-		        }
+					setVisible(false);
+					new LoginGUI().setVisible(true);
+					running.set(false); // Đặt cờ để dừng vòng lặp trong thread.
+					listen.interrupt(); // Yêu cầu dừng luồng.
+					try {
+						ManagerGUI.this.socket.close();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
 			}
 		});
 		btnNewButton.setIcon(new ImageIcon(ManagerGUI.class.getResource("/image/icons8-log-out-48.png")));
@@ -2301,8 +2309,8 @@ public class ManagerGUI extends JFrame {
 		}
 		updateAllChart();
 		updateTableSalary();
-		
-		this.writer.println("DELETE_EMP_"+id);
+
+		this.writer.println("DELETE_EMP_" + id);
 	}
 
 	public void setForm() {
