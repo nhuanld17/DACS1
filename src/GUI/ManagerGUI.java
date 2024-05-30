@@ -729,7 +729,7 @@ public class ManagerGUI extends JFrame {
 
 		RoundedPanel roundedPanel_3 = new RoundedPanel(12, 0);
 		roundedPanel_3.setBackground(SystemColor.window);
-		roundedPanel_3.setBounds(4, 234, 798, 158);
+		roundedPanel_3.setBounds(6, 208, 798, 158);
 		panel_1.add(roundedPanel_3);
 		roundedPanel_3.setLayout(null);
 
@@ -1098,13 +1098,13 @@ public class ManagerGUI extends JFrame {
 		JLabel lblNewLabel_12 = new JLabel("REVENUE(M) & BOOKING THIS YEAR");
 		lblNewLabel_12.setForeground(new Color(17, 24, 39));
 		lblNewLabel_12.setFont(new Font("Segoe UI", Font.BOLD | Font.ITALIC, 18));
-		lblNewLabel_12.setBounds(17, 187, 387, 45);
+		lblNewLabel_12.setBounds(14, 165, 387, 45);
 		panel_1.add(lblNewLabel_12);
 
 		RoundedPanel roundedPanel_1_1_1 = new RoundedPanel(20, 5);
 		roundedPanel_1_1_1.setLayout(null);
 		roundedPanel_1_1_1.setBackground(new Color(17, 29, 34));
-		roundedPanel_1_1_1.setBounds(704, 407, 97, 44);
+		roundedPanel_1_1_1.setBounds(705, 375, 97, 44);
 		panel_1.add(roundedPanel_1_1_1);
 
 		JButton btnNewButton_2_1 = new JButton("TO EXCEL");
@@ -1127,7 +1127,7 @@ public class ManagerGUI extends JFrame {
 		roundedPanel_1_1_1_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		roundedPanel_1_1_1_1.setLayout(null);
 		roundedPanel_1_1_1_1.setBackground(new Color(17, 29, 34));
-		roundedPanel_1_1_1_1.setBounds(598, 408, 97, 44);
+		roundedPanel_1_1_1_1.setBounds(599, 376, 97, 44);
 		panel_1.add(roundedPanel_1_1_1_1);
 
 		JButton btnNewButton_2_1_1 = new JButton("");
@@ -1158,14 +1158,14 @@ public class ManagerGUI extends JFrame {
 		label_totalRevenue.setText("TOTAL REVENUE THIS YEAR: "+totalRevenueThisYear+" VNĐ");
 		label_totalRevenue.setForeground(new Color(17, 24, 39));
 		label_totalRevenue.setFont(new Font("Segoe UI", Font.BOLD | Font.ITALIC, 18));
-		label_totalRevenue.setBounds(4, 393, 400, 37);
+		label_totalRevenue.setBounds(5, 375, 400, 37);
 		panel_1.add(label_totalRevenue);
 		
 		label_totalBookingThisYear = new JLabel("TOTAL BOOKINGS THIS YEAR: ");
 		label_totalBookingThisYear.setText("TOTAL BOOKINGS THIS YEAR: "+totalBooingThisYear);
 		label_totalBookingThisYear.setForeground(new Color(17, 24, 39));
 		label_totalBookingThisYear.setFont(new Font("Segoe UI", Font.BOLD | Font.ITALIC, 18));
-		label_totalBookingThisYear.setBounds(4, 430, 400, 34);
+		label_totalBookingThisYear.setBounds(5, 412, 400, 34);
 		panel_1.add(label_totalBookingThisYear);
 
 		scrollPane_3.setBounds(0, 0, 808, 477);

@@ -64,8 +64,8 @@ public class Server {
 	
 	public static void sendOnlineUsers() {
 		String id = clients.keySet().stream()
-                .map(String::valueOf)  // Chuyển mỗi Integer thành String
-                .collect(Collectors.joining(","));  // Nối các String bằng dấu phẩy
+                .map(String::valueOf)
+                .collect(Collectors.joining(","));
 		for (ClientHandler client : clients.values()) {
 			client.sendOnlineList(id);
 		}
