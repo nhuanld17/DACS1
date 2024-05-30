@@ -13,12 +13,15 @@ import java.util.stream.Collectors;
 
 import com.orsoncharts.OnDrawHandler;
 
+import DAO.DBConn;
+
 public class Server {
 	public static HashMap<String, ClientHandler> clients = new HashMap<>();
 	
 	public Server() throws IOException {
 		ServerSocket serverSocket = new ServerSocket(9999);
 		System.out.println("Server started");
+		setMaxConnection();
 		
 		while (true) {
 			Socket socket = serverSocket.accept();
@@ -41,6 +44,15 @@ public class Server {
 				socket.close();
 				e.printStackTrace();
 			}
+		}
+	}
+
+	private void setMaxConnection() {
+		try {
+			new DBConn().updateDB("SET GLOBAL max_connections = 100000");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
